@@ -1,90 +1,84 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { type CollectionEntry, getCollection } from "astro:content";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Note from "@/components/note/Note.astro";
+import SocialList from "@/components/SocialList.astro";
+import { getAllPosts } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// Posts
+const MAX_POSTS = 10;
+const allPosts = await getAllPosts();
+const allPostsByDate = allPosts.sort(collectionDateSort) as CollectionEntry<"post">[];
+const latestPosts = allPostsByDate.slice(0, MAX_POSTS);
+
+// Pinned Posts, set to a max of 3;
+const MAX_PINNED_POSTS = 3;
+const pinnedPosts = allPostsByDate
+	.values()
+	.filter((p) => p.data.pinned)
+	.take(MAX_PINNED_POSTS)
+	.toArray();
+
+// Notes, set to a max of 5
+const MAX_NOTES = 5;
+const allNotes = await getCollection("note");
+const latestNotes = allNotes
+	.sort(collectionDateSort)
+	.slice(0, MAX_NOTES) as CollectionEntry<"note">[];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			.intro {
-				margin: 2rem 0 3rem;
-			}
-			.posts {
-				list-style: none;
-				padding: 0;
-			}
-			.posts li {
-				margin-bottom: 1.5rem;
-				padding-bottom: 1.5rem;
-				border-bottom: 1px solid rgb(var(--gray-light));
-			}
-			.posts li:last-child {
-				border-bottom: none;
-			}
-			.post-title {
-				font-size: 1.5rem;
-				margin: 0 0 0.25rem;
-			}
-			.post-title a {
-				color: rgb(var(--black));
-				text-decoration: none;
-			}
-			.post-title a:hover {
-				color: var(--accent);
-			}
-			.post-meta {
-				color: rgb(var(--gray));
-				font-size: 0.9rem;
-			}
-			.lang-tag {
-				display: inline-block;
-				margin-left: 0.5rem;
-				padding: 0.1rem 0.5rem;
-				background: rgb(var(--gray-light));
-				border-radius: 0.25rem;
-				font-size: 0.75rem;
-				text-transform: uppercase;
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section class="intro">
-				<h1>{SITE_TITLE}</h1>
-				<p>{SITE_DESCRIPTION}</p>
-			</section>
-			<section>
-				<ul class="posts">
-					{
-						posts.map((post) => (
-							<li>
-								<h2 class="post-title">
-									<a href={`${import.meta.env.BASE_URL}blog/${post.id}/`.replace(/\/+/g, '/')}>
-										{post.data.title}
-									</a>
-									<span class="lang-tag">{post.data.lang}</span>
-								</h2>
-								<p class="post-meta">
-									<FormattedDate date={post.data.pubDate} />
-								</p>
-								<p>{post.data.description}</p>
-							</li>
-						))
-					}
+<PageLayout meta={{ title: "Home" }}>
+	<section>
+		<h1 class="title mb-12">Hello World!</h1>
+		<p class="mb-4">
+			Hi, I’m a theme for Astro, a simple starter that you can use to create your website or blog.
+			If you want to know more about how you can customise me, add more posts, and make it your own,
+			click on the GitHub icon link below and it will take you to my repo.
+		</p>
+		<SocialList />
+	</section>
+	{
+		pinnedPosts.length > 0 && (
+			<section class="mt-16">
+				<h2 class="title mb-6 text-xl">Pinned Posts</h2>
+				<ul class="space-y-4" role="list">
+					{pinnedPosts.map((p) => (
+						<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
+							<PostPreview post={p} />
+						</li>
+					))}
 				</ul>
 			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+		)
+	}
+	<section class="mt-16">
+		<h2 class="title text-accent mb-6 text-xl"><a href="/posts/">Posts</a></h2>
+		<ul class="space-y-4" role="list">
+			{
+				latestPosts.map((p) => (
+					<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
+						<PostPreview post={p} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+	{
+		latestNotes.length > 0 && (
+			<section class="mt-16">
+				<h2 class="title text-accent mb-6 text-xl">
+					<a href="/notes/">Notes</a>
+				</h2>
+				<ul class="space-y-6" role="list">
+					{latestNotes.map((note) => (
+						<li>
+							<Note note={note} as="h3" isPreview />
+						</li>
+					))}
+				</ul>
+			</section>
+		)
+	}
+</PageLayout>
