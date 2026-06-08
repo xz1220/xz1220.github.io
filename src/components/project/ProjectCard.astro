@@ -1,0 +1,82 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+interface Props {
+	project: CollectionEntry<"project">;
+}
+
+const { project } = Astro.props;
+const { title, description, publishDate, coverImage, repo, demo, video } = project.data;
+const href = `/projects/${project.id}/`;
+---
+
+<article
+	class="border-muted/20 hover:border-link group flex flex-col overflow-hidden rounded-lg border transition-colors"
+>
+	<a
+		class="from-accent/10 to-link/10 block aspect-video overflow-hidden bg-gradient-to-br"
+		href={href}
+	>
+		{
+			coverImage ? (
+				<Image
+					alt={coverImage.alt}
+					class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+					src={coverImage.src}
+				/>
+			) : (
+				<span class="text-accent/70 flex h-full w-full items-center justify-center px-4 text-center text-xl font-bold">
+					{title}
+				</span>
+			)
+		}
+	</a>
+	<div class="flex grow flex-col gap-2 p-4">
+		<h3 class="text-lg font-semibold">
+			<a class="cactus-link" href={href}>{title}</a>
+		</h3>
+		<FormattedDate class="text-muted text-xs font-semibold" date={publishDate} />
+		<p class="line-clamp-2 text-sm">{description}</p>
+		<div
+			class="text-accent mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-2 text-xs font-semibold"
+		>
+			{
+				repo && (
+					<a
+						class="hover:text-link inline-flex items-center gap-1"
+						href={repo}
+						rel="noreferrer"
+						target="_blank"
+					>
+						<Icon aria-hidden="true" class="h-5 w-5" name="mdi:github" />
+						<span>Code</span>
+					</a>
+				)
+			}
+			{
+				demo && (
+					<a
+						class="hover:text-link inline-flex items-center gap-1"
+						href={demo}
+						rel="noreferrer"
+						target="_blank"
+					>
+						<Icon aria-hidden="true" class="h-5 w-5" name="mdi:open-in-new" />
+						<span>Demo</span>
+					</a>
+				)
+			}
+			{
+				video && (
+					<a class="hover:text-link inline-flex items-center gap-1" href={href}>
+						<Icon aria-hidden="true" class="h-5 w-5" name="mdi:play-circle" />
+						<span>Video</span>
+					</a>
+				)
+			}
+		</div>
+	</div>
+</article>

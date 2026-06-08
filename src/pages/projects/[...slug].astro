@@ -1,0 +1,86 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { Icon } from "astro-icon/components";
+import FormattedDate from "@/components/FormattedDate.astro";
+import VideoEmbed from "@/components/project/VideoEmbed.astro";
+import { getAllProjects } from "@/data/project";
+import PageLayout from "@/layouts/Base.astro";
+
+export const getStaticPaths = (async () => {
+	const projects = await getAllProjects();
+	return projects.map((project) => ({
+		params: { slug: project.id },
+		props: { project },
+	}));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { project } = Astro.props;
+const { title, description, publishDate, updatedDate, coverImage, video, repo, demo } = project.data;
+const { Content } = await render(project);
+
+const meta = {
+	articleDate: (updatedDate ?? publishDate).toISOString(),
+	description,
+	title,
+};
+---
+
+<PageLayout meta={meta}>
+	<article class="grow break-words" data-pagefind-body>
+		<header class="mb-8">
+			<h1 class="title mb-2">{title}</h1>
+			<div class="text-muted flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-semibold">
+				<FormattedDate date={publishDate} />
+				{
+					repo && (
+						<a
+							class="hover:text-link inline-flex items-center gap-1"
+							href={repo}
+							rel="noreferrer"
+							target="_blank"
+						>
+							<Icon aria-hidden="true" class="h-5 w-5" name="mdi:github" />
+							<span>Code</span>
+						</a>
+					)
+				}
+				{
+					demo && (
+						<a
+							class="hover:text-link inline-flex items-center gap-1"
+							href={demo}
+							rel="noreferrer"
+							target="_blank"
+						>
+							<Icon aria-hidden="true" class="h-5 w-5" name="mdi:open-in-new" />
+							<span>Demo</span>
+						</a>
+					)
+				}
+			</div>
+		</header>
+		{
+			video ? (
+				<VideoEmbed title={title} url={video} />
+			) : (
+				coverImage && (
+					<Image
+						alt={coverImage.alt}
+						class="border-muted/20 mb-8 w-full rounded-lg border"
+						src={coverImage.src}
+					/>
+				)
+			)
+		}
+		<div class="prose prose-sm prose-cactus max-w-none">
+			<Content />
+		</div>
+		<p class="mt-12">
+			<a class="cactus-link" href="/projects/">← All projects</a>
+		</p>
+	</article>
+</PageLayout>

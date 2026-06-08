@@ -1,0 +1,52 @@
+---
+interface Props {
+	url: string;
+	title?: string;
+}
+
+const { url, title = "Embedded video" } = Astro.props;
+
+/** Normalise common share URLs (YouTube / Vimeo / Loom) into their embed form. */
+function toEmbedUrl(raw: string): string {
+	try {
+		const u = new URL(raw);
+		const host = u.hostname.replace(/^www\./, "");
+
+		// YouTube
+		if (host === "youtu.be") {
+			return `https://www.youtube.com/embed/${u.pathname.slice(1)}`;
+		}
+		if (host === "youtube.com" || host === "m.youtube.com") {
+			if (u.pathname.startsWith("/embed/")) return raw;
+			const v = u.searchParams.get("v");
+			if (v) return `https://www.youtube.com/embed/${v}`;
+		}
+
+		// Vimeo
+		if (host === "vimeo.com") {
+			const id = u.pathname.split("/").filter(Boolean)[0];
+			if (id) return `https://player.vimeo.com/video/${id}`;
+		}
+
+		// Loom
+		if (host === "loom.com") {
+			return raw.replace("/share/", "/embed/");
+		}
+	} catch {
+		// fall through and return the raw url as-is
+	}
+	return raw;
+}
+
+const embedUrl = toEmbedUrl(url);
+---
+
+<div class="border-muted/20 relative my-6 aspect-video w-full overflow-hidden rounded-lg border">
+	<iframe
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+		allowfullscreen
+		class="absolute inset-0 h-full w-full"
+		loading="lazy"
+		src={embedUrl}
+		title={title}></iframe>
+</div>

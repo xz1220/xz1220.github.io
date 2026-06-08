@@ -1,4 +1,8 @@
 blockExoticSubdeps: false
+# Dedupe every nested `sharp` (e.g. astro-webmanifest's) onto one modern version
+# that ships prebuilt binaries — avoids the legacy 0.32.x libvips network download.
+overrides:
+  sharp: ^0.34.5
 allowBuilds:
   '@biomejs/biome': true
   '@tailwindcss/oxide': true
