@@ -7,6 +7,7 @@ import "@/styles/blocks/search.css";
 <site-search class="ms-auto" id="search">
 	<button
 		class="hover:text-accent flex h-9 w-9 cursor-pointer items-center justify-center rounded-md"
+		aria-haspopup="dialog"
 		aria-keyshortcuts="Control+K Meta+K"
 		data-open-modal
 		disabled
@@ -30,14 +31,16 @@ import "@/styles/blocks/search.css";
 		<span class="sr-only">Open Search</span>
 	</button>
 	<dialog
-		aria-label="search"
-		class="bg-global-bg h-full max-h-full w-full max-w-full border border-zinc-400 shadow-sm backdrop:backdrop-blur-sm open:flex sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md"
+		aria-label="Site search"
+		class="bg-global-bg border-line h-full max-h-full w-full max-w-full border shadow-sm backdrop:backdrop-blur-sm open:flex sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md"
 	>
 		<div class="dialog-frame flex grow flex-col gap-4 p-6 pt-12 sm:pt-6">
 			<button
-				class="ms-auto cursor-pointer rounded-md bg-zinc-200 p-2 font-semibold dark:bg-zinc-700"
-				data-close-modal>Close</button
+				class="text-muted hover:text-global-text border-line ms-auto cursor-pointer rounded-md border px-3 py-1.5 font-mono text-xs"
+				data-close-modal
 			>
+				close<span aria-hidden="true" class="ms-1">✕</span>
+			</button>
 			{
 				import.meta.env.DEV ? (
 					<div class="mx-auto text-center">
@@ -63,6 +66,8 @@ import "@/styles/blocks/search.css";
 		#dialogFrame: HTMLDivElement | null;
 		#openBtn: HTMLButtonElement | null;
 		#controller: AbortController;
+		#pagefindPromise: Promise<unknown> | null = null;
+		#initPagefind: (() => Promise<void>) | null = null;
 
 		constructor() {
 			super();
@@ -94,19 +99,20 @@ import "@/styles/blocks/search.css";
 				console.warn("Dialog not found");
 			}
 
-			// only add pagefind in production
+			// load pagefind lazily on first open intent, not on idle of every page
 			if (import.meta.env.DEV) return;
-			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-			onIdle(async () => {
-				const { PagefindUI } = await import("@pagefind/default-ui");
-				new PagefindUI({
-					baseUrl: import.meta.env.BASE_URL,
-					bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
-					element: "#cactus__search",
-					showImages: false,
-					showSubResults: true,
+			this.#initPagefind = async () => {
+				this.#pagefindPromise ??= import("@pagefind/default-ui").then(({ PagefindUI }) => {
+					new PagefindUI({
+						baseUrl: import.meta.env.BASE_URL,
+						bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
+						element: "#cactus__search",
+						showImages: false,
+						showSubResults: true,
+					});
 				});
-			});
+				await this.#pagefindPromise;
+			};
 		}
 
 		connectedCallback() {
@@ -118,13 +124,14 @@ import "@/styles/blocks/search.css";
 			this.#controller.abort();
 		}
 
-		openModal = (event?: MouseEvent) => {
+		openModal = async (event?: MouseEvent) => {
 			if (!this.#dialog) {
 				console.warn("Dialog not found");
 				return;
 			}
 
 			this.#dialog.showModal();
+			await this.#initPagefind?.();
 			this.querySelector("input")?.focus();
 			event?.stopPropagation();
 			window.addEventListener("click", this.onWindowClick, { signal: this.#controller.signal });

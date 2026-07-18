@@ -1,0 +1,101 @@
+- generic [active] [ref=e1]:
+    - link "skip to content" [ref=e2] [cursor=pointer]:
+        - /url: "#main"
+    - banner [ref=e3]:
+        - link "daniel-xing" [ref=e4] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e5]: ~/
+            - text: daniel-xing
+        - generic [ref=e6]:
+            - navigation "Main menu" [ref=e7]:
+                - link "projects" [ref=e8] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e9] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e10] [cursor=pointer]:
+                    - /url: /about/
+            - button "Open Search" [ref=e12] [cursor=pointer]:
+                - img [ref=e13]
+                - generic [ref=e16]: Open Search
+            - switch "Dark Theme" [checked] [ref=e18] [cursor=pointer]:
+                - generic [ref=e19]: Dark Theme
+                - img [ref=e20]
+    - main [ref=e25]:
+        - generic [ref=e26]:
+            - heading "Projects" [level=1] [ref=e27]
+            - paragraph [ref=e28]: 2 shipped
+        - generic [ref=e29]:
+            - article [ref=e30]:
+                - link "Open Dynamic Workflows — project details" [ref=e31] [cursor=pointer]:
+                    - /url: /projects/open-dynamic-workflows/
+                    - img [ref=e33]:
+                        - generic [ref=e36]: workflow.js
+                        - generic [ref=e37]: agent() · parallel()
+                        - generic [ref=e39]: odw
+                        - generic [ref=e40]: runtime
+                        - generic [ref=e42]: ">_"
+                        - generic [ref=e43]: codex
+                        - generic [ref=e45]: ">_"
+                        - generic [ref=e46]: claude
+                        - generic [ref=e48]: ">_"
+                        - generic [ref=e49]: gemini
+                        - generic [ref=e56]: adapters
+                - generic [ref=e57]:
+                    - generic [ref=e58]: FIG. 01
+                    - heading "Open Dynamic Workflows" [level=3] [ref=e59]:
+                        - link "Open Dynamic Workflows" [ref=e60] [cursor=pointer]:
+                            - /url: /projects/open-dynamic-workflows/
+                    - paragraph [ref=e61]:
+                        - time [ref=e62]: 8 Jun 2026
+                - paragraph [ref=e63]: An open runtime for Claude Code-style dynamic workflows — run the same agent-orchestration scripts on any coding agent (Codex, Claude, Gemini, Qwen, Kimi).
+                - generic [ref=e64]:
+                    - link "code" [ref=e65] [cursor=pointer]:
+                        - /url: https://github.com/xz1220/open-dynamic-workflows
+                        - text: code ↗
+                    - link "read more →" [ref=e66] [cursor=pointer]:
+                        - /url: /projects/open-dynamic-workflows/
+            - article [ref=e67]:
+                - link "AVM — Agent VM for AI Coding Agents — project details" [ref=e68] [cursor=pointer]:
+                    - /url: /projects/agent-vm/
+                    - img [ref=e70]:
+                        - generic [ref=e73]: agent.avm
+                        - generic [ref=e74]: instructions · skills · mcp
+                        - generic [ref=e76]: avm
+                        - generic [ref=e77]: render
+                        - generic [ref=e79]: ">_"
+                        - generic [ref=e80]: codex
+                        - generic [ref=e83]: ">_"
+                        - generic [ref=e84]: claude
+                        - generic [ref=e87]: ">_"
+                        - generic [ref=e88]: opencode
+                        - generic [ref=e96]: drivers
+                - generic [ref=e97]:
+                    - generic [ref=e98]: FIG. 02
+                    - heading "AVM — Agent VM for AI Coding Agents" [level=3] [ref=e99]:
+                        - link "AVM — Agent VM for AI Coding Agents" [ref=e100] [cursor=pointer]:
+                            - /url: /projects/agent-vm/
+                    - paragraph [ref=e101]:
+                        - time [ref=e102]: 24 May 2026
+                - paragraph [ref=e103]: A local config manager that lets you define an AI coding agent once and run it on any runtime — Codex, Claude Code, or OpenCode.
+                - generic [ref=e104]:
+                    - link "code" [ref=e105] [cursor=pointer]:
+                        - /url: https://github.com/xz1220/AVM
+                        - text: code ↗
+                    - link "read more →" [ref=e106] [cursor=pointer]:
+                        - /url: /projects/agent-vm/
+    - contentinfo [ref=e107]:
+        - generic [ref=e108]:
+            - paragraph [ref=e109]: © 2026 Daniel Xing
+            - navigation "More on this site" [ref=e110]:
+                - paragraph [ref=e111]: More on this site
+                - link "home" [ref=e112] [cursor=pointer]:
+                    - /url: /
+                - link "projects" [ref=e113] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e114] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e115] [cursor=pointer]:
+                    - /url: /about/
+                - link "rss" [ref=e116] [cursor=pointer]:
+                    - /url: /rss.xml
+            - paragraph [ref=e117]: source serif 4 · sometype mono · astro

@@ -1,0 +1,154 @@
+- generic [active] [ref=e1]:
+    - link "skip to content" [ref=e2] [cursor=pointer]:
+        - /url: "#main"
+    - banner [ref=e3]:
+        - link "daniel-xing" [ref=e4] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e5]: ~/
+            - text: daniel-xing
+        - generic [ref=e6]:
+            - navigation "Main menu" [ref=e7]:
+                - link "projects" [ref=e8] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e9] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e10] [cursor=pointer]:
+                    - /url: /about/
+            - button "Open Search" [ref=e12] [cursor=pointer]:
+                - img [ref=e13]
+                - generic [ref=e16]: Open Search
+            - switch "Dark Theme" [ref=e18] [cursor=pointer]:
+                - generic [ref=e19]: Dark Theme
+                - img [ref=e20]
+    - main [ref=e26]:
+        - article [ref=e27]:
+            - generic [ref=e28]:
+                - heading "Open Dynamic Workflows" [level=1] [ref=e29]
+                - generic [ref=e30]:
+                    - time [ref=e31]: 8 Jun 2026
+                    - link "code" [ref=e32] [cursor=pointer]:
+                        - /url: https://github.com/xz1220/open-dynamic-workflows
+                        - text: code ↗
+                    - generic [ref=e33]: "#agent-orchestration"
+                    - generic [ref=e34]: "#claude-code"
+                    - generic [ref=e35]: "#typescript"
+                    - generic [ref=e36]: "#cli"
+                    - generic [ref=e37]: "#multi-agent"
+                    - generic [ref=e38]: "#workflows"
+                - paragraph [ref=e39]: An open runtime for Claude Code-style dynamic workflows — run the same agent-orchestration scripts on any coding agent (Codex, Claude, Gemini, Qwen, Kimi).
+            - figure [ref=e40]:
+                - 'img "Diagram: a portable workflow script runs through the odw runtime, which fans out through adapters to the codex, claude and gemini agent CLIs" [ref=e41]':
+                    - generic [ref=e44]: workflow.js
+                    - generic [ref=e45]: agent() · parallel()
+                    - generic [ref=e47]: odw
+                    - generic [ref=e48]: runtime
+                    - generic [ref=e50]: ">_"
+                    - generic [ref=e51]: codex
+                    - generic [ref=e53]: ">_"
+                    - generic [ref=e54]: claude
+                    - generic [ref=e56]: ">_"
+                    - generic [ref=e57]: gemini
+                    - generic [ref=e64]: adapters
+            - generic [ref=e65]:
+                - paragraph [ref=e66]:
+                    - text: "Open Dynamic Workflows (ODW) is a TypeScript/Node CLI runtime for portable dynamic workflows: plain JavaScript scripts that fan coding agents out with"
+                    - code [ref=e67]: "`agent()`"
+                    - text: ","
+                    - code [ref=e68]: "`parallel()`"
+                    - text: ", and"
+                    - code [ref=e69]: "`pipeline()`"
+                    - text: — outside the host agent’s own context. Claude Code can already run such scripts inside its private runtime; ODW makes the same scripts portable and standalone, so they become artifacts you can version, share, and run on any coding-agent CLI.
+                - heading "Highlights" [level=2] [ref=e70]:
+                    - link "Highlights" [ref=e71] [cursor=pointer]:
+                        - /url: "#highlights"
+                - list [ref=e72]:
+                    - listitem [ref=e73]:
+                        - strong [ref=e74]: Portable across agents
+                        - text: — run the same workflow script on Codex, Claude Code, Gemini, Qwen, Kimi, or a custom CLI; switch the underlying agent by switching adapters. ODW only shells out to local CLIs, never calling model APIs directly.
+                    - listitem [ref=e75]:
+                        - strong [ref=e76]: Claude Code’s dialect, unchanged
+                        - text: —
+                        - code [ref=e77]: "`export const meta`"
+                        - text: plus injected
+                        - code [ref=e78]: "`agent`"
+                        - text: /
+                        - code [ref=e79]: "`parallel`"
+                        - text: /
+                        - code [ref=e80]: "`pipeline`"
+                        - text: /
+                        - code [ref=e81]: "`phase`"
+                        - text: /
+                        - code [ref=e82]: "`log`"
+                        - text: /
+                        - code [ref=e83]: "`args`"
+                        - text: /
+                        - code [ref=e84]: "`budget`"
+                        - text: globals, with top-level
+                        - code [ref=e85]: "`await`"
+                        - text: and
+                        - code [ref=e86]: "`return`"
+                        - text: . A script written for Claude Code runs here as-is.
+                    - listitem [ref=e87]:
+                        - strong [ref=e88]: Out of context, at scale
+                        - text: — the plan lives in code, so intermediate work never pollutes the host’s context and you can fan out dozens of subagents.
+                    - listitem [ref=e89]:
+                        - strong [ref=e90]: Reliable hand-offs
+                        - text: — JSON-Schema structured outputs are validated and retried so multi-stage pipelines compose instead of guessing on free text.
+                    - listitem [ref=e91]:
+                        - strong [ref=e92]: Background and observable
+                        - text: — every run is a detached worker backed by a run directory with
+                        - code [ref=e93]: "`status`"
+                        - text: ","
+                        - code [ref=e94]: "`logs --follow`"
+                        - text: ","
+                        - code [ref=e95]: "`result`"
+                        - text: ","
+                        - code [ref=e96]: "`pause`"
+                        - text: /
+                        - code [ref=e97]: "`stop`"
+                        - text: ", plus a zero-dependency live web dashboard ("
+                        - code [ref=e98]: "`odw serve`"
+                        - text: ) and a read-only Tauri desktop “observatory”.
+                    - listitem [ref=e99]:
+                        - strong [ref=e100]: Zero runtime dependencies
+                        - text: — the engine is async TypeScript (
+                        - code [ref=e101]: "`parallel`"
+                        - text: is
+                        - code [ref=e102]: "`Promise.all`"
+                        - text: ", no threads); workflow scripts stay plain"
+                        - code [ref=e103]: "`.js`"
+                        - text: and ship
+                        - code [ref=e104]: "`.d.ts`"
+                        - text: authoring types for editor autocomplete.
+                - heading "Status" [level=2] [ref=e105]:
+                    - link "Status" [ref=e106] [cursor=pointer]:
+                        - /url: "#status"
+                - paragraph [ref=e107]:
+                    - text: Core runtime is shipped on
+                    - code [ref=e108]: "`main`"
+                    - text: "(v0.3.0): adapter layer, execution bridge, workspace isolation, async scheduler, injected primitives, the loader/transform, the JSON-Schema engine, the background runtime, and the"
+                    - code [ref=e109]: "`odw`"
+                    - text: CLI — with 129 passing tests. The flagship
+                    - code [ref=e110]: "`examples/deep-research.js`"
+                    - text: (fan-out research → adversarial fact-check → cited report) runs end-to-end. Distribution is a prebuilt binary plus a skill (install via script); the npm package is not yet published. Roadmap (v1.5+) includes rich model/agent routing, git-worktree isolation, nested
+                    - code [ref=e111]: "`workflow()`"
+                    - text: ", token-budget accounting, resume/journaling, and a replay-determinism sandbox. MIT licensed."
+            - paragraph [ref=e112]:
+                - link "← all projects" [ref=e113] [cursor=pointer]:
+                    - /url: /projects/
+    - contentinfo [ref=e114]:
+        - generic [ref=e115]:
+            - paragraph [ref=e116]: © 2026 Daniel Xing
+            - navigation "More on this site" [ref=e117]:
+                - paragraph [ref=e118]: More on this site
+                - link "home" [ref=e119] [cursor=pointer]:
+                    - /url: /
+                - link "projects" [ref=e120] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e121] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e122] [cursor=pointer]:
+                    - /url: /about/
+                - link "rss" [ref=e123] [cursor=pointer]:
+                    - /url: /rss.xml
+            - paragraph [ref=e124]: source serif 4 · sometype mono · astro

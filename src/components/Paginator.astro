@@ -11,17 +11,20 @@ const { nextUrl, prevUrl } = Astro.props;
 
 {
 	(prevUrl || nextUrl) && (
-		<nav class="mt-8 flex items-center gap-x-4">
+		<nav
+			aria-label="Pagination"
+			class="border-line mt-10 flex items-center gap-x-4 border-t border-dashed pt-6 font-mono text-sm"
+		>
 			{prevUrl && (
 				<a class="hover:text-accent me-auto py-2" href={prevUrl.url}>
 					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
-					{prevUrl.text ? prevUrl.text : "Previous"}
+					{prevUrl.text ? prevUrl.text : "← newer"}
 				</a>
 			)}
 			{nextUrl && (
 				<a class="hover:text-accent ms-auto py-2" href={nextUrl.url}>
 					{nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
-					{nextUrl.text ? nextUrl.text : "Next"}
+					{nextUrl.text ? nextUrl.text : "older →"}
 				</a>
 			)}
 		</nav>

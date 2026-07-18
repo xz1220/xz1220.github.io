@@ -2,43 +2,39 @@
 <script is:inline>
 	const lightModePref = window.matchMedia("(prefers-color-scheme: light)");
 
+	function getStoredTheme() {
+		return typeof localStorage !== "undefined" ? localStorage.getItem("theme") : null;
+	}
+
 	function getUserPref() {
-		const storedTheme = typeof localStorage !== "undefined" && localStorage.getItem("theme");
-		return storedTheme || (lightModePref.matches ? "light" : "dark");
+		return getStoredTheme() || (lightModePref.matches ? "light" : "dark");
 	}
 
-	function setTheme(newTheme) {
-		if (newTheme !== "light" && newTheme !== "dark") {
-			return console.warn(
-				`Invalid theme value '${newTheme}' received. Expected 'light' or 'dark'.`,
-			);
-		}
-
+	function applyTheme(newTheme) {
 		const root = document.documentElement;
-
-		// root already set to newTheme, exit early
-		if (newTheme === root.getAttribute("data-theme")) {
-			return;
-		}
-
-		root.setAttribute("data-theme", newTheme);
-
-		if (typeof localStorage !== "undefined") {
-			localStorage.setItem("theme", newTheme);
+		if (newTheme !== root.getAttribute("data-theme")) {
+			root.setAttribute("data-theme", newTheme);
 		}
 	}
 
-	// initial setup
-	setTheme(getUserPref());
-
-	// View Transitions hook to restore theme
-	document.addEventListener("astro:after-swap", () => setTheme(getUserPref()));
+	// initial setup — applied, not persisted: only an explicit toggle writes localStorage
+	applyTheme(getUserPref());
 
 	// listen for theme-change custom event, fired in src/components/ThemeToggle.astro
 	document.addEventListener("theme-change", (e) => {
-		setTheme(e.detail.theme);
+		if (e.detail.theme !== "light" && e.detail.theme !== "dark") {
+			return;
+		}
+		applyTheme(e.detail.theme);
+		if (typeof localStorage !== "undefined") {
+			localStorage.setItem("theme", e.detail.theme);
+		}
 	});
 
-	// listen for prefers-color-scheme change.
-	lightModePref.addEventListener("change", (e) => setTheme(e.matches ? "light" : "dark"));
+	// follow the OS preference only while the user has not made an explicit choice
+	lightModePref.addEventListener("change", (e) => {
+		if (!getStoredTheme()) {
+			applyTheme(e.matches ? "light" : "dark");
+		}
+	});
 </script>

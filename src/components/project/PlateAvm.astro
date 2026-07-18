@@ -1,0 +1,65 @@
+---
+// FIG. plate for AVM — one agent definition rendered into per-runtime managed config.
+---
+
+<svg
+	viewBox="0 0 720 300"
+	xmlns="http://www.w3.org/2000/svg"
+	role="img"
+	aria-label="Diagram: one agent definition is rendered by avm into managed configuration for the codex, claude and opencode runtimes"
+	preserveAspectRatio="xMidYMid meet"
+	class="h-auto w-full"
+>
+	<!-- agent definition -->
+	<path class="plate-box" d="M282 24 h132 l24 24 v56 h-156 z"></path>
+	<path class="plate-line" d="M414 24 v24 h24"></path>
+	<text class="plate-text" x="360" y="58" text-anchor="middle" font-size="13">agent.avm</text>
+	<text class="plate-sub" x="360" y="78" text-anchor="middle" font-size="9">
+		instructions · skills · mcp
+	</text>
+
+	<!-- avm router -->
+	<rect class="plate-accent-stroke" x="308" y="148" width="104" height="52" rx="2"></rect>
+	<text
+		class="plate-accent-text"
+		x="360"
+		y="172"
+		text-anchor="middle"
+		font-size="15"
+		font-weight="600"
+	>
+		avm
+	</text>
+	<text class="plate-sub" x="360" y="189" text-anchor="middle" font-size="9">render</text>
+
+	<!-- runtime chips -->
+	<rect class="plate-box" x="70" y="236" width="140" height="48" rx="2"></rect>
+	<text class="plate-sub" x="84" y="264" font-size="11">&gt;_</text>
+	<text class="plate-text" x="116" y="265" font-size="13">codex</text>
+	<circle class="plate-accent-text" cx="196" cy="248" r="3"></circle>
+
+	<rect class="plate-box" x="290" y="236" width="140" height="48" rx="2"></rect>
+	<text class="plate-sub" x="304" y="264" font-size="11">&gt;_</text>
+	<text class="plate-text" x="336" y="265" font-size="13">claude</text>
+	<circle class="plate-accent-text" cx="416" cy="248" r="3"></circle>
+
+	<rect class="plate-box" x="510" y="236" width="140" height="48" rx="2"></rect>
+	<text class="plate-sub" x="524" y="264" font-size="11">&gt;_</text>
+	<text class="plate-text" x="556" y="265" font-size="13">opencode</text>
+	<circle class="plate-accent-text" cx="636" cy="248" r="3"></circle>
+
+	<!-- connectors -->
+	<path class="plate-line plate-flow" d="M360 104 V142"></path>
+	<path class="plate-line" d="M354 136 l6 6 6 -6"></path>
+
+	<path class="plate-line plate-flow" d="M360 200 C 360 218, 140 218, 140 230"></path>
+	<path class="plate-line" d="M134 224 l6 6 6 -6"></path>
+	<path class="plate-line plate-flow" d="M360 200 V230"></path>
+	<path class="plate-line" d="M354 224 l6 6 6 -6"></path>
+	<path class="plate-line plate-flow" d="M360 200 C 360 218, 580 218, 580 230"></path>
+	<path class="plate-line" d="M574 224 l6 6 6 -6"></path>
+
+	<text class="plate-sub" x="222" y="224" text-anchor="middle" font-size="9" font-style="italic">
+		drivers
+	</text>
+</svg>

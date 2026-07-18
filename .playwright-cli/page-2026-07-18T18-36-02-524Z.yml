@@ -1,0 +1,82 @@
+- generic [active] [ref=e1]:
+    - link "skip to content" [ref=e2] [cursor=pointer]:
+        - /url: "#main"
+    - banner [ref=e3]:
+        - link "daniel-xing" [ref=e4] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e5]: ~/
+            - text: daniel-xing
+        - generic [ref=e6]:
+            - navigation "Main menu" [ref=e7]:
+                - link "projects" [ref=e8] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e9] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e10] [cursor=pointer]:
+                    - /url: /about/
+            - button "Open Search" [ref=e12] [cursor=pointer]:
+                - img [ref=e13]
+                - generic [ref=e16]: Open Search
+            - switch "Dark Theme" [checked] [ref=e18] [cursor=pointer]:
+                - generic [ref=e19]: Dark Theme
+                - img [ref=e20]
+    - main [ref=e25]:
+        - heading "About" [level=1] [ref=e26]
+        - generic [ref=e27]:
+            - paragraph [ref=e28]:
+                - text: I'm Daniel Xing (邢政). My background is backend and algorithms; these days I build tools for AI agents — a runtime for portable workflow scripts (
+                - link "ODW" [ref=e29] [cursor=pointer]:
+                    - /url: /projects/open-dynamic-workflows/
+                - text: ) and a config manager for agent setups (
+                - link "AVM" [ref=e30] [cursor=pointer]:
+                    - /url: /projects/agent-vm/
+                - text: ). I'm also exploring what to build next at the intersection of AI and product.
+            - paragraph [ref=e31]:
+                - text: "This site collects the projects I've shipped and occasional notes on what I learn along the way. Everything here is on GitHub:"
+                - link "@xz1220" [ref=e32] [cursor=pointer]:
+                    - /url: https://github.com/xz1220
+                - text: .
+        - list [ref=e34]:
+            - listitem [ref=e35]:
+                - link "github" [ref=e36] [cursor=pointer]:
+                    - /url: https://github.com/xz1220
+                    - text: github ↗
+            - listitem [ref=e37]:
+                - link "Daniel Xing on X" [ref=e38] [cursor=pointer]:
+                    - /url: https://x.com/xngzhng118250
+                    - text: x ↗
+            - listitem [ref=e39]:
+                - link "email" [ref=e40] [cursor=pointer]:
+                    - /url: mailto:3024979463@qq.com
+            - listitem [ref=e41]:
+                - link "rss" [ref=e42] [cursor=pointer]:
+                    - /url: /rss.xml
+                    - text: rss ↗
+        - generic [ref=e43]:
+            - heading "colophon" [level=2] [ref=e44]
+            - generic [ref=e45]:
+                - term [ref=e46]: type
+                - definition [ref=e47]: source serif 4 · sometype mono
+                - term [ref=e48]: engine
+                - definition [ref=e49]: astro + tailwind, static on github pages
+                - term [ref=e50]: source
+                - definition [ref=e51]:
+                    - link "xz1220/xz1220.github.io" [ref=e52] [cursor=pointer]:
+                        - /url: https://github.com/xz1220/xz1220.github.io
+                        - text: xz1220/xz1220.github.io↗
+    - contentinfo [ref=e53]:
+        - generic [ref=e54]:
+            - paragraph [ref=e55]: © 2026 Daniel Xing
+            - navigation "More on this site" [ref=e56]:
+                - paragraph [ref=e57]: More on this site
+                - link "home" [ref=e58] [cursor=pointer]:
+                    - /url: /
+                - link "projects" [ref=e59] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e60] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e61] [cursor=pointer]:
+                    - /url: /about/
+                - link "rss" [ref=e62] [cursor=pointer]:
+                    - /url: /rss.xml
+            - paragraph [ref=e63]: source serif 4 · sometype mono · astro

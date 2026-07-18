@@ -1,0 +1,45 @@
+- generic [active] [ref=e1]:
+    - link "skip to content" [ref=e2] [cursor=pointer]:
+        - /url: "#main"
+    - banner [ref=e3]:
+        - link "daniel-xing" [ref=e4] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e5]: ~/
+            - text: daniel-xing
+        - generic [ref=e6]:
+            - navigation "Main menu" [ref=e7]:
+                - link "projects" [ref=e8] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e9] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e10] [cursor=pointer]:
+                    - /url: /about/
+            - button "Open Search" [ref=e12] [cursor=pointer]:
+                - img [ref=e13]
+                - generic [ref=e16]: Open Search
+            - switch "Dark Theme" [checked] [ref=e18] [cursor=pointer]:
+                - generic [ref=e19]: Dark Theme
+                - img [ref=e20]
+    - main [ref=e25]:
+        - heading "Tags" [level=1] [ref=e26]
+        - list [ref=e27]:
+            - listitem [ref=e28]:
+                - link "#meta" [ref=e29] [cursor=pointer]:
+                    - /url: /tags/meta/
+                - generic [ref=e31]: 1 post
+    - contentinfo [ref=e32]:
+        - generic [ref=e33]:
+            - paragraph [ref=e34]: © 2026 Daniel Xing
+            - navigation "More on this site" [ref=e35]:
+                - paragraph [ref=e36]: More on this site
+                - link "home" [ref=e37] [cursor=pointer]:
+                    - /url: /
+                - link "projects" [ref=e38] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e39] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e40] [cursor=pointer]:
+                    - /url: /about/
+                - link "rss" [ref=e41] [cursor=pointer]:
+                    - /url: /rss.xml
+            - paragraph [ref=e42]: source serif 4 · sometype mono · astro

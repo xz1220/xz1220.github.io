@@ -1,0 +1,62 @@
+---
+// FIG. plate for Open Dynamic Workflows — one portable script, one runtime, many agent CLIs.
+---
+
+<svg
+	viewBox="0 0 720 300"
+	xmlns="http://www.w3.org/2000/svg"
+	role="img"
+	aria-label="Diagram: a portable workflow script runs through the odw runtime, which fans out through adapters to the codex, claude and gemini agent CLIs"
+	preserveAspectRatio="xMidYMid meet"
+	class="h-auto w-full"
+>
+	<!-- workflow script document -->
+	<path class="plate-box" d="M48 104 h104 l24 24 v64 h-128 z"></path>
+	<path class="plate-line" d="M152 104 v24 h24"></path>
+	<text class="plate-text" x="112" y="146" text-anchor="middle" font-size="13">workflow.js</text>
+	<text class="plate-sub" x="112" y="166" text-anchor="middle" font-size="9">
+		agent() · parallel()
+	</text>
+
+	<!-- odw runtime -->
+	<rect class="plate-accent-stroke" x="308" y="124" width="104" height="56" rx="2"></rect>
+	<text
+		class="plate-accent-text"
+		x="360"
+		y="150"
+		text-anchor="middle"
+		font-size="15"
+		font-weight="600"
+	>
+		odw
+	</text>
+	<text class="plate-sub" x="360" y="168" text-anchor="middle" font-size="9">runtime</text>
+
+	<!-- agent CLIs -->
+	<rect class="plate-box" x="532" y="40" width="140" height="48" rx="2"></rect>
+	<text class="plate-sub" x="546" y="68" font-size="11">&gt;_</text>
+	<text class="plate-text" x="578" y="69" font-size="13">codex</text>
+
+	<rect class="plate-box" x="532" y="128" width="140" height="48" rx="2"></rect>
+	<text class="plate-sub" x="546" y="156" font-size="11">&gt;_</text>
+	<text class="plate-text" x="578" y="157" font-size="13">claude</text>
+
+	<rect class="plate-box" x="532" y="216" width="140" height="48" rx="2"></rect>
+	<text class="plate-sub" x="546" y="244" font-size="11">&gt;_</text>
+	<text class="plate-text" x="578" y="245" font-size="13">gemini</text>
+
+	<!-- connectors -->
+	<path class="plate-line plate-flow" d="M176 148 H308"></path>
+	<path class="plate-line" d="M298 142 l10 6 -10 6"></path>
+
+	<path class="plate-line plate-flow" d="M412 152 C 472 152, 472 64, 526 64"></path>
+	<path class="plate-line" d="M520 58 l6 6 -6 6"></path>
+	<path class="plate-line plate-flow" d="M412 152 H526"></path>
+	<path class="plate-line" d="M520 146 l6 6 -6 6"></path>
+	<path class="plate-line plate-flow" d="M412 152 C 472 152, 472 240, 526 240"></path>
+	<path class="plate-line" d="M520 234 l6 6 -6 6"></path>
+
+	<text class="plate-sub" x="472" y="30" text-anchor="middle" font-size="9" font-style="italic">
+		adapters
+	</text>
+</svg>

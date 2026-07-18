@@ -24,8 +24,8 @@ jobs:
           version: 11
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'pnpm'
+          node-version: "22"
+          cache: "pnpm"
       # A transitive dep (@emmetio/css-parser via @astrojs/check) is a GitHub
       # git dependency pinned with an SSH URL; rewrite it to anonymous HTTPS so
       # the runner (which has no SSH key) can clone the public repo.

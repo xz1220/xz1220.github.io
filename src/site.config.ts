@@ -14,7 +14,7 @@ export const siteConfig: SiteConfig = {
 	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
 	author: "Daniel Xing",
 	// Used as the default description meta property and webmanifest description
-	description: "Builder. I design, code, and ship things — and write about it.",
+	description: "Daniel Xing builds tools for AI agents and writes occasional notes about it.",
 	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
 	lang: "en-GB",
 	// Meta property, found in src/components/BaseHead.astro L:42
@@ -42,7 +42,7 @@ export const menuLinks: { path: string; title: string }[] = [
 	},
 	{
 		path: "/posts/",
-		title: "Blog",
+		title: "Writing",
 	},
 	{
 		path: "/about/",
@@ -76,6 +76,7 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 		return `[data-theme="${theme.name}"]`;
 	},
 	// One dark, one light theme => https://expressive-code.com/guides/themes/#available-themes
-	themes: ["dracula", "github-light"],
+	// night-owl's blue editor surface sits naturally on the blueprint dark theme
+	themes: ["night-owl", "github-light"],
 	useThemedScrollbars: false,
 };

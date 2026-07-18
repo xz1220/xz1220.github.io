@@ -7,67 +7,125 @@
 /* use a selector-based strategy for dark mode */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* register custom colour properties — 宣纸 (paper) / 墨 (ink) / 花青 (indigo) */
+/* register custom colour properties so theme switches can transition */
 @property --color-global-bg {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #f4f2ec;
+	initial-value: oklch(97.4% 0.004 250);
 }
 @property --color-global-text {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #2a2927;
+	initial-value: oklch(27% 0.02 260);
 }
 @property --color-muted {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #5a5855;
+	initial-value: oklch(48% 0.015 255);
 }
 @property --color-link {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #314b59;
+	initial-value: oklch(38% 0.03 255);
 }
 @property --color-accent {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #314b59;
+	initial-value: oklch(50% 0.16 27);
 }
 @property --color-accent-2 {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #232220;
+	initial-value: oklch(22% 0.02 260);
 }
 @property --color-quote {
 	syntax: "<color>";
 	inherits: true;
-	initial-value: #314b59;
+	initial-value: oklch(45% 0.02 255);
+}
+@property --color-line {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(87% 0.008 250);
+}
+@property --color-grid {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(91% 0.008 245);
 }
 
 @theme {
-	/* 中国风调色:宣纸米白底 + 墨色字 + 花青(靛蓝)点缀(无红) */
-	--color-global-bg: #f4f2ec;
-	--color-global-text: #2a2927;
-	--color-muted: #5a5855;
-	--color-link: #314b59;
-	--color-accent: #314b59;
-	--color-accent-2: #232220;
-	--color-quote: #314b59;
+	/*
+		"Drafting table" palette:
+		light = engineering graph paper (cool near-white, faint blue grid, ink, redline vermilion)
+		dark  = cyanotype blueprint (deep prussian blue, pale paper text, drafting-lamp amber)
+	*/
+	--color-global-bg: oklch(97.4% 0.004 250);
+	--color-global-text: oklch(27% 0.02 260);
+	--color-muted: oklch(48% 0.015 255);
+	--color-link: oklch(38% 0.03 255);
+	--color-accent: oklch(50% 0.16 27);
+	--color-accent-2: oklch(22% 0.02 260);
+	--color-quote: oklch(45% 0.02 255);
+	--color-line: oklch(87% 0.008 250);
+	--color-grid: oklch(91% 0.008 245);
 
-	/* 字体:正文思源宋体,标题 Cormorant Garamond,代码等宽 */
+	/*
+		Type: Source Serif 4 for reading, Sometype Mono for labels/data/chrome.
+		CJK falls back to high-quality system serifs (zero download).
+	*/
 	--font-serif:
-		"Noto Serif SC", "Songti SC", "Source Han Serif SC", Georgia, "Times New Roman", serif;
-	--font-display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", Georgia, serif;
+		"Source Serif 4 Variable", "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC",
+		"SimSun", Georgia, serif;
+	--font-display:
+		"Source Serif 4 Variable", "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC",
+		"SimSun", Georgia, serif;
 	--font-mono:
-		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
-		monospace;
+		"Sometype Mono Variable", "Sometype Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
+		Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 @layer base {
+	/*
+		Self-hosted variable fonts (latin subset only — CJK falls back to system serifs).
+		Files vendored from @fontsource-variable/{source-serif-4,sometype-mono}.
+	*/
+	@font-face {
+		font-family: "Source Serif 4 Variable";
+		font-style: normal;
+		font-display: swap;
+		font-weight: 200 900;
+		src: url("../assets/fonts/source-serif-4-latin-wght-normal.woff2") format("woff2-variations");
+		unicode-range:
+			U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+			U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	}
+	@font-face {
+		font-family: "Source Serif 4 Variable";
+		font-style: italic;
+		font-display: swap;
+		font-weight: 200 900;
+		src: url("../assets/fonts/source-serif-4-latin-wght-italic.woff2") format("woff2-variations");
+		unicode-range:
+			U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+			U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	}
+	@font-face {
+		font-family: "Sometype Mono Variable";
+		font-style: normal;
+		font-display: swap;
+		font-weight: 400 700;
+		src: url("../assets/fonts/sometype-mono-latin-wght-normal.woff2") format("woff2-variations");
+		unicode-range:
+			U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+			U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	}
+
 	html {
 		color-scheme: light dark;
 		accent-color: var(--color-accent);
 		scrollbar-gutter: stable;
+		scroll-behavior: smooth;
 
 		&[data-theme="light"] {
 			color-scheme: light;
@@ -75,14 +133,16 @@
 
 		&[data-theme="dark"] {
 			color-scheme: dark;
-			/* 夜读:深墨底 + 宣纸色字 + 花青(提亮)点缀 */
-			--color-global-bg: #20201e;
-			--color-global-text: #e6e2d8;
-			--color-muted: #a09c92;
-			--color-link: #9fc0cc;
-			--color-accent: #9fc0cc;
-			--color-accent-2: #f0ece2;
-			--color-quote: #9fc0cc;
+			/* blueprint */
+			--color-global-bg: oklch(25.5% 0.048 256);
+			--color-global-text: oklch(92% 0.012 240);
+			--color-muted: oklch(71% 0.02 245);
+			--color-link: oklch(86% 0.028 235);
+			--color-accent: oklch(77% 0.12 68);
+			--color-accent-2: oklch(96% 0.008 240);
+			--color-quote: oklch(76% 0.02 245);
+			--color-line: oklch(37% 0.028 253);
+			--color-grid: oklch(34% 0.026 252);
 		}
 
 		--color-mode-transition-duration: 300ms;
@@ -95,7 +155,9 @@
 			--color-link var(--color-mode-transition-duration) var(--color-mode-transition-easing),
 			--color-accent var(--color-mode-transition-duration) var(--color-mode-transition-easing),
 			--color-accent-2 var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing);
+			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-line var(--color-mode-transition-duration) var(--color-mode-transition-easing),
+			--color-grid var(--color-mode-transition-duration) var(--color-mode-transition-easing);
 	}
 
 	:target {
@@ -106,28 +168,49 @@
 		navigation: auto;
 	}
 
-	/* 宣纸纹理:极淡的纸纤维噪声,给纯色底增加层次与温度 */
+	/*
+		Graph-paper / blueprint grid: 1px rules every 32px, crosshair ticks every 4 cells.
+		Kept faint enough to sit under body text without hurting readability.
+	*/
 	body::before {
 		content: "";
 		position: fixed;
 		inset: 0;
 		z-index: -1;
 		pointer-events: none;
-		opacity: 0.05;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+		opacity: 0.38;
+		background-image:
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cg stroke='%232b3a4a' stroke-opacity='0.28' stroke-width='1'%3E%3Cpath d='M64 0v8M64 120v8M0 64h8M120 64h8'/%3E%3C/g%3E%3C/svg%3E"),
+			linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+			linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+		background-size:
+			128px 128px,
+			32px 32px,
+			32px 32px;
 	}
-
 	html[data-theme="dark"] body::before {
-		opacity: 0.06;
-		mix-blend-mode: screen;
+		opacity: 0.32;
+		background-image:
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cg stroke='%23cfe3f5' stroke-opacity='0.3' stroke-width='1'%3E%3Cpath d='M64 0v8M64 120v8M0 64h8M120 64h8'/%3E%3C/g%3E%3C/svg%3E"),
+			linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+			linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
 	}
 
-	/* keep code monospace even though the body font is now a serif */
 	code,
 	kbd,
 	samp,
 	pre {
 		font-family: var(--font-mono);
+	}
+
+	::selection {
+		background: color-mix(in oklab, var(--color-accent) 24%, transparent);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+		border-radius: 1px;
 	}
 
 	/* Astro image responsive styles, modified from -> https://docs.astro.build/en/guides/images/#responsive-image-styles */
@@ -140,6 +223,23 @@
 	}
 	[data-astro-image="constrained"] {
 		max-width: 100%;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		@view-transition {
+			navigation: none;
+		}
+		html {
+			scroll-behavior: auto;
+		}
+		/* !important is required here: reduced-motion must beat every animation (rule disabled in biome.json) */
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+		}
 	}
 }
 
@@ -154,18 +254,74 @@
 	.title {
 		@apply text-accent-2 text-2xl font-semibold;
 		font-family: var(--font-display);
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+	}
+
+	/* small monospaced label used for section markers, metadata and chrome */
+	.mono-label {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: var(--color-muted);
 		letter-spacing: 0.01em;
+	}
+
+	/* line-art "figure plates" (project covers) */
+	.plate-box {
+		fill: var(--color-global-bg);
+		stroke: var(--color-muted);
+		stroke-width: 1.25;
+	}
+	.plate-line {
+		fill: none;
+		stroke: var(--color-muted);
+		stroke-width: 1.25;
+	}
+	.plate-accent-stroke {
+		fill: var(--color-global-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+	}
+	.plate-text {
+		fill: var(--color-global-text);
+		font-family: var(--font-mono);
+	}
+	.plate-sub {
+		fill: var(--color-muted);
+		font-family: var(--font-mono);
+	}
+	.plate-accent-text {
+		fill: var(--color-accent);
+		font-family: var(--font-mono);
+	}
+	.plate-flow {
+		stroke-dasharray: 5 4;
+		animation: plate-flow 24s linear infinite;
+	}
+	@keyframes plate-flow {
+		to {
+			stroke-dashoffset: -180;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.plate-flow {
+			animation: none;
+		}
 	}
 }
 
 @utility prose {
 	--tw-prose-body: var(--color-global-text);
-	--tw-prose-bold: var(--color-global-text);
-	--tw-prose-bullets: var(--color-global-text);
+	--tw-prose-bold: var(--color-accent-2);
+	--tw-prose-bullets: var(--color-accent);
 	--tw-prose-code: var(--color-global-text);
 	--tw-prose-headings: var(--color-accent-2);
-	--tw-prose-hr: 0.5px dashed #666;
-	--tw-prose-links: var(--color-global-text);
+	--tw-prose-hr: var(--color-line);
+	--tw-prose-links: var(--color-link);
 	--tw-prose-quotes: var(--color-quote);
-	--tw-prose-th-borders: #666;
+	--tw-prose-th-borders: var(--color-line);
+	--tw-prose-td-borders: var(--color-line);
+	font-size: 1.0625rem;
+	line-height: 1.75;
 }

@@ -20,8 +20,9 @@ export default {
 							borderLeftWidth: "0",
 						},
 						code: {
-							border: "1px dotted #666",
-							borderRadius: "2px",
+							background: "color-mix(in oklab, var(--color-accent) 7%, var(--color-global-bg))",
+							borderRadius: "3px",
+							paddingInline: "0.25em",
 						},
 						kbd: {
 							"&:where([data-theme='dark'], [data-theme='dark'] *)": {
@@ -55,13 +56,13 @@ export default {
 							borderBottomWidth: "none",
 						},
 						tfoot: {
-							borderTop: "1px dashed #666",
+							borderTop: "1px dashed var(--color-line)",
 						},
 						thead: {
 							borderBottomWidth: "none",
 						},
 						"thead th": {
-							borderBottom: "1px dashed #666",
+							borderBottom: "1px dashed var(--color-line)",
 							fontWeight: "700",
 						},
 						'th[align="center"], td[align="center"]': {

@@ -4,9 +4,8 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@tailwindcss/vite";
-import { defineConfig, envField } from "astro/config";
+import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
-import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -22,19 +21,15 @@ import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 // https://astro.build/config
 export default defineConfig({
 	site: siteConfig.url,
-	image: {
-		domains: ["webmention.io"],
-	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
-		icon(),
 		sitemap(),
 		mdx(),
 		robotsTxt(),
 		webmanifest({
 			// See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
 			name: siteConfig.title,
-			short_name: "Astro_Cactus", // optional
+			short_name: "Daniel Xing", // optional
 			description: siteConfig.description,
 			lang: siteConfig.lang,
 			icon: "public/icon.svg", // the source for generating favicon & icons
@@ -56,8 +51,9 @@ export default defineConfig({
 				},
 			],
 			start_url: "/",
-			background_color: "#1d1f21",
-			theme_color: "#2bbc8a",
+			/* blueprint bg: oklch(25.5% 0.048 256) ≈ #12233a; amber accent: oklch(77% 0.12 68) ≈ #d9a13b */
+			background_color: "#12233a",
+			theme_color: "#12233a",
 			display: "standalone",
 			config: {
 				insertFaviconLinks: false,
@@ -91,13 +87,6 @@ export default defineConfig({
 			exclude: ["@resvg/resvg-js"],
 		},
 		plugins: [tailwind(), rawFonts([".ttf", ".woff"])],
-	},
-	env: {
-		schema: {
-			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
-			WEBMENTION_URL: envField.string({ context: "client", access: "public", optional: true }),
-			WEBMENTION_PINGBACK: envField.string({ context: "client", access: "public", optional: true }),
-		},
 	},
 });
 

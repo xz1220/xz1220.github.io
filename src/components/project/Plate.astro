@@ -1,0 +1,15 @@
+---
+import PlateAvm from "./PlateAvm.astro";
+import PlateGeneric from "./PlateGeneric.astro";
+import PlateOdw from "./PlateOdw.astro";
+
+interface Props {
+	projectId: string;
+}
+
+const { projectId } = Astro.props;
+---
+
+{projectId === "open-dynamic-workflows" && <PlateOdw />}
+{projectId === "agent-vm" && <PlateAvm />}
+{projectId !== "open-dynamic-workflows" && projectId !== "agent-vm" && <PlateGeneric />}

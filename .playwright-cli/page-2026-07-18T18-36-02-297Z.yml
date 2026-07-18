@@ -1,0 +1,59 @@
+- generic [active] [ref=e1]:
+    - link "skip to content" [ref=e2] [cursor=pointer]:
+        - /url: "#main"
+    - banner [ref=e3]:
+        - link "daniel-xing" [ref=e4] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e5]: ~/
+            - text: daniel-xing
+        - generic [ref=e6]:
+            - navigation "Main menu" [ref=e7]:
+                - link "projects" [ref=e8] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e9] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e10] [cursor=pointer]:
+                    - /url: /about/
+            - button "Open Search" [ref=e12] [cursor=pointer]:
+                - img [ref=e13]
+                - generic [ref=e16]: Open Search
+            - switch "Dark Theme" [checked] [ref=e18] [cursor=pointer]:
+                - generic [ref=e19]: Dark Theme
+                - img [ref=e20]
+    - main [ref=e25]:
+        - article [ref=e26]:
+            - generic [ref=e27]:
+                - heading "Hello, world" [level=1] [ref=e28]
+                - generic [ref=e29]:
+                    - paragraph [ref=e30]:
+                        - time [ref=e31]: 1 Jun 2026
+                        - text: ·1 min read
+                    - paragraph [ref=e32]:
+                        - link "#meta" [ref=e33] [cursor=pointer]:
+                            - /url: /tags/meta/
+                - paragraph [ref=e34]: The first post — what this blog is for.
+            - generic [ref=e36]:
+                - paragraph [ref=e37]: This is the start of my blog. I’ll write here about the things I’m building — what’s working, what isn’t, and what I’m learning along the way.
+                - paragraph [ref=e38]: More soon.
+            - paragraph [ref=e39]:
+                - link "← all writing" [ref=e40] [cursor=pointer]:
+                    - /url: /posts/
+        - button "Back to top" [ref=e41] [cursor=pointer]:
+            - generic [ref=e42]: Back to top
+            - img [ref=e43]
+    - contentinfo [ref=e45]:
+        - generic [ref=e46]:
+            - paragraph [ref=e47]: © 2026 Daniel Xing
+            - navigation "More on this site" [ref=e48]:
+                - paragraph [ref=e49]: More on this site
+                - link "home" [ref=e50] [cursor=pointer]:
+                    - /url: /
+                - link "projects" [ref=e51] [cursor=pointer]:
+                    - /url: /projects/
+                - link "writing" [ref=e52] [cursor=pointer]:
+                    - /url: /posts/
+                - link "about" [ref=e53] [cursor=pointer]:
+                    - /url: /about/
+                - link "rss" [ref=e54] [cursor=pointer]:
+                    - /url: /rss.xml
+            - paragraph [ref=e55]: source serif 4 · sometype mono · astro

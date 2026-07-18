@@ -3,34 +3,52 @@ import SocialList from "@/components/SocialList.astro";
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "A bit about me and the things I build.",
+	description: "Daniel Xing (邢政) — background, current work, and how this site is built.",
 	title: "About",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-12">About</h1>
-	<div class="prose prose-sm prose-cactus max-w-none">
+	<h1 class="title mb-8 text-3xl sm:text-4xl">About</h1>
+	<div class="prose prose-sm max-w-none">
 		<p>
-			Hi, I'm Daniel Xing — a Builder. I like turning ideas into working things: I design them, write
-			the code, ship them, and then write about what I learned along the way.
+			I'm Daniel Xing (邢政). My background is backend and algorithms; these days I build tools for
+			AI agents — a runtime for portable workflow scripts (<a
+				href="/projects/open-dynamic-workflows/">ODW</a
+			>) and a config manager for agent setups (<a href="/projects/agent-vm/">AVM</a>). I'm also
+			exploring what to build next at the intersection of AI and product.
 		</p>
 		<p>
-			My background is in backend and algorithms, and I'm currently exploring ideas at the
-			intersection of AI and product. This site is where I collect the things I build and the
-			notes I write.
+			This site collects the projects I've shipped and occasional notes on what I learn along the
+			way. Everything here is on GitHub: <a
+				href="https://github.com/xz1220"
+				rel="noreferrer"
+				target="_blank">@xz1220</a
+			>.
 		</p>
-		<p>Two things you'll find here:</p>
-		<ul class="list-inside list-disc" role="list">
-			<li>
-				<a class="cactus-link" href="/projects/">Projects</a> — things I've built, newest first.
-			</li>
-			<li>
-				<a class="cactus-link" href="/posts/">Blog</a> — posts on what I'm working on and learning.
-			</li>
-		</ul>
 	</div>
+
 	<div class="mt-8">
 		<SocialList />
 	</div>
+
+	<section class="border-line mt-14 border-t border-dashed pt-8">
+		<h2 class="mono-label mb-4">colophon</h2>
+		<dl class="mono-label grid grid-cols-[auto_1fr] gap-x-6 gap-y-2">
+			<dt class="text-muted">type</dt>
+			<dd>source serif 4 · sometype mono</dd>
+			<dt class="text-muted">engine</dt>
+			<dd>astro + tailwind, static on github pages</dd>
+			<dt class="text-muted">source</dt>
+			<dd>
+				<a
+					class="hover:text-accent no-underline underline-offset-4 hover:underline"
+					href="https://github.com/xz1220/xz1220.github.io"
+					rel="noreferrer"
+					target="_blank"
+					>xz1220/xz1220.github.io<span aria-hidden="true" class="ml-0.5 text-xs">↗</span></a
+				>
+			</dd>
+		</dl>
+	</section>
 </PageLayout>

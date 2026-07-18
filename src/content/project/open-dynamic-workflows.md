@@ -4,7 +4,15 @@ description: "An open runtime for Claude Code-style dynamic workflows — run th
 publishDate: "2026-06-08"
 repo: "https://github.com/xz1220/open-dynamic-workflows"
 featured: true
-tags: ["agent-orchestration", "claude-code", "typescript", "cli", "multi-agent", "workflows"]
+tags:
+  [
+    "agent-orchestration",
+    "claude-code",
+    "typescript",
+    "cli",
+    "multi-agent",
+    "workflows",
+  ]
 ---
 
 Open Dynamic Workflows (ODW) is a TypeScript/Node CLI runtime for portable dynamic workflows: plain JavaScript scripts that fan coding agents out with `agent()`, `parallel()`, and `pipeline()` — outside the host agent's own context. Claude Code can already run such scripts inside its private runtime; ODW makes the same scripts portable and standalone, so they become artifacts you can version, share, and run on any coding-agent CLI.

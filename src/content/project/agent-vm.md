@@ -3,9 +3,6 @@ title: "AVM — Agent VM for AI Coding Agents"
 description: "A local config manager that lets you define an AI coding agent once and run it on any runtime — Codex, Claude Code, or OpenCode."
 publishDate: "2026-05-24"
 repo: "https://github.com/xz1220/AVM"
-coverImage:
-  src: ./agent-vm-cover.png
-  alt: "AVM mascot routing one Agent config to multiple coding runtimes (Codex, Claude Code, OpenCode)"
 featured: true
 tags: ["cli", "ai-agents", "go", "typescript", "devtools", "tui"]
 ---

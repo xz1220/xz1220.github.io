@@ -1,45 +1,50 @@
 ---
-import { Icon } from "astro-icon/components";
-
-/** 
-	Uses https://www.astroicon.dev/getting-started/
-	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
-	Only installed pack is: @iconify-json/mdi
-*/
 const socialLinks: {
 	friendlyName: string;
-	isWebmention?: boolean;
 	link: string;
-	name: string;
+	external?: boolean;
 }[] = [
 	{
-		friendlyName: "GitHub",
+		friendlyName: "github",
 		link: "https://github.com/xz1220",
-		name: "mdi:github",
+		external: true,
 	},
-	// Add more links as you like, e.g.:
-	// { friendlyName: "Email", link: "mailto:you@example.com", name: "mdi:email" },
-	// { friendlyName: "X", link: "https://x.com/yourhandle", name: "mdi:twitter" },
+	{
+		friendlyName: "x",
+		link: "https://x.com/xngzhng118250",
+		external: true,
+	},
+	{
+		friendlyName: "email",
+		link: "mailto:3024979463@qq.com",
+	},
+	{
+		friendlyName: "rss",
+		link: "/rss.xml",
+		external: true,
+	},
 ];
 ---
 
-<div class="flex flex-wrap items-end gap-x-2">
-	<p>Find me on</p>
-	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
-		{
-			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
-				<li class="flex">
-					<a
-						class="hover:text-link inline-block"
-						href={link}
-						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
-						target="_blank"
-					>
-						<Icon aria-hidden="true" class="h-8 w-8" focusable="false" name={name} />
-						<span class="sr-only">{friendlyName}</span>
-					</a>
-				</li>
-			))
-		}
-	</ul>
-</div>
+<ul class="flex flex-wrap items-center gap-x-5 gap-y-2" role="list">
+	{
+		socialLinks.map(({ friendlyName, link, external }) => (
+			<li class="flex">
+				<a
+					class="text-muted hover:text-accent font-mono text-sm no-underline underline-offset-4 hover:underline"
+					href={link}
+					rel={external ? "noreferrer" : undefined}
+					target={external ? "_blank" : undefined}
+					aria-label={friendlyName === "x" ? "Daniel Xing on X" : undefined}
+				>
+					{friendlyName}
+					{external && (
+						<span aria-hidden="true" class="ml-0.5 text-xs">
+							↗
+						</span>
+					)}
+				</a>
+			</li>
+		))
+	}
+</ul>

@@ -1,31 +1,107 @@
-import { html } from "satori-html";
 import { siteConfig } from "@/site.config";
 
-// OG image markup, use https://og-playground.vercel.app/ to design your own.
-export const ogMarkup = (title: string, pubDate: string) =>
-	html`<div tw="flex flex-col w-full h-full bg-[#1d1f21] text-[#c9cacc]">
-		<div tw="flex flex-col flex-1 w-full p-10 justify-center">
-			<p tw="text-2xl mb-6">${pubDate}</p>
-			<h1 tw="text-6xl font-bold leading-snug text-white">${title}</h1>
-		</div>
-		<div tw="flex items-center justify-between w-full p-10 border-t border-[#2bbc89] text-xl">
-			<div tw="flex items-center">
-				<svg height="60" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 480">
-					<path
-						fill="#cdffb8"
-						d="M181.334 93.333v-40L226.667 80v40zM136.001 53.333 90.667 26.667v426.666L136.001 480zM45.333 220 0 193.334v140L45.333 360z"
-					/>
-					<path
-						fill="#d482ab"
-						d="M90.667 26.667 136.001 0l45.333 26.667-45.333 26.666zM181.334 53.33l45.333-26.72L272 53.33 226.667 80zM136 240l-45.333-26.67v53.34zM0 193.33l45.333-26.72 45.334 26.72L45.333 220zM181.334 93.277 226.667 120l-45.333 26.67z"
-					/>
-					<path
-						fill="#2abc89"
-						d="m136 53.333 45.333-26.666v120L226.667 120V80L272 53.333V160l-90.667 53.333v240L136 480V306.667L45.334 360V220l45.333-26.667v73.334L136 240z"
-					/>
-				</svg>
-				<p tw="ml-3 font-semibold">${siteConfig.title}</p>
-			</div>
-			<p>by ${siteConfig.author}</p>
-		</div>
-	</div>`;
+/*
+	Blueprint-style OG card: deep prussian blue, faint grid, amber accent, Roboto Mono.
+	Builds raw satori vnodes (no satori-html) so the grid children stay real elements.
+*/
+
+const BG = "#12233a";
+const GRID = "#1d3a5c";
+const LINE = "#3d6491";
+const INK = "#e8eef4";
+const MUTED = "#9db4c9";
+const AMBER = "#d9a13b";
+
+const CELL = 42;
+
+type VNode = {
+	type: string;
+	props: Record<string, unknown> & { children?: unknown };
+};
+
+const div = (style: Record<string, string | number>, children?: unknown): VNode => ({
+	type: "div",
+	props: { style: { display: "flex", ...style }, ...(children !== undefined ? { children } : {}) },
+});
+
+const text = (
+	content: string,
+	style: Record<string, string | number>,
+	type: "p" | "h1" = "p",
+): VNode => ({
+	type,
+	props: { style: { margin: 0, ...style }, children: content },
+});
+
+const crosshair = (x: number, y: number): VNode =>
+	div({ position: "absolute", left: x - 9, top: y - 9, width: 19, height: 19 }, [
+		div({ position: "absolute", left: 9, top: 0, width: 1, height: 19, background: MUTED }),
+		div({ position: "absolute", left: 0, top: 9, width: 19, height: 1, background: MUTED }),
+	]);
+
+export const ogMarkup = (title: string, pubDate: string): VNode => {
+	const gridLines: VNode[] = [];
+	for (let x = CELL; x < 1200; x += CELL) {
+		gridLines.push(
+			div({ position: "absolute", left: x, top: 0, width: 1, height: 630, background: GRID }),
+		);
+	}
+	for (let y = CELL; y < 630; y += CELL) {
+		gridLines.push(
+			div({ position: "absolute", left: 0, top: y, width: 1200, height: 1, background: GRID }),
+		);
+	}
+
+	return div(
+		{
+			width: 1200,
+			height: 630,
+			position: "relative",
+			background: BG,
+			fontFamily: "Roboto Mono",
+			flexDirection: "column",
+		},
+		[
+			...gridLines,
+			crosshair(CELL * 2, CELL * 2),
+			crosshair(1200 - CELL * 2, CELL * 2),
+			crosshair(CELL * 2, 630 - CELL * 2),
+			crosshair(1200 - CELL * 2, 630 - CELL * 2),
+			div(
+				{
+					position: "absolute",
+					left: 84,
+					top: 72,
+					width: 1032,
+					height: 486,
+					flexDirection: "column",
+					justifyContent: "space-between",
+				},
+				[
+					div({ display: "flex", justifyContent: "space-between", width: "100%" }, [
+						text("xz1220.github.io", { fontSize: 24, color: MUTED }),
+						text(pubDate, { fontSize: 24, color: MUTED }),
+					]),
+					div({ display: "flex", flexDirection: "column" }, [
+						div({ width: 72, height: 4, background: AMBER, marginBottom: 28 }),
+						text(title, { fontSize: 56, lineHeight: 1.25, color: INK, fontWeight: 700 }, "h1"),
+					]),
+					div(
+						{
+							display: "flex",
+							justifyContent: "space-between",
+							alignItems: "center",
+							width: "100%",
+							borderTop: `1px solid ${LINE}`,
+							paddingTop: 24,
+						},
+						[
+							text(siteConfig.title, { fontSize: 24, fontWeight: 700, color: INK }),
+							text("projects & writing", { fontSize: 20, color: MUTED }),
+						],
+					),
+				],
+			),
+		],
+	);
+};
