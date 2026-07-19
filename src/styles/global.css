@@ -169,8 +169,8 @@
 	}
 
 	/*
-		Graph-paper / blueprint grid: 1px rules every 32px, crosshair ticks every 4 cells.
-		Kept faint enough to sit under body text without hurting readability.
+		Graph-paper / blueprint grid: 1px rules every 32px, no other marks.
+		Kept to a whisper — texture, not furniture.
 	*/
 	body::before {
 		content: "";
@@ -178,22 +178,16 @@
 		inset: 0;
 		z-index: -1;
 		pointer-events: none;
-		opacity: 0.38;
+		opacity: 0.28;
 		background-image:
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cg stroke='%232b3a4a' stroke-opacity='0.28' stroke-width='1'%3E%3Cpath d='M64 0v8M64 120v8M0 64h8M120 64h8'/%3E%3C/g%3E%3C/svg%3E"),
 			linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
 			linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
 		background-size:
-			128px 128px,
 			32px 32px,
 			32px 32px;
 	}
 	html[data-theme="dark"] body::before {
-		opacity: 0.32;
-		background-image:
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cg stroke='%23cfe3f5' stroke-opacity='0.3' stroke-width='1'%3E%3Cpath d='M64 0v8M64 120v8M0 64h8M120 64h8'/%3E%3C/g%3E%3C/svg%3E"),
-			linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
-			linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+		opacity: 0.3;
 	}
 
 	code,
