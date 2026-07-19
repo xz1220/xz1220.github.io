@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 512 512">
-	<!-- blueprint tile with drafting crosshair -->
+	<!-- blueprint tile with bold drafting registration mark -->
 	<rect width="512" height="512" rx="96" fill="#12233a"/>
-	<g stroke="#1d3a5c" stroke-width="2">
+	<g stroke="#1d3a5c" stroke-width="4">
 		<path d="M128 0v512M256 0v512M384 0v512M0 128h512M0 256h512M0 384h512"/>
 	</g>
-	<g stroke="#9db4c9" stroke-width="10" stroke-linecap="square">
-		<path d="M256 72v72M256 368v72M72 256h72M368 256h72"/>
+	<g stroke="#d9a13b" stroke-width="44" stroke-linecap="square">
+		<path d="M256 46v92M256 374v92M46 256h92M374 256h92"/>
 	</g>
-	<circle cx="256" cy="256" r="96" stroke="#d9a13b" stroke-width="14"/>
-	<circle cx="256" cy="256" r="18" fill="#d9a13b"/>
+	<circle cx="256" cy="256" r="96" stroke="#d9a13b" stroke-width="44"/>
+	<circle cx="256" cy="256" r="24" fill="#d9a13b"/>
 </svg>
