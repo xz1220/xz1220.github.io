@@ -1,0 +1,108 @@
+/* Hallmark · macrostructure: custom (drafting-table) · tone: technical/austere · anchor hue: warm (redline vermilion light / drafting amber dark)
+ * theme: custom — dual paper band (light >85% / dark <30%) · display: roman serif + mono dual-register · pre-emit critique: P5 H4 E4 S4 R5 V4
+ * contrast: pass (40–41, all pairs ≥ 6:1) · nav: N9 · footer: Ft2 · slop: pass (42–45) · honest: pass (46) · chrome: pass (47)
+ * tokens: pass (48) · responsive: pass (49) · icons: pass (30) · mobile: pass (34, 49, 50–57)
+ *
+ * Design tokens for xz1220.github.io — "the drafting table".
+ * Light = engineering graph paper. Dark = cyanotype blueprint.
+ * Consumed by src/styles/global.css via @import; referenced everywhere by name.
+ */
+
+/* register custom colour properties so theme switches can transition */
+@property --color-global-bg {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(97.4% 0.005 250);
+}
+@property --color-global-text {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(27% 0.02 260);
+}
+@property --color-muted {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(48% 0.015 255);
+}
+@property --color-link {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(38% 0.03 255);
+}
+@property --color-accent {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(44% 0.15 27);
+}
+@property --color-accent-2 {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(22% 0.02 260);
+}
+@property --color-quote {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(45% 0.02 255);
+}
+@property --color-line {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(87% 0.008 250);
+}
+@property --color-grid {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: oklch(91% 0.008 245);
+}
+
+@theme {
+	/* graph paper (light defaults) */
+	--color-global-bg: oklch(97.4% 0.005 250);
+	--color-global-text: oklch(27% 0.02 260);
+	--color-muted: oklch(48% 0.015 255);
+	--color-link: oklch(38% 0.03 255);
+	/* redline vermilion — 44% L keeps small accent text ≥ 4.5:1 on the paper */
+	--color-accent: oklch(44% 0.15 27);
+	--color-accent-2: oklch(22% 0.02 260);
+	--color-quote: oklch(45% 0.02 255);
+	--color-line: oklch(87% 0.008 250);
+	--color-grid: oklch(91% 0.008 245);
+
+	/*
+		Type: Source Serif 4 for reading, Sometype Mono for labels/data/chrome.
+		CJK falls back to high-quality system serifs (zero download).
+	*/
+	--font-serif:
+		"Source Serif 4 Variable", "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC",
+		"SimSun", Georgia, serif;
+	--font-display:
+		"Source Serif 4 Variable", "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC",
+		"SimSun", Georgia, serif;
+	--font-mono:
+		"Sometype Mono Variable", "Sometype Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
+		Monaco, Consolas, "Liberation Mono", monospace;
+
+	/* motion canon — three easings, three duration buckets */
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--dur-micro: 120ms;
+	--dur-short: 220ms;
+	--dur-long: 420ms;
+
+	/* named z scale */
+	--z-base: 1;
+	--z-raised: 10;
+	--z-dropdown: 100;
+	--z-sticky: 200;
+	--z-modal: 400;
+	--z-toast: 500;
+	--z-tooltip: 600;
+}
+
+/*
+	NOTE: the dark-theme overrides live UNLAYERED at the top level of
+	global.css. Tailwind v4 emits these @property-registered values as an
+	unlayered :root rule, and unlayered beats every cascade layer — a
+	@layer base override here would always lose. Keep the two in sync.
+*/

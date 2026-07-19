@@ -1,21 +1,30 @@
 ---
-// Generic fallback plate for projects without a bespoke figure.
+// Generic fallback plate for projects without a bespoke figure:
+// a document routed to three output nodes — the shape of most of my tools.
 ---
 
 <svg
 	viewBox="0 0 720 300"
 	xmlns="http://www.w3.org/2000/svg"
 	role="img"
-	aria-label="Placeholder figure: a terminal window"
+	aria-label="Schematic figure: a document whose contents route out to three nodes"
 	preserveAspectRatio="xMidYMid meet"
-	class="h-auto w-full"
+	class="plate h-auto w-full"
 >
-	<rect class="plate-box" x="260" y="86" width="200" height="128" rx="2"></rect>
-	<path class="plate-line" d="M260 106 h200"></path>
-	<circle class="plate-sub" cx="274" cy="96" r="3" fill="currentColor" stroke="none"></circle>
-	<circle class="plate-sub" cx="286" cy="96" r="3" fill="currentColor" stroke="none"></circle>
-	<circle class="plate-sub" cx="298" cy="96" r="3" fill="currentColor" stroke="none"></circle>
-	<text class="plate-accent-text" x="278" y="156" font-size="15">&gt;_</text>
-	<path class="plate-line plate-flow" d="M278 176 h120"></path>
-	<path class="plate-line plate-flow" d="M278 192 h84"></path>
+	<!-- source document -->
+	<path class="plate-box" d="M240 90 h100 l24 24 v96 h-124 z"></path>
+	<path class="plate-line" d="M340 90 v24 h24"></path>
+	<path class="plate-line" d="M256 130 h60"></path>
+	<path class="plate-line" d="M256 146 h60"></path>
+	<path class="plate-line" d="M256 162 h40"></path>
+
+	<!-- output nodes -->
+	<circle class="plate-accent-stroke" cx="468" cy="86" r="14"></circle>
+	<circle class="plate-box" cx="468" cy="150" r="14"></circle>
+	<circle class="plate-box" cx="468" cy="214" r="14"></circle>
+
+	<!-- connectors -->
+	<path class="plate-line plate-flow" d="M364 150 C 416 150, 416 92, 452 88"></path>
+	<path class="plate-line plate-flow" d="M364 150 H452"></path>
+	<path class="plate-line plate-flow" d="M364 150 C 416 150, 416 208, 452 212"></path>
 </svg>

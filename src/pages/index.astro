@@ -29,19 +29,44 @@ const homeProjects = (featuredProjects.length > 0 ? featuredProjects : projectsB
 ---
 
 <PageLayout meta={{ title: siteConfig.title }}>
-	<section>
-		<h1 class="text-accent-2 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-			Daniel Xing
-		</h1>
-		<p class="text-muted mono-label mt-3">builder · agent tooling</p>
-		<p class="mt-6 max-w-prose text-lg leading-relaxed">
-			I build tools for AI agents: a runtime for portable workflow scripts, a config manager for
-			agent setups, and whatever comes next. This site keeps the projects, plus occasional notes on
-			what I learn building them.
-		</p>
-		<div class="mt-6">
-			<SocialList />
+	<section class="sm:grid sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
+		<div>
+			<h1
+				class="text-accent-2 font-display min-w-0 text-[clamp(2.5rem,2rem+3vw,4rem)] font-semibold tracking-tight [overflow-wrap:anywhere]"
+			>
+				Daniel Xing
+			</h1>
+			<p class="text-muted mono-label mt-3">builder · agent tooling</p>
+			<p class="mt-6 max-w-prose text-lg leading-relaxed">
+				I build tools for AI agents: a runtime for portable workflow scripts, a config manager for
+				agent setups, and whatever comes next. This site keeps the projects, plus occasional notes
+				on what I learn building them.
+			</p>
+			<div class="mt-6">
+				<SocialList />
+			</div>
 		</div>
+		<dl
+			class="title-block mt-10 sm:mt-0 sm:justify-self-end"
+			aria-label="title block of this site"
+		>
+			<div>
+				<dt>site</dt>
+				<dd>xz1220.github.io</dd>
+			</div>
+			<div>
+				<dt>drawn</dt>
+				<dd>daniel xing</dd>
+			</div>
+			<div>
+				<dt>sheet</dt>
+				<dd>01 / 01</dd>
+			</div>
+			<div>
+				<dt>rev</dt>
+				<dd>2026-07</dd>
+			</div>
+		</dl>
 	</section>
 
 	<section class="mt-20">

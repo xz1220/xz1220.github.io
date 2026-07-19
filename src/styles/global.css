@@ -1,3 +1,11 @@
+/* Self-hosted variable fonts (latin/latin-ext subsets load on demand via unicode-range) */
+@import "@fontsource-variable/source-serif-4/index.css";
+@import "@fontsource-variable/source-serif-4/wght-italic.css";
+@import "@fontsource-variable/sometype-mono/index.css";
+
+/* design tokens — see tokens.css (the locked system) */
+@import "./tokens.css";
+
 @import "tailwindcss";
 /* tailwind to ignore satori generated og-image */
 @source not "../pages/og-image";
@@ -7,125 +15,12 @@
 /* use a selector-based strategy for dark mode */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* register custom colour properties so theme switches can transition */
-@property --color-global-bg {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(97.4% 0.004 250);
-}
-@property --color-global-text {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(27% 0.02 260);
-}
-@property --color-muted {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(48% 0.015 255);
-}
-@property --color-link {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(38% 0.03 255);
-}
-@property --color-accent {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(50% 0.16 27);
-}
-@property --color-accent-2 {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(22% 0.02 260);
-}
-@property --color-quote {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(45% 0.02 255);
-}
-@property --color-line {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(87% 0.008 250);
-}
-@property --color-grid {
-	syntax: "<color>";
-	inherits: true;
-	initial-value: oklch(91% 0.008 245);
-}
-
-@theme {
-	/*
-		"Drafting table" palette:
-		light = engineering graph paper (cool near-white, faint blue grid, ink, redline vermilion)
-		dark  = cyanotype blueprint (deep prussian blue, pale paper text, drafting-lamp amber)
-	*/
-	--color-global-bg: oklch(97.4% 0.004 250);
-	--color-global-text: oklch(27% 0.02 260);
-	--color-muted: oklch(48% 0.015 255);
-	--color-link: oklch(38% 0.03 255);
-	--color-accent: oklch(50% 0.16 27);
-	--color-accent-2: oklch(22% 0.02 260);
-	--color-quote: oklch(45% 0.02 255);
-	--color-line: oklch(87% 0.008 250);
-	--color-grid: oklch(91% 0.008 245);
-
-	/*
-		Type: Source Serif 4 for reading, Sometype Mono for labels/data/chrome.
-		CJK falls back to high-quality system serifs (zero download).
-	*/
-	--font-serif:
-		"Source Serif 4 Variable", "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC",
-		"SimSun", Georgia, serif;
-	--font-display:
-		"Source Serif 4 Variable", "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC",
-		"SimSun", Georgia, serif;
-	--font-mono:
-		"Sometype Mono Variable", "Sometype Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
-		Monaco, Consolas, "Liberation Mono", monospace;
-}
-
 @layer base {
-	/*
-		Self-hosted variable fonts (latin subset only — CJK falls back to system serifs).
-		Files vendored from @fontsource-variable/{source-serif-4,sometype-mono}.
-	*/
-	@font-face {
-		font-family: "Source Serif 4 Variable";
-		font-style: normal;
-		font-display: swap;
-		font-weight: 200 900;
-		src: url("../assets/fonts/source-serif-4-latin-wght-normal.woff2") format("woff2-variations");
-		unicode-range:
-			U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-			U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-	}
-	@font-face {
-		font-family: "Source Serif 4 Variable";
-		font-style: italic;
-		font-display: swap;
-		font-weight: 200 900;
-		src: url("../assets/fonts/source-serif-4-latin-wght-italic.woff2") format("woff2-variations");
-		unicode-range:
-			U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-			U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-	}
-	@font-face {
-		font-family: "Sometype Mono Variable";
-		font-style: normal;
-		font-display: swap;
-		font-weight: 400 700;
-		src: url("../assets/fonts/sometype-mono-latin-wght-normal.woff2") format("woff2-variations");
-		unicode-range:
-			U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-			U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-	}
-
 	html {
 		color-scheme: light dark;
 		accent-color: var(--color-accent);
 		scrollbar-gutter: stable;
-		scroll-behavior: smooth;
+		overflow-x: clip;
 
 		&[data-theme="light"] {
 			color-scheme: light;
@@ -133,31 +28,22 @@
 
 		&[data-theme="dark"] {
 			color-scheme: dark;
-			/* blueprint */
-			--color-global-bg: oklch(25.5% 0.048 256);
-			--color-global-text: oklch(92% 0.012 240);
-			--color-muted: oklch(71% 0.02 245);
-			--color-link: oklch(86% 0.028 235);
-			--color-accent: oklch(77% 0.12 68);
-			--color-accent-2: oklch(96% 0.008 240);
-			--color-quote: oklch(76% 0.02 245);
-			--color-line: oklch(37% 0.028 253);
-			--color-grid: oklch(34% 0.026 252);
 		}
 
-		--color-mode-transition-duration: 300ms;
-		--color-mode-transition-easing: ease-in-out;
-
 		transition:
-			--color-global-bg var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-global-text var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-muted var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-link var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-accent var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-accent-2 var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-quote var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-line var(--color-mode-transition-duration) var(--color-mode-transition-easing),
-			--color-grid var(--color-mode-transition-duration) var(--color-mode-transition-easing);
+			--color-global-bg var(--dur-short) var(--ease-in-out),
+			--color-global-text var(--dur-short) var(--ease-in-out),
+			--color-muted var(--dur-short) var(--ease-in-out),
+			--color-link var(--dur-short) var(--ease-in-out),
+			--color-accent var(--dur-short) var(--ease-in-out),
+			--color-accent-2 var(--dur-short) var(--ease-in-out),
+			--color-quote var(--dur-short) var(--ease-in-out),
+			--color-line var(--dur-short) var(--ease-in-out),
+			--color-grid var(--dur-short) var(--ease-in-out);
+	}
+
+	body {
+		overflow-x: clip; /* fallback for older Safari */
 	}
 
 	:target {
@@ -220,13 +106,9 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		@view-transition {
-			navigation: none;
-		}
 		html {
 			scroll-behavior: auto;
 		}
-		/* !important is required here: reduced-motion must beat every animation (rule disabled in biome.json) */
 		*,
 		*::before,
 		*::after {
@@ -235,6 +117,24 @@
 			transition-duration: 0.01ms !important;
 		}
 	}
+}
+
+/*
+	Dark theme token overrides — cyanotype blueprint.
+	Deliberately UNLAYERED: Tailwind v4 emits the @property-registered :root
+	light values as an unlayered rule, and unlayered styles beat every cascade
+	layer. The override must live in the same (un)layer to win on specificity.
+*/
+html[data-theme="dark"] {
+	--color-global-bg: oklch(25.5% 0.048 256);
+	--color-global-text: oklch(92% 0.012 240);
+	--color-muted: oklch(71% 0.02 245);
+	--color-link: oklch(86% 0.028 235);
+	--color-accent: oklch(77% 0.12 68);
+	--color-accent-2: oklch(96% 0.008 240);
+	--color-quote: oklch(76% 0.02 245);
+	--color-line: oklch(37% 0.028 253);
+	--color-grid: oklch(34% 0.026 252);
 }
 
 @layer components {
@@ -250,6 +150,8 @@
 		font-family: var(--font-display);
 		letter-spacing: -0.01em;
 		text-wrap: balance;
+		overflow-wrap: anywhere;
+		min-width: 0;
 	}
 
 	/* small monospaced label used for section markers, metadata and chrome */
@@ -261,7 +163,41 @@
 		letter-spacing: 0.01em;
 	}
 
-	/* line-art "figure plates" (project covers) */
+	/* engineering-drawing title block (home hero) */
+	.title-block {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		min-width: 15rem;
+		max-width: 100%;
+		border: 1px solid var(--color-line);
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		color: var(--color-global-text);
+	}
+	.title-block > div {
+		padding: 0.375rem 0.75rem;
+	}
+	.title-block > div:nth-child(odd) {
+		border-right: 1px solid var(--color-line);
+	}
+	.title-block > div:nth-child(-n + 2) {
+		border-bottom: 1px solid var(--color-line);
+	}
+	.title-block dt {
+		color: var(--color-muted);
+		font-size: 0.625rem;
+		letter-spacing: 0.08em;
+	}
+	.title-block dd {
+		margin-top: 0.125rem;
+		white-space: nowrap;
+	}
+
+	/*
+		Line-art "figure plates" (project covers).
+		One orchestrated entrance: strokes draw themselves in like a plotter,
+		dotted connectors and labels fade in after. Nothing loops.
+	*/
 	.plate-box {
 		fill: var(--color-global-bg);
 		stroke: var(--color-muted);
@@ -289,18 +225,31 @@
 		fill: var(--color-accent);
 		font-family: var(--font-mono);
 	}
-	.plate-flow {
-		stroke-dasharray: 5 4;
-		animation: plate-flow 24s linear infinite;
+
+	svg.plate .plate-box,
+	svg.plate .plate-accent-stroke,
+	svg.plate .plate-line:not(.plate-flow) {
+		stroke-dasharray: 600;
+		stroke-dashoffset: 600;
+		animation: plate-draw 800ms var(--ease-out) forwards;
 	}
-	@keyframes plate-flow {
+	svg.plate .plate-flow {
+		stroke-dasharray: 5 4;
+		opacity: 0;
+		animation: plate-fade 300ms var(--ease-out) 550ms forwards;
+	}
+	svg.plate text {
+		opacity: 0;
+		animation: plate-fade 300ms var(--ease-out) 400ms forwards;
+	}
+	@keyframes plate-draw {
 		to {
-			stroke-dashoffset: -180;
+			stroke-dashoffset: 0;
 		}
 	}
-	@media (prefers-reduced-motion: reduce) {
-		.plate-flow {
-			animation: none;
+	@keyframes plate-fade {
+		to {
+			opacity: 1;
 		}
 	}
 }
@@ -318,4 +267,6 @@
 	--tw-prose-td-borders: var(--color-line);
 	font-size: 1.0625rem;
 	line-height: 1.75;
+	max-width: 68ch;
+	font-variant-numeric: oldstyle-nums;
 }
