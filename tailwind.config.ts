@@ -17,7 +17,10 @@ export default {
 							},
 						},
 						blockquote: {
-							borderLeftWidth: "0",
+							borderLeftColor: "var(--color-line)",
+							borderLeftWidth: "3px",
+							fontStyle: "normal",
+							paddingInlineStart: "var(--space-md)",
 						},
 						code: {
 							background: "color-mix(in oklab, var(--color-accent) 7%, var(--color-global-bg))",
@@ -30,7 +33,7 @@ export default {
 							},
 						},
 						hr: {
-							borderTopStyle: "dashed",
+							borderTopStyle: "solid",
 						},
 						strong: {
 							fontWeight: "700",
@@ -56,13 +59,13 @@ export default {
 							borderBottomWidth: "none",
 						},
 						tfoot: {
-							borderTop: "1px dashed var(--color-line)",
+							borderTop: "1px solid var(--color-line)",
 						},
 						thead: {
 							borderBottomWidth: "none",
 						},
 						"thead th": {
-							borderBottom: "1px dashed var(--color-line)",
+							borderBottom: "1px solid var(--color-line)",
 							fontWeight: "700",
 						},
 						'th[align="center"], td[align="center"]': {

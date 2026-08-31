@@ -1,51 +1,62 @@
-# PRODUCT.md — xz1220.github.io
+# PRODUCT.md — Daniel Xing
 
 ## What this is
 
-Daniel Xing's personal site: a builder's public notebook. Projects he shipped,
-essays he wrote, links to find him. Design IS the product here (brand register:
-portfolio / long-form content).
+Daniel Xing's personal site and blog: a quiet home for his projects and writing
+about AI agents. It is a portfolio and a long-form reading surface, not a
+marketing page or an activity dashboard.
 
 ## Owner & audience
 
-- Owner: Daniel Xing (邢政), backend/algorithms background, building AI-agent
-  tooling (ODW, AVM), full-time CTO of a startup. Writes in English, may write
-  Chinese — CJK fallback fonts are mandatory.
-- Audience: engineers, potential collaborators, investors who look him up.
-  They judge craft. The site should read like a well-kept engineering document.
+- Owner: Daniel Xing (邢政), a builder with two years of experience building AI
+  agents. He is based in Shenzhen, China, and occasionally in Shanghai.
+- Current work: Open Dynamic Workflows, a practical runtime for portable
+  AI-agent workflows.
+- Current interests: multi-agent systems, AI products, knowledge work, and
+  production-ready agent systems for solo builders.
+- Audience: engineers, researchers, builders, and potential collaborators. The
+  site should read like a well-kept research notebook.
+- Primary language: English, with possible Chinese writing. Native CJK fallbacks
+  are required.
 
 ## Voice
 
-克制沉默: restrained, quiet, precise, stable. No marketing hooks, no emoji
-flourishes, no self-promotion badges ("Editor's Pick"), no subscribe CTAs.
-Every word earns its place. Copy states what things are and what they do.
+Restrained, direct, precise, and stable. State what Daniel is building and
+exploring. Avoid marketing hooks, invented metrics, emoji flourishes,
+self-promotion badges, and subscription calls to action. Every word earns its
+place.
 
-## Design direction (committed 2026-07-18)
+## Design direction (committed 2026-08-31)
 
-**"The drafting table"** — a pre-digital engineering notebook.
+**Editorial / austere** — a quiet research notebook built for sustained reading.
 
-References (named, per impeccable/brand.md): engineering graph paper, cyanotype
-blueprints, redline markup culture, Bell Labs technical memoranda, drafting
-registration marks.
+The reading and structural reference is Lilian Weng's Lil'Log. This project keeps
+its own name, content, framework, and visual identity; it adapts the reference's
+clarity rather than copying its page pixels or brand.
 
-- Light theme = graph-paper notebook: cool near-white, faint grid, ink text,
-  one redline-vermilion accent.
-- Dark theme = blueprint: deep Prussian blue, pale cyan-paper text, amber
-  drafting-lamp accent.
-- Type: Source Serif 4 (body/display, technical-manual voice) + Sometype Mono
-  (labels/data/nav) + Noto Serif SC (CJK fallback).
-- Imagery: every project gets a hand-drafted SVG line-art "plate" (FIG. 01…),
-  blueprint-style. No stock photos, no gray placeholder boxes.
-- Motion: near none. A single line-draw flourish where it earns its place;
-  reduced-motion always respected.
-
-Explicitly avoided (AI-slop lanes): terminal-green phosphor + scanlines
-(second-order "terminal-native" trap), IBM Plex/Space Mono (reflex fonts),
-Cormorant/Fraunces editorial-serif lane, warm cream backgrounds, tiny uppercase
-eyebrows over every section.
+- Cool near-white paper, near-black ink, quiet grey rules, and one restrained
+  blue accent. Dark mode stays cool-neutral.
+- Native system sans for display and body; native system mono for code.
+- A 720px reading column, 16px body copy, 1.6 line-height, and generous vertical
+  rhythm.
+- Hairline dividers, cards with at most an 8px radius, and no shadows.
+- No decorative project plates, background grids, stock imagery, or animation.
+  Figures exist only when they explain the content.
+- Links are the primary interaction. Hover and focus states change colour or
+  underline treatment without movement.
 
 ## Structure
 
-Astro 6 + Tailwind 4, static build, GitHub Pages via Actions on push to main.
-Content collections: post, project, tag. Search via Pagefind. OG images via
-satori. No comments/webmentions (unused; may be removed).
+Astro 6 + Tailwind 4, statically built and hosted on GitHub Pages. Content lives
+in post, project, and tag collections. Search uses Pagefind; social cards use
+Satori.
+
+- Home: compact introduction, latest posts, then selected work.
+- Posts, projects, and tags: simple browsable indexes.
+- Articles and project details: one long-form reading column with an optional
+  collapsed table of contents.
+- About: extended biography, contact links, and a small colophon. QR cards may
+  be added here later, but never dominate the main reading flow.
+
+The canonical visual rules and tokens live in `design.md` and
+`src/styles/tokens.css`.

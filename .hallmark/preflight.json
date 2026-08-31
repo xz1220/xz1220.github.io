@@ -1,16 +1,24 @@
 {
-	"scanned": "2026-07-19",
-	"fontStack": "Source Serif 4 Variable + Sometype Mono Variable (self-hosted @fontsource-variable, src/styles/global.css)",
-	"palette": "OKLCH custom properties, dual theme (graph paper light / cyanotype blueprint dark), src/styles/tokens.css",
-	"motion": "motion-cut — no JS motion library; CSS transitions + one plate draw-on entrance",
-	"spacing": "Tailwind 4 default 4pt scale",
-	"framework": "Astro 6 + Tailwind 4 (@tailwindcss/vite), static build, GitHub Pages",
-	"preserve": ["font stack", "OKLCH dual-theme palette", "spacing scale", "drafting-table system"],
-	"introduce": [
-		"interaction state discipline",
-		"hero title block",
-		"tokens.css extraction",
-		"mobile 4-width verification",
-		".hallmark project memory"
+	"scanned": "2026-08-31",
+	"fontStack": "Native system sans for display/body + native system mono for code (src/styles/tokens.css)",
+	"palette": "Studied Lil'Log DNA translated to OKLCH: cool near-white paper, charcoal ink, restrained blue accent, neutral dark mode",
+	"motion": "motion-cut — no JS motion library; static content with functional theme/search state changes only",
+	"spacing": "Tailwind 4 with a named 4pt scale and a 720px reading column",
+	"framework": "Astro 6 + Tailwind 4, static build, GitHub Pages",
+	"preserve": [
+		"Astro routes",
+		"content collections",
+		"Pagefind",
+		"RSS",
+		"tags",
+		"OG images",
+		"dark mode"
+	],
+	"replace": [
+		"drafting-table grid",
+		"blueprint palette",
+		"project plates",
+		"serif/mono visual register",
+		"decorative draw animations"
 	]
 }

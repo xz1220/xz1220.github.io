@@ -1,68 +1,83 @@
 @import "@pagefind/default-ui/css/ui.css";
 
 :root {
-	--pagefind-ui-font: inherit;
+	--pagefind-ui-font: var(--font-body);
 }
 
 #cactus__search {
-	--pagefind-ui-primary: var(--color-accent);
+	--pagefind-ui-primary: var(--color-link);
 	--pagefind-ui-text: var(--color-global-text);
 	--pagefind-ui-background: var(--color-global-bg);
 	--pagefind-ui-border: var(--color-line);
 	--pagefind-ui-border-width: 1px;
 }
 
-#cactus__search .pagefind-ui__search-clear {
-	width: calc(60px * var(--pagefind-ui-scale));
-	padding: 0;
-	background-color: transparent;
-	overflow: hidden;
+#cactus__search .pagefind-ui__search-input {
+	min-height: 2.75rem;
+	color: var(--color-global-text);
+	background: var(--color-global-bg);
+	border: 1px solid var(--color-line);
+	outline: 2px solid transparent;
+	outline-offset: 1px;
+	font-family: var(--font-body);
 }
 
-#cactus__search .pagefind-ui__search-clear:focus {
-	outline: 1px solid var(--color-accent-2);
+@media (hover: hover) and (pointer: fine) {
+	#cactus__search .pagefind-ui__search-input:hover {
+		background: var(--color-paper-2);
+	}
+}
+
+#cactus__search .pagefind-ui__search-input:focus-visible {
+	outline-color: var(--color-focus);
+}
+
+#cactus__search .pagefind-ui__search-clear {
+	width: 2.75rem;
+	min-height: 2.75rem;
+	padding: 0;
+	overflow: hidden;
+	background: transparent;
+	border-radius: var(--radius-control);
+}
+
+#cactus__search .pagefind-ui__search-clear:focus-visible {
+	outline: 2px solid var(--color-focus);
+	outline-offset: 1px;
 }
 
 #cactus__search .pagefind-ui__search-clear::before {
-	content: "";
-	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'%3E%3C/path%3E%3C/svg%3E")
-		center / 60% no-repeat;
-	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'%3E%3C/path%3E%3C/svg%3E")
-		center / 60% no-repeat;
-	background-color: var(--color-accent);
 	display: block;
 	width: 100%;
 	height: 100%;
+	background-color: var(--color-muted);
+	content: "";
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'%3E%3C/path%3E%3C/svg%3E")
+		center / 55% no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'%3E%3C/path%3E%3C/svg%3E")
+		center / 55% no-repeat;
 }
 
 #cactus__search .pagefind-ui__result {
-	border: 0;
+	border-color: var(--color-line);
 }
 
 #cactus__search .pagefind-ui__result-link {
-	background-size: 100% 6px;
-	background-position: bottom;
-	background-repeat: repeat-x;
-	background-image: linear-gradient(
-		transparent,
-		transparent 5px,
-		var(--color-global-text) 5px,
-		var(--color-global-text)
-	);
+	color: var(--color-global-text);
+	text-decoration: underline;
+	text-decoration-color: var(--color-line);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
 }
 
-#cactus__search .pagefind-ui__result-link:hover {
-	text-decoration: none;
-	background-image: linear-gradient(
-		transparent,
-		transparent 4px,
-		var(--color-link) 4px,
-		var(--color-link)
-	);
+#cactus__search .pagefind-ui__result-link:hover,
+#cactus__search .pagefind-ui__result-link:focus-visible {
+	text-decoration-color: var(--color-link);
+	text-decoration-thickness: 2px;
 }
 
 #cactus__search mark {
-	color: var(--color-quote);
-	background-color: transparent;
-	font-weight: 600;
+	color: var(--color-global-text);
+	background: var(--color-paper-2);
+	font-weight: 700;
 }

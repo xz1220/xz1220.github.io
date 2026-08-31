@@ -51,9 +51,9 @@ export default defineConfig({
 				},
 			],
 			start_url: "/",
-			/* blueprint bg: oklch(25.5% 0.048 256) ≈ #12233a; amber accent: oklch(77% 0.12 68) ≈ #d9a13b */
-			background_color: "#12233a",
-			theme_color: "#12233a",
+			// Cool paper surface from the editorial design system.
+			background_color: "#f8fafb",
+			theme_color: "#f8fafb",
 			display: "standalone",
 			config: {
 				insertFaviconLinks: false,

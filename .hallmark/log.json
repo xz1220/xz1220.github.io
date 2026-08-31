@@ -1,5 +1,15 @@
 [
 	{
+		"date": "2026-08-31",
+		"scope": "app",
+		"macrostructure": "Index-First / Long Document",
+		"theme": "studied-DNA",
+		"theme_axes": "light paper / system sans / restrained cool-blue accent",
+		"enrichment": "none",
+		"brief": "Daniel Xing personal site — Lil'Log-inspired research reading system",
+		"source": "https://lilianweng.github.io/"
+	},
+	{
 		"date": "2026-07-19",
 		"macrostructure": "custom (drafting-table)",
 		"theme": "custom",
