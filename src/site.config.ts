@@ -14,7 +14,8 @@ export const siteConfig: SiteConfig = {
 	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
 	author: "Daniel Xing",
 	// Used as the default description meta property and webmanifest description
-	description: "Daniel Xing builds tools for AI agents and writes occasional notes about it.",
+	description:
+		"Daniel Xing builds AI agents and Open Dynamic Workflows, and writes about multi-agent systems, AI products, and knowledge work.",
 	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
 	lang: "en-GB",
 	// Meta property, found in src/components/BaseHead.astro L:42
@@ -42,7 +43,7 @@ export const menuLinks: { path: string; title: string }[] = [
 	},
 	{
 		path: "/posts/",
-		title: "Writing",
+		title: "Posts",
 	},
 	{
 		path: "/about/",
@@ -53,7 +54,7 @@ export const menuLinks: { path: string; title: string }[] = [
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 	styleOverrides: {
-		borderRadius: "4px",
+		borderRadius: "8px",
 		codeFontFamily:
 			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
 		codeFontSize: "0.875rem",
@@ -75,8 +76,7 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 		// return default selector
 		return `[data-theme="${theme.name}"]`;
 	},
-	// One dark, one light theme => https://expressive-code.com/guides/themes/#available-themes
-	// night-owl's blue editor surface sits naturally on the blueprint dark theme
-	themes: ["night-owl", "github-light"],
+	// One quiet neutral theme for each colour mode.
+	themes: ["github-dark", "github-light"],
 	useThemedScrollbars: false,
 };

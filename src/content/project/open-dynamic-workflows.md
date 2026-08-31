@@ -1,18 +1,10 @@
 ---
 title: "Open Dynamic Workflows"
-description: "An open runtime for Claude Code-style dynamic workflows — run the same agent-orchestration scripts on any coding agent (Codex, Claude, Gemini, Qwen, Kimi)."
+description: "A practical runtime for portable AI-agent workflows across Codex, Claude Code, Gemini, Qwen, Kimi, and other coding-agent CLIs."
 publishDate: "2026-06-08"
 repo: "https://github.com/xz1220/open-dynamic-workflows"
 featured: true
-tags:
-  [
-    "agent-orchestration",
-    "claude-code",
-    "typescript",
-    "cli",
-    "multi-agent",
-    "workflows",
-  ]
+tags: ["ai-agents", "multi-agent", "workflows", "runtime", "typescript"]
 ---
 
 Open Dynamic Workflows (ODW) is a TypeScript/Node CLI runtime for portable dynamic workflows: plain JavaScript scripts that fan coding agents out with `agent()`, `parallel()`, and `pipeline()` — outside the host agent's own context. Claude Code can already run such scripts inside its private runtime; ODW makes the same scripts portable and standalone, so they become artifacts you can version, share, and run on any coding-agent CLI.
@@ -28,4 +20,4 @@ Open Dynamic Workflows (ODW) is a TypeScript/Node CLI runtime for portable dynam
 
 ## Status
 
-Core runtime is shipped on `main` (v0.3.0): adapter layer, execution bridge, workspace isolation, async scheduler, injected primitives, the loader/transform, the JSON-Schema engine, the background runtime, and the `odw` CLI — with 129 passing tests. The flagship `examples/deep-research.js` (fan-out research → adversarial fact-check → cited report) runs end-to-end. Distribution is a prebuilt binary plus a skill (install via script); the npm package is not yet published. Roadmap (v1.5+) includes rich model/agent routing, git-worktree isolation, nested `workflow()`, token-budget accounting, resume/journaling, and a replay-determinism sandbox. MIT licensed.
+This is the project I am actively building now. The core runtime, CLI, example workflows, and local observability tools are available on `main`. It is MIT licensed.

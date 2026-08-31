@@ -3,50 +3,55 @@ import SocialList from "@/components/SocialList.astro";
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "Daniel Xing (邢政) — background, current work, and how this site is built.",
+	description: "About Daniel Xing—an AI agent builder based in Shenzhen, China.",
 	title: "About",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-8 text-3xl sm:text-4xl">About</h1>
-	<div class="prose prose-sm">
+	<h1 class="title mb-8">About</h1>
+	<div class="prose">
 		<p>
-			I'm Daniel Xing (邢政). My background is backend and algorithms; these days I build tools for
-			AI agents — a runtime for portable workflow scripts (<a
-				href="/projects/open-dynamic-workflows/">ODW</a
-			>) and a config manager for agent setups (<a href="/projects/agent-vm/">AVM</a>). I'm also
-			exploring what to build next at the intersection of AI and product.
+			I'm Daniel Xing (邢政), a builder with two years of experience building AI agents. These days,
+			I focus on practical agent systems and the infrastructure around them.
 		</p>
 		<p>
-			This site collects the projects I've shipped and occasional notes on what I learn along the
-			way. Everything here is on GitHub: <a
-				href="https://github.com/xz1220"
-				rel="noreferrer"
-				target="_blank">@xz1220</a
-			>.
+			Right now, I'm building <a href="/projects/open-dynamic-workflows/">Open Dynamic Workflows</a
+			>, a runtime that makes dynamic workflows portable across Codex, Claude Code, Gemini, Qwen,
+			Kimi, and other coding-agent CLIs.
+		</p>
+		<p>
+			I'm also exploring multi-agent systems, AI products, and knowledge work—especially how to make
+			agent systems reliable enough for solo builders to use in production.
+		</p>
+		<p>
+			I'm based in Shenzhen, China, and occasionally in Shanghai. This site is home to my projects
+			and writing.
 		</p>
 	</div>
 
-	<div class="mt-8">
+	<section class="section-block" aria-labelledby="elsewhere-heading">
+		<h2 class="section-title mb-5" id="elsewhere-heading">Elsewhere</h2>
 		<SocialList />
-	</div>
+		<p class="text-muted mt-4 text-sm">
+			WeChat: <span class="text-global-text">Xingzheng-daniel</span>
+		</p>
+	</section>
 
-	<section class="border-line mt-14 border-t border-dashed pt-8">
-		<h2 class="mono-label mb-4">colophon</h2>
-		<dl class="mono-label grid grid-cols-[auto_1fr] gap-x-6 gap-y-2">
-			<dt class="text-muted">type</dt>
-			<dd>source serif 4 · sometype mono</dd>
-			<dt class="text-muted">engine</dt>
-			<dd>astro + tailwind, static on github pages</dd>
-			<dt class="text-muted">source</dt>
+	<section class="border-line mt-16 border-t pt-8" aria-labelledby="colophon-heading">
+		<h2 class="section-title mb-5" id="colophon-heading">Colophon</h2>
+		<dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-sm">
+			<dt class="text-muted">Type</dt>
+			<dd>System sans and system mono</dd>
+			<dt class="text-muted">Engine</dt>
+			<dd>Astro + Tailwind, static on GitHub Pages</dd>
+			<dt class="text-muted">Source</dt>
 			<dd>
 				<a
-					class="hover:text-accent no-underline underline-offset-4 hover:underline"
+					class="cactus-link"
 					href="https://github.com/xz1220/xz1220.github.io"
 					rel="noreferrer"
-					target="_blank"
-					>xz1220/xz1220.github.io<span aria-hidden="true" class="ml-0.5 text-xs">↗</span></a
+					target="_blank">xz1220/xz1220.github.io<span aria-hidden="true"> ↗</span></a
 				>
 			</dd>
 		</dl>

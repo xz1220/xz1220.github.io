@@ -5,44 +5,47 @@ const socialLinks: {
 	external?: boolean;
 }[] = [
 	{
-		friendlyName: "github",
+		friendlyName: "GitHub",
 		link: "https://github.com/xz1220",
 		external: true,
 	},
 	{
-		friendlyName: "x",
-		link: "https://x.com/xngzhng118250",
+		friendlyName: "X",
+		link: "https://x.com/DanielsCabin",
 		external: true,
 	},
 	{
-		friendlyName: "email",
-		link: "mailto:3024979463@qq.com",
+		friendlyName: "Email",
+		link: "mailto:danielxing1@163.com",
 	},
 	{
-		friendlyName: "rss",
+		friendlyName: "Zhihu",
+		link: "https://www.zhihu.com/people/xz1220",
+		external: true,
+	},
+	{
+		friendlyName: "Xiaohongshu",
+		link: "https://www.xiaohongshu.com/user/profile/655488ff00000000080023a0",
+		external: true,
+	},
+	{
+		friendlyName: "RSS",
 		link: "/rss.xml",
-		external: true,
 	},
 ];
 ---
 
-<ul class="flex flex-wrap items-center gap-x-5 gap-y-2" role="list">
+<ul class="social-list" role="list">
 	{
 		socialLinks.map(({ friendlyName, link, external }) => (
-			<li class="flex">
+			<li>
 				<a
-					class="text-muted hover:text-accent font-mono text-sm no-underline underline-offset-4 hover:underline"
 					href={link}
 					rel={external ? "noreferrer" : undefined}
 					target={external ? "_blank" : undefined}
-					aria-label={friendlyName === "x" ? "Daniel Xing on X" : undefined}
+					aria-label={friendlyName === "X" ? "Daniel Xing on X" : undefined}
 				>
 					{friendlyName}
-					{external && (
-						<span aria-hidden="true" class="ml-0.5 text-xs">
-							↗
-						</span>
-					)}
 				</a>
 			</li>
 		))
