@@ -8,8 +8,8 @@ marketing page or an activity dashboard.
 
 ## Owner & audience
 
-- Owner: Daniel Xing (邢政), a builder with two years of experience building AI
-  agents. He is based in Shenzhen, China, and occasionally in Shanghai.
+- Owner: Daniel Xing (邢政), a builder working on AI agents and the infrastructure
+  around them. He is based in Shenzhen, China, and occasionally in Shanghai.
 - Current work: Open Dynamic Workflows, a practical runtime for portable
   AI-agent workflows.
 - Current interests: multi-agent systems, AI products, knowledge work, and

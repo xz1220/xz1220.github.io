@@ -15,7 +15,7 @@ export const siteConfig: SiteConfig = {
 	author: "Daniel Xing",
 	// Used as the default description meta property and webmanifest description
 	description:
-		"Daniel Xing builds AI agents and Open Dynamic Workflows, and writes about multi-agent systems, AI products, and knowledge work.",
+		"Daniel Xing builds AI agents and the infrastructure around them, and writes about multi-agent systems, AI products, and knowledge work.",
 	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
 	lang: "en-GB",
 	// Meta property, found in src/components/BaseHead.astro L:42
