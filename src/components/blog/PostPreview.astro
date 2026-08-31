@@ -1,36 +1,41 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import type { HTMLTag, Polymorphic } from "astro/types";
+import { type CollectionEntry, render } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 
-type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
+interface Props {
 	post: CollectionEntry<"post">;
-};
+	headingLevel?: "h2" | "h3";
+}
 
-const { as: Tag = "div", post } = Astro.props;
-const tag = post.data.tags[0];
+const { post, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const { remarkPluginFrontmatter } = await render(post);
+const readingTime = String(remarkPluginFrontmatter.readingTime ?? "");
 ---
 
-<span class="mono-label shrink-0 pt-[0.1875rem] whitespace-nowrap">
-	<FormattedDate date={post.data.publishDate} />
-</span>
-<Tag class="min-w-0 font-normal">
-	{post.data.draft && <span class="text-accent font-mono text-sm">[draft] </span>}
-	<a
-		class="text-global-text hover:decoration-accent no-underline underline-offset-4 hover:underline"
-		href={`/posts/${post.id}/`}
-	>
-		{post.data.title}
-	</a>
-</Tag>
-{
-	tag && (
-		<>
-			<span
-				aria-hidden="true"
-				class="border-line mx-1 hidden flex-1 border-b border-dotted sm:block"
-			/>
-			<span class="mono-label hidden shrink-0 pt-[0.1875rem] sm:block">#{tag}</span>
-		</>
-	)
-}
+<article class="post-card">
+	<Heading class="entry-title">
+		{post.data.draft && <span class="text-accent text-sm">Draft · </span>}
+		<a href={`/posts/${post.id}/`}>{post.data.title}</a>
+	</Heading>
+	<p class="entry-summary">{post.data.description}</p>
+	<footer class="entry-meta">
+		<span><FormattedDate date={post.data.publishDate} /></span>
+		{
+			readingTime && (
+				<>
+					<span aria-hidden="true">·</span>
+					<span>{readingTime}</span>
+				</>
+			)
+		}
+		{
+			post.data.tags[0] && (
+				<>
+					<span aria-hidden="true">·</span>
+					<a href={`/tags/${post.data.tags[0]}/`}>#{post.data.tags[0]}</a>
+				</>
+			)
+		}
+	</footer>
+</article>

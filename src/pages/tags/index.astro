@@ -12,19 +12,13 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-8 text-3xl sm:text-4xl">Tags</h1>
-	<ul class="border-line divide-line flex flex-col divide-y border-y" role="list">
+	<h1 class="title mb-8">Tags</h1>
+	<ul class="index-list" role="list">
 		{
 			allTags.map(([tag, val]) => (
-				<li class="flex items-baseline gap-3 py-3.5">
-					<a
-						class="text-global-text hover:decoration-accent no-underline underline-offset-4 hover:underline"
-						href={`/tags/${tag}/`}
-					>
-						#{tag}
-					</a>
-					<span aria-hidden="true" class="border-line mx-1 flex-1 border-b border-dotted" />
-					<span class="mono-label shrink-0">
+				<li class="index-row">
+					<a href={`/tags/${tag}/`}>#{tag}</a>
+					<span class="meta-text shrink-0">
 						{val} post{val > 1 && "s"}
 					</span>
 				</li>

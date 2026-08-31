@@ -2,7 +2,6 @@
 import { render } from "astro:content";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import FormattedDate from "@/components/FormattedDate.astro";
-import Plate from "@/components/project/Plate.astro";
 import VideoEmbed from "@/components/project/VideoEmbed.astro";
 import { getAllProjects } from "@/data/project";
 import PageLayout from "@/layouts/Base.astro";
@@ -30,61 +29,43 @@ const meta = {
 
 <PageLayout meta={meta}>
 	<article class="grow break-words" data-pagefind-body>
-		<header class="border-line mb-10 border-b border-dashed pb-10">
-			<h1 class="title text-3xl sm:text-4xl">{title}</h1>
-			<div class="mono-label mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
-				<FormattedDate date={publishDate} />
+		<header class="article-header">
+			<h1 class="article-title">{title}</h1>
+			<div class="entry-meta">
+				<span><FormattedDate date={publishDate} /></span>
 				{
 					repo && (
-						<a
-							class="hover:text-accent no-underline underline-offset-4 hover:underline"
-							href={repo}
-							rel="noreferrer"
-							target="_blank"
-						>
-							code
-							<span aria-hidden="true" class="ml-0.5 text-xs">
-								↗
-							</span>
-						</a>
+						<>
+							<span aria-hidden="true">·</span>
+							<a href={repo} rel="noreferrer" target="_blank">
+								Code ↗
+							</a>
+						</>
 					)
 				}
 				{
 					demo && (
-						<a
-							class="hover:text-accent no-underline underline-offset-4 hover:underline"
-							href={demo}
-							rel="noreferrer"
-							target="_blank"
-						>
-							demo
-							<span aria-hidden="true" class="ml-0.5 text-xs">
-								↗
-							</span>
-						</a>
+						<>
+							<span aria-hidden="true">·</span>
+							<a href={demo} rel="noreferrer" target="_blank">
+								Demo ↗
+							</a>
+						</>
 					)
 				}
-				{!!tags?.length && tags.map((tag) => <span class="text-muted">#{tag}</span>)}
+				{tags?.map((tag) => <span>#{tag}</span>)}
 			</div>
-			<p class="text-muted mt-4 text-lg leading-relaxed">{description}</p>
+			<p class="article-description">{description}</p>
 		</header>
-		{
-			video ? (
-				<VideoEmbed title={title} url={video} />
-			) : (
-				<figure class="border-line mb-10 rounded-sm border p-4 sm:p-6">
-					<Plate projectId={project.id} />
-				</figure>
-			)
-		}
-		<div class="prose prose-sm">
+
+		{video && <VideoEmbed title={title} url={video} />}
+
+		<div class="prose">
 			<Content />
 		</div>
+
 		<p class="mt-16">
-			<a
-				class="mono-label hover:text-accent no-underline underline-offset-4 hover:underline"
-				href="/projects/">← all projects</a
-			>
+			<a class="back-link" href="/projects/">← All projects</a>
 		</p>
 	</article>
 </PageLayout>

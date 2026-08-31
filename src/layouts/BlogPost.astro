@@ -1,9 +1,7 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
-
 import BaseLayout from "./Base.astro";
 
 interface Props {
@@ -15,42 +13,27 @@ const { ogImage, title, description, updatedDate, publishDate } = post.data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
-const readingTime: string = remarkPluginFrontmatter.readingTime;
+const readingTime = String(remarkPluginFrontmatter.readingTime ?? "");
 ---
 
-<BaseLayout
-	meta={{
-		articleDate,
-		description,
-		ogImage: socialImage,
-		title,
-	}}
->
+<BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
 	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="border-line mb-10 border-b border-dashed pb-10">
+		<header class="article-header" id="blog-hero">
 			<Masthead content={post} readingTime={readingTime} />
+		</header>
+
+		{!!headings.length && <TOC headings={headings} />}
+
+		<div class="prose">
+			<slot />
 		</div>
-		<div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-			{!!headings.length && <TOC headings={headings} />}
-			<div
-				class="prose prose-sm prose-headings:font-display prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-muted prose-headings:hover:before:text-accent sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
-			>
-				<slot />
-			</div>
-		</div>
+
 		<p class="mt-16">
-			<a
-				class="mono-label hover:text-accent no-underline underline-offset-4 hover:underline"
-				href="/posts/">← all writing</a
-			>
+			<a class="back-link" href="/posts/">← All posts</a>
 		</p>
 	</article>
-	<button
-		class="hover:border-accent border-line bg-global-bg text-muted hover:text-accent fixed end-4 bottom-8 z-[var(--z-raised)] flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-sm border opacity-0 transition-[translate,opacity,color,background-color,border-color] transition-discrete duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8"
-		data-show="false"
-		id="to-top-btn"
-		tabindex="-1"
-	>
+
+	<button class="to-top-button" data-show="false" id="to-top-btn" tabindex="-1" type="button">
 		<span class="sr-only">Back to top</span>
 		<svg
 			aria-hidden="true"
@@ -62,30 +45,27 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 			viewBox="0 0 24 24"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+			<path d="M4.5 15.75 12 8.25l7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
 		</svg>
 	</button>
 </BaseLayout>
 
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
-	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
+	const targetHeader = document.getElementById("blog-hero") as HTMLElement;
 
-	function callback(entries: IntersectionObserverEntry[]) {
-		entries.forEach((entry) => {
-			// only show the scroll to top button when the heading is out of view
+	const observer = new IntersectionObserver((entries) => {
+		for (const entry of entries) {
 			const show = !entry.isIntersecting;
 			scrollBtn.dataset.show = show.toString();
-			// keep the hidden button out of the tab order
 			scrollBtn.tabIndex = show ? 0 : -1;
-		});
-	}
+		}
+	});
 
 	scrollBtn.addEventListener("click", () => {
 		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		document.documentElement.scrollTo({ behavior: reduced ? "auto" : "smooth", top: 0 });
 	});
 
-	const observer = new IntersectionObserver(callback);
 	observer.observe(targetHeader);
 </script>

@@ -14,6 +14,7 @@
 		const root = document.documentElement;
 		if (newTheme !== root.getAttribute("data-theme")) {
 			root.setAttribute("data-theme", newTheme);
+			document.dispatchEvent(new CustomEvent("theme-applied", { detail: { theme: newTheme } }));
 		}
 	}
 

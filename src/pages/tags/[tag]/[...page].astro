@@ -51,23 +51,21 @@ const paginationProps = {
 ---
 
 <PageLayout meta={meta}>
-	<nav class="mono-label mb-6" aria-label="Breadcrumbs">
-		<a class="hover:text-accent no-underline underline-offset-4 hover:underline" href="/tags/"
-			>tags</a
-		>
+	<nav class="entry-meta mb-6" aria-label="Breadcrumbs">
+		<a href="/tags/">Tags</a>
 		<span aria-hidden="true" class="mx-1">/</span>
 		<span aria-current="page">#{tag}</span>
 	</nav>
-	<h1 class="title text-3xl capitalize sm:text-4xl">{tagMeta?.data.title ?? tag}</h1>
-	<div class="prose prose-sm mt-4 mb-10">
+	<h1 class="title capitalize">{tagMeta?.data.title ?? tag}</h1>
+	<div class="prose mt-4 mb-10">
 		{tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
 		{TagContent && <TagContent />}
 	</div>
-	<ul class="border-line divide-line flex flex-col divide-y border-y" role="list">
+	<ul class="entry-list" role="list">
 		{
 			page.data.map((p) => (
-				<li class="flex items-baseline gap-3 py-3.5">
-					<PostPreview as="h2" post={p} />
+				<li>
+					<PostPreview post={p} />
 				</li>
 			))
 		}

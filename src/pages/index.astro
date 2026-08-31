@@ -9,106 +9,71 @@ import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site.config";
 import { collectionDateSort } from "@/utils/date";
 
-// Posts — latest few
 const MAX_POSTS = 5;
-const allPosts = await getAllPosts();
-const latestPosts = (allPosts.sort(collectionDateSort) as CollectionEntry<"post">[]).slice(
-	0,
-	MAX_POSTS,
-);
+const posts = (await getAllPosts()).sort(collectionDateSort) as CollectionEntry<"post">[];
+const latestPosts = posts.slice(0, MAX_POSTS);
 
-// Projects — featured first, otherwise the most recent ones
-const MAX_HOME_PROJECTS = 2;
-const allProjects = await getAllProjects();
-const projectsByDate = allProjects.sort(collectionDateSort) as CollectionEntry<"project">[];
-const featuredProjects = projectsByDate.filter((p) => p.data.featured);
-const homeProjects = (featuredProjects.length > 0 ? featuredProjects : projectsByDate).slice(
-	0,
-	MAX_HOME_PROJECTS,
-);
+const projects = (await getAllProjects()).sort(collectionDateSort) as CollectionEntry<"project">[];
+const homeProjects = projects.filter((project) => project.data.featured).slice(0, 2);
 ---
 
 <PageLayout meta={{ title: siteConfig.title }}>
-	<section class="sm:grid sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
-		<div>
-			<h1
-				class="text-accent-2 font-display min-w-0 text-[clamp(2.5rem,2rem+3vw,4rem)] font-semibold tracking-tight [overflow-wrap:anywhere]"
-			>
-				Daniel Xing
-			</h1>
-			<p class="text-muted mono-label mt-3">builder · agent tooling</p>
-			<p class="mt-6 max-w-prose text-lg leading-relaxed">
-				I build tools for AI agents: a runtime for portable workflow scripts, a config manager for
-				agent setups, and whatever comes next. This site keeps the projects, plus occasional notes
-				on what I learn building them.
-			</p>
-			<div class="mt-6">
-				<SocialList />
-			</div>
+	<section class="home-info">
+		<h1 class="home-title">Hi, I’m Daniel.</h1>
+		<p class="home-copy">
+			I’m a builder with two years of experience building AI agents. These days, I build practical
+			agent systems and interesting things around them—useful, experimental, or both.
+		</p>
+		<p class="home-copy">I’m based in Shenzhen, China, and occasionally in Shanghai.</p>
+		<p class="home-copy">
+			Right now, I’m building <a class="cactus-link" href="/projects/open-dynamic-workflows/"
+				>Open Dynamic Workflows</a
+			>, a practical runtime for portable AI-agent workflows across Codex, Claude Code, Gemini,
+			Qwen, Kimi, and other coding-agent CLIs.
+		</p>
+		<p class="home-copy">
+			I’m exploring multi-agent systems, AI products, and knowledge work—especially how to make
+			agent systems reliable enough for solo builders to use in production.
+		</p>
+		<div class="mt-6">
+			<SocialList />
 		</div>
-		<dl
-			class="title-block mt-10 sm:mt-0 sm:justify-self-end"
-			aria-label="title block of this site"
-		>
-			<div>
-				<dt>site</dt>
-				<dd>xz1220.github.io</dd>
-			</div>
-			<div>
-				<dt>drawn</dt>
-				<dd>daniel xing</dd>
-			</div>
-			<div>
-				<dt>sheet</dt>
-				<dd>01 / 01</dd>
-			</div>
-			<div>
-				<dt>rev</dt>
-				<dd>2026-07</dd>
-			</div>
-		</dl>
 	</section>
 
-	<section class="mt-20">
-		<div class="mb-6 flex items-baseline justify-between">
-			<h2 class="mono-label">~/projects</h2>
-			<a
-				class="mono-label hover:text-accent no-underline underline-offset-4 hover:underline"
-				href="/projects/">all projects →</a
-			>
-		</div>
-		{
-			homeProjects.length > 0 ? (
-				<div class="flex flex-col gap-14">
-					{homeProjects.map((project, i) => (
-						<ProjectCard project={project} fig={i + 1} />
-					))}
-				</div>
-			) : (
-				<p class="text-muted">Projects coming soon.</p>
-			)
-		}
-	</section>
-
-	<section class="mt-20 mb-4">
-		<div class="mb-6 flex items-baseline justify-between">
-			<h2 class="mono-label">~/writing</h2>
-			<a
-				class="mono-label hover:text-accent no-underline underline-offset-4 hover:underline"
-				href="/posts/">all writing →</a
-			>
+	<section class="section-block" aria-labelledby="latest-posts-heading">
+		<div class="section-head">
+			<h2 class="section-title" id="latest-posts-heading">Posts</h2>
+			<a class="section-link" href="/posts/">All posts →</a>
 		</div>
 		{
 			latestPosts.length > 0 ? (
-				<ul class="border-line divide-line flex flex-col divide-y border-y" role="list">
-					{latestPosts.map((p) => (
-						<li class="flex items-baseline gap-3 py-3.5">
-							<PostPreview post={p} />
+				<ul class="entry-list" role="list">
+					{latestPosts.map((post) => (
+						<li>
+							<PostPreview headingLevel="h3" post={post} />
 						</li>
 					))}
 				</ul>
 			) : (
-				<p class="text-muted">Nothing published yet.</p>
+				<p class="text-muted">No posts yet.</p>
+			)
+		}
+	</section>
+
+	<section class="section-block" aria-labelledby="selected-work-heading">
+		<div class="section-head">
+			<h2 class="section-title" id="selected-work-heading">Selected work</h2>
+			<a class="section-link" href="/projects/">All projects →</a>
+		</div>
+		{
+			homeProjects.length > 0 ? (
+				<div class="entry-list">
+					{homeProjects.map((project) => (
+						<ProjectCard headingLevel="h3" project={project} />
+					))}
+				</div>
+			) : (
+				<p class="text-muted">No featured projects yet.</p>
 			)
 		}
 	</section>

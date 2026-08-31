@@ -4,9 +4,9 @@
 import "@/styles/blocks/search.css";
 ---
 
-<site-search class="ms-auto" id="search">
+<site-search class="ms-1" id="search">
 	<button
-		class="hover:text-accent flex h-9 w-9 cursor-pointer items-center justify-center rounded-md"
+		class="text-muted hover:text-global-text flex h-11 w-11 cursor-pointer items-center justify-center rounded-md"
 		aria-haspopup="dialog"
 		aria-keyshortcuts="Control+K Meta+K"
 		data-open-modal
@@ -14,7 +14,7 @@ import "@/styles/blocks/search.css";
 	>
 		<svg
 			aria-hidden="true"
-			class="h-7 w-7"
+			class="h-5 w-5"
 			fill="none"
 			height="16"
 			stroke="currentColor"
@@ -32,18 +32,18 @@ import "@/styles/blocks/search.css";
 	</button>
 	<dialog
 		aria-label="Site search"
-		class="bg-global-bg border-line h-full max-h-full w-full max-w-full border shadow-sm backdrop:backdrop-blur-sm open:flex sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md"
+		class="bg-global-bg border-line backdrop:bg-global-text/20 h-full max-h-full w-full max-w-full border open:flex sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-[calc(100%-3rem)] sm:max-w-[45rem] sm:rounded-lg"
 	>
 		<div class="dialog-frame flex grow flex-col gap-4 p-6 pt-12 sm:pt-6">
 			<button
-				class="text-muted hover:text-global-text border-line ms-auto cursor-pointer rounded-md border px-3 py-1.5 font-mono text-xs"
+				class="text-muted hover:text-global-text border-line ms-auto inline-flex min-h-11 cursor-pointer items-center rounded-md border px-4 text-sm"
 				data-close-modal
 			>
-				close<span aria-hidden="true" class="ms-1">✕</span>
+				Close
 			</button>
 			{
 				import.meta.env.DEV ? (
-					<div class="mx-auto text-center">
+					<div class="text-muted mx-auto max-w-prose text-center text-sm">
 						<p>
 							Search is only available in production builds. <br />
 							Try building and previewing the site to test it out locally.

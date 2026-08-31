@@ -3,19 +3,19 @@ import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Pagination from "@/components/Paginator.astro";
-import { getAllPosts, getUniqueTagsWithCount, groupPostsByYear } from "@/data/post";
+import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_POSTS_PER_PAGE = 15;
 	const allPosts = await getAllPosts();
 	const allPostsByDate = allPosts.sort(collectionDateSort);
-	const tagsWithCount = getUniqueTagsWithCount(allPosts);
-	const totalPosts = allPosts.length;
 	return paginate(allPostsByDate, {
-		pageSize: MAX_POSTS_PER_PAGE,
-		props: { tagsWithCount, totalPosts },
+		pageSize: 15,
+		props: {
+			tagsWithCount: getUniqueTagsWithCount(allPosts),
+			totalPosts: allPosts.length,
+		},
 	});
 }) satisfies GetStaticPaths;
 
@@ -26,42 +26,34 @@ interface Props {
 }
 
 const { page, tagsWithCount, totalPosts } = Astro.props;
-
 const meta = {
-	description: "Notes on what I'm building and what I learn along the way.",
-	title: "Writing",
+	description: "Notes on building AI agents, multi-agent systems, AI products, and knowledge work.",
+	title: "Posts",
 };
 
 const paginationProps = {
-	...(page.url.prev && { prevUrl: { text: "← newer", url: page.url.prev } }),
-	...(page.url.next && { nextUrl: { text: "older →", url: page.url.next } }),
+	...(page.url.prev && { prevUrl: { text: "← Newer", url: page.url.prev } }),
+	...(page.url.next && { nextUrl: { text: "Older →", url: page.url.next } }),
 };
-
-const postsByYear = Object.entries(groupPostsByYear(page.data))
-	.map(([year, posts]) => [year, posts ?? []] as const)
-	.sort((a, b) => b[0].localeCompare(a[0]));
 ---
 
 <PageLayout meta={meta}>
-	<div class="mb-10 flex flex-wrap items-baseline justify-between gap-2">
-		<h1 class="title text-3xl sm:text-4xl">Writing</h1>
-		<p class="mono-label">
+	<header class="section-head mb-10">
+		<h1 class="title">Posts</h1>
+		<p class="meta-text">
 			{totalPosts}
 			{totalPosts === 1 ? "post" : "posts"}
-			<span aria-hidden="true" class="mx-1.5">·</span>
-			<a class="hover:text-accent no-underline underline-offset-4 hover:underline" href="/rss.xml"
-				>rss</a
-			>
+			<span aria-hidden="true"> · </span>
+			<a class="section-link" href="/rss.xml">RSS</a>
 		</p>
-	</div>
+	</header>
 
 	{
 		tagsWithCount.length >= 2 && (
-			<nav aria-label="Filter by tag" class="mono-label mb-8 flex flex-wrap gap-x-4 gap-y-1">
+			<nav aria-label="Filter by tag" class="entry-meta mb-8">
 				{tagsWithCount.map(([tag, count]) => (
-					<a class="hover:text-accent" href={`/tags/${tag}/`}>
-						#{tag}
-						<span class="text-muted">{count}</span>
+					<a href={`/tags/${tag}/`}>
+						#{tag} <span class="text-muted">{count}</span>
 					</a>
 				))}
 			</nav>
@@ -70,20 +62,15 @@ const postsByYear = Object.entries(groupPostsByYear(page.data))
 
 	{
 		page.data.length > 0 ? (
-			postsByYear.map(([year, posts]) => (
-				<section class="mb-10">
-					<h2 class="mono-label mb-2">{year}</h2>
-					<ul class="border-line divide-line flex flex-col divide-y border-y" role="list">
-						{posts.map((p) => (
-							<li class="flex items-baseline gap-3 py-3.5">
-								<PostPreview post={p} />
-							</li>
-						))}
-					</ul>
-				</section>
-			))
+			<ul class="entry-list" role="list">
+				{page.data.map((post) => (
+					<li>
+						<PostPreview post={post} />
+					</li>
+				))}
+			</ul>
 		) : (
-			<p class="text-muted">Nothing published yet.</p>
+			<p class="text-muted">No posts yet.</p>
 		)
 	}
 	<Pagination {...paginationProps} />
