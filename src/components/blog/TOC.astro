@@ -5,16 +5,17 @@ import TOCHeading from "./TOCHeading.astro";
 
 interface Props {
 	headings: MarkdownHeading[];
+	label?: string;
 }
 
-const { headings } = Astro.props;
+const { headings, label = "Contents" } = Astro.props;
 
 const toc = generateToc(headings);
 ---
 
 <details class="toc-panel">
-	<summary>Table of contents</summary>
-	<nav aria-label="Table of contents">
+	<summary>{label}</summary>
+	<nav aria-label={label}>
 		<ol>
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
 		</ol>

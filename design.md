@@ -73,7 +73,9 @@ uses `20px`; larger page transitions use `40–64px`.
 - Home: text-first intro, current work, selected projects, latest writing.
 - Writing/archive/tags: simple article index with title, two-line summary and metadata.
 - Projects: text entries; no decorative project plates.
-- Articles: typography only; figures must explain the content.
+- Articles: typography-led. A long-form post may use one credited editorial
+  cover that serves its central argument; figures otherwise must explain the
+  content.
 - About: extended biography and contact details; QR cards may live here later.
 
 ## What pages must share

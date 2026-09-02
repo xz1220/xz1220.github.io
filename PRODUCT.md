@@ -40,8 +40,10 @@ clarity rather than copying its page pixels or brand.
 - A 720px reading column, 16px body copy, 1.6 line-height, and generous vertical
   rhythm.
 - Hairline dividers, cards with at most an 8px radius, and no shadows.
-- No decorative project plates, background grids, stock imagery, or animation.
-  Figures exist only when they explain the content.
+- No decorative project plates, background grids, generic stock imagery, or animation.
+  Long-form posts may use one credited editorial cover when the artwork carries
+  the article's central metaphor; figures otherwise exist only when they explain
+  the content.
 - Links are the primary interaction. Hover and focus states change colour or
   underline treatment without movement.
 

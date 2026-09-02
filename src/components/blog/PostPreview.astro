@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 
@@ -11,31 +12,58 @@ const { post, headingLevel = "h2" } = Astro.props;
 const Heading = headingLevel;
 const { remarkPluginFrontmatter } = await render(post);
 const readingTime = String(remarkPluginFrontmatter.readingTime ?? "");
+const isChinese = post.data.lang?.startsWith("zh") ?? false;
+const localizedReadingTime = isChinese
+	? readingTime.replace(/(\d+)\s+min read/i, "$1 分钟阅读")
+	: readingTime;
 ---
 
-<article class="post-card">
-	<Heading class="entry-title">
-		{post.data.draft && <span class="text-accent text-sm">Draft · </span>}
-		<a href={`/posts/${post.id}/`}>{post.data.title}</a>
-	</Heading>
-	<p class="entry-summary">{post.data.description}</p>
-	<footer class="entry-meta">
-		<span><FormattedDate date={post.data.publishDate} /></span>
-		{
-			readingTime && (
-				<>
-					<span aria-hidden="true">·</span>
-					<span>{readingTime}</span>
-				</>
-			)
-		}
-		{
-			post.data.tags[0] && (
-				<>
-					<span aria-hidden="true">·</span>
-					<a href={`/tags/${post.data.tags[0]}/`}>#{post.data.tags[0]}</a>
-				</>
-			)
-		}
-	</footer>
+<article class:list={["post-card", { "post-card--with-cover": post.data.coverImage }]}>
+	{
+		post.data.coverImage && (
+			<a aria-hidden="true" class="post-card-cover" href={`/posts/${post.id}/`} tabindex="-1">
+				<Image
+					alt=""
+					height={332}
+					layout="constrained"
+					src={post.data.coverImage.src}
+					width={540}
+				/>
+			</a>
+		)
+	}
+	<div class="post-card-body">
+		<Heading class="entry-title">
+			{post.data.draft && <span class="text-accent text-sm">Draft · </span>}
+			<a href={`/posts/${post.id}/`}>{post.data.title}</a>
+		</Heading>
+		<p class="entry-summary">{post.data.deck ?? post.data.description}</p>
+		<footer class="entry-meta">
+			<span>
+				<FormattedDate
+					date={post.data.publishDate}
+					dateTimeOptions={isChinese
+						? { day: "numeric", month: "long", year: "numeric" }
+						: undefined}
+					locale={isChinese ? "zh-CN" : undefined}
+				/>
+			</span>
+			{
+				localizedReadingTime && (
+					<>
+						<span aria-hidden="true">·</span>
+						<span>{localizedReadingTime}</span>
+					</>
+				)
+			}
+			{
+				post.data.tags[0] && (
+					<>
+						<span aria-hidden="true">·</span>
+						<a href={`/tags/${post.data.tags[0]}/`}>#{post.data.tags[0]}</a>
+					</>
+				)
+			}
+		</footer>
+	</div>
 </article>

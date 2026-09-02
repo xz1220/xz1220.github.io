@@ -13,56 +13,83 @@ const {
 	content: { data },
 	readingTime,
 } = Astro.props;
+
+const deck = data.deck ?? data.description;
+const isChinese = data.lang?.startsWith("zh") ?? false;
+const localizedReadingTime = isChinese
+	? readingTime.replace(/(\d+)\s+min read/i, "$1 分钟阅读")
+	: readingTime;
 ---
+
+<div class:list={["article-heading", { "article-heading--feature": data.coverImage }]}>
+	{data.draft && <p class="entry-meta mb-2">Draft</p>}
+	<h1 class="article-title">{data.title}</h1>
+	<div class="entry-meta article-meta">
+		<a href="/about/">{siteConfig.author}</a>
+		<span aria-hidden="true">·</span>
+		<span>
+			<FormattedDate
+				date={data.publishDate}
+				dateTimeOptions={isChinese ? { day: "numeric", month: "long", year: "numeric" } : undefined}
+				locale={isChinese ? "zh-CN" : undefined}
+			/>
+		</span>
+		{
+			localizedReadingTime && (
+				<>
+					<span aria-hidden="true">·</span>
+					<span>{localizedReadingTime}</span>
+				</>
+			)
+		}
+		{
+			data.updatedDate && (
+				<>
+					<span aria-hidden="true">·</span>
+					<span>
+						{isChinese ? "更新于 " : "Updated "}
+						<FormattedDate
+							date={data.updatedDate}
+							dateTimeOptions={
+								isChinese ? { day: "numeric", month: "long", year: "numeric" } : undefined
+							}
+							locale={isChinese ? "zh-CN" : undefined}
+						/>
+					</span>
+				</>
+			)
+		}
+	</div>
+	<div class="article-deck">
+		<span aria-hidden="true" class="article-deck-mark"></span>
+		<p>{deck}</p>
+	</div>
+</div>
 
 {
 	data.coverImage && (
-		<div class="mb-8 aspect-video overflow-hidden rounded-lg">
-			<Image
-				alt={data.coverImage.alt}
-				layout="constrained"
-				width={720}
-				height={405}
-				priority
-				src={data.coverImage.src}
-			/>
-		</div>
-	)
-}
-{data.draft && <p class="entry-meta mb-2">Draft</p>}
-<h1 class="article-title">{data.title}</h1>
-<div class="entry-meta">
-	<span><FormattedDate date={data.publishDate} /></span>
-	{
-		readingTime && (
-			<>
-				<span aria-hidden="true">·</span>
-				<span>{readingTime}</span>
-			</>
-		)
-	}
-	<span aria-hidden="true">·</span>
-	<a href="/about/">{siteConfig.author}</a>
-	{
-		data.updatedDate && (
-			<>
-				<span aria-hidden="true">·</span>
-				<span>
-					Updated <FormattedDate date={data.updatedDate} />
-				</span>
-			</>
-		)
-	}
-</div>
-<p class="article-description">{data.description}</p>
-{
-	!!data.tags?.length && (
-		<nav aria-label="Article tags" class="entry-meta">
-			{data.tags.map((tag) => (
-				<a data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}>
-					#{tag}
-				</a>
-			))}
-		</nav>
+		<figure class="article-cover">
+			<div class="article-cover-frame">
+				<Image
+					alt={data.coverImage.alt}
+					layout="constrained"
+					width={1200}
+					height={738}
+					priority
+					src={data.coverImage.src}
+				/>
+			</div>
+			{data.coverCredit && (
+				<figcaption class="article-cover-credit">
+					{data.coverCredit.url ? (
+						<a href={data.coverCredit.url} rel="noreferrer" target="_blank">
+							{data.coverCredit.text}
+						</a>
+					) : (
+						data.coverCredit.text
+					)}
+				</figcaption>
+			)}
+		</figure>
 	)
 }

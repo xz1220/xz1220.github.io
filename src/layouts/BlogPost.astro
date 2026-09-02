@@ -9,32 +9,68 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { ogImage, title, description, updatedDate, publishDate } = post.data;
-const socialImage = ogImage ?? `/og-image/${post.id}.png`;
+const {
+	coverImage,
+	description,
+	lang = "en-GB",
+	ogImage,
+	publishDate,
+	title,
+	updatedDate,
+} = post.data;
+const socialImage = ogImage ?? coverImage?.src.src ?? `/og-image/${post.id}.png`;
+const socialImageWidth = ogImage || !coverImage ? 1200 : coverImage.src.width;
+const socialImageHeight = ogImage || !coverImage ? 630 : coverImage.src.height;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime = String(remarkPluginFrontmatter.readingTime ?? "");
+const isChinese = lang.startsWith("zh");
 ---
 
-<BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-	<article class="grow break-words" data-pagefind-body>
+<BaseLayout
+	meta={{
+		articleDate,
+		description,
+		lang,
+		ogImage: socialImage,
+		ogImageHeight: socialImageHeight,
+		ogImageWidth: socialImageWidth,
+		title,
+	}}
+>
+	<article
+		class:list={["article-page grow break-words", { "article-page--feature": coverImage }]}
+		data-pagefind-body
+		lang={lang}
+	>
 		<header class="article-header" id="blog-hero">
 			<Masthead content={post} readingTime={readingTime} />
 		</header>
 
-		{!!headings.length && <TOC headings={headings} />}
+		{!!headings.length && <TOC headings={headings} label={isChinese ? "目录" : "Contents"} />}
 
 		<div class="prose">
 			<slot />
 		</div>
 
-		<p class="mt-16">
-			<a class="back-link" href="/posts/">← All posts</a>
+		{
+			!!post.data.tags.length && (
+				<nav aria-label={isChinese ? "文章标签" : "Article tags"} class="article-footer-tags">
+					{post.data.tags.map((tag) => (
+						<a data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}>
+							#{tag}
+						</a>
+					))}
+				</nav>
+			)
+		}
+		<p class="article-footer-nav">
+			<a class="back-link" href="/posts/">{isChinese ? "← 全部文章" : "← All posts"}</a>
 		</p>
 	</article>
 
 	<button class="to-top-button" data-show="false" id="to-top-btn" tabindex="-1" type="button">
-		<span class="sr-only">Back to top</span>
+		<span class="sr-only">{isChinese ? "返回顶部" : "Back to top"}</span>
 		<svg
 			aria-hidden="true"
 			class="h-5 w-5"

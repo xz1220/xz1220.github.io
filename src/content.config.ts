@@ -16,11 +16,19 @@ const post = defineCollection({
 	loader: glob({ base: "./src/content/post", pattern: "**/*.{md,mdx}" }),
 	schema: ({ image }) =>
 		baseSchema.extend({
+			deck: z.string().optional(),
+			lang: z.string().optional(),
 			description: z.string(),
 			coverImage: z
 				.object({
 					alt: z.string(),
 					src: image(),
+				})
+				.optional(),
+			coverCredit: z
+				.object({
+					text: z.string(),
+					url: z.url().optional(),
 				})
 				.optional(),
 			draft: z.boolean().default(false),

@@ -1,8 +1,15 @@
 ---
 title: "人类只是再次提升了编程的抽象层级"
 description: "AI Agent 没有让编程消失；它把从意图到实现的展开过程交给模型，也把更大的规划、验证与责任留给了人。"
+deck: "代码没有消失，只是沉到了更底层。"
+lang: "zh-CN"
 publishDate: "2026-09-02"
-ogImage: "/social-card.png"
+coverImage:
+  alt: "托马斯·科尔《建筑师之梦》：沉睡的建筑师躺在巨型柱头上，眼前层叠展开从埃及金字塔、希腊罗马神殿到哥特教堂的建筑文明。"
+  src: "../../assets/covers/the-architects-dream.jpg"
+coverCredit:
+  text: "封面：Thomas Cole, The Architect’s Dream, 1840 · Toledo Museum of Art · Public domain"
+  url: "https://commons.wikimedia.org/wiki/File:Thomas_Cole_-_Architect%E2%80%99s_Dream_-_Google_Art_Project.jpg"
 tags: ["ai-agents", "software-engineering"]
 ---
 
