@@ -1,0 +1,33 @@
+---
+import { siteConfig } from "@/site.config";
+
+const token = import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
+const hostname = new URL(siteConfig.url).hostname;
+
+if (token && !/^[a-f0-9]{32}$/i.test(token)) {
+	throw new Error("PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN must be a 32-character site token.");
+}
+---
+
+{
+	import.meta.env.PROD && token && (
+		<script is:inline define:vars={{ token, hostname }}>
+			// Count production visits only, after a prerendered page is actually opened.
+			function loadAnalytics() {
+				if (window.location.hostname !== hostname) return;
+				if (document.querySelector("script[data-cf-beacon]")) return;
+				const script = document.createElement("script");
+				script.type = "module";
+				script.src = "https://static.cloudflareinsights.com/beacon.min.js";
+				script.dataset.cfBeacon = JSON.stringify({ token });
+				document.body.appendChild(script);
+			}
+
+			if (document.prerendering) {
+				document.addEventListener("prerenderingchange", loadAnalytics, { once: true });
+			} else {
+				loadAnalytics();
+			}
+		</script>
+	)
+}

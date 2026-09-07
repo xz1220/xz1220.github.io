@@ -32,6 +32,8 @@ jobs:
       - run: git config --global url."https://github.com/".insteadOf "git@github.com:"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
+        env:
+          PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ vars.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

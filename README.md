@@ -25,6 +25,24 @@ pnpm run check     # astro check + biome
 pnpm run format    # prettier
 ```
 
+## Traffic analytics
+
+Cloudflare Web Analytics is enabled when the build has a
+`PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN`. Until configured, analytics is disabled.
+
+1. In [Cloudflare Web Analytics](https://dash.cloudflare.com/?to=/:account/web-analytics),
+   add `xz1220.github.io` and choose manual JavaScript installation.
+2. Copy the public `token` from **Manage site → JS snippet** (not an API key).
+3. Add it as a GitHub repository **Actions variable** named
+   `PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN`, then rerun the deployment workflow.
+4. Visit the blog and open its Cloudflare Web Analytics dashboard. Data can take
+   a few minutes to appear; filter by Path to compare individual articles.
+
+For local builds, copy `.env.example` to `.env` and fill in the token. The script
+only runs on the production hostname, skips the dev server, and waits until a
+prerendered page is activated. Removing the variable and redeploying disables it.
+Stats begin after activation; historical visits cannot be recovered.
+
 ## Content
 
 - Posts: `src/content/post/*.md` (frontmatter: title, description, publishDate, tags)
