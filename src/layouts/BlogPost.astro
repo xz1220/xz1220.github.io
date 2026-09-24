@@ -15,13 +15,13 @@ const {
 	lang = "en-GB",
 	ogImage,
 	publishDate,
+	sourceUrl,
 	title,
 	updatedDate,
 } = post.data;
 const socialImage = ogImage ?? coverImage?.src.src ?? `/og-image/${post.id}.png`;
 const socialImageWidth = ogImage || !coverImage ? 1200 : coverImage.src.width;
 const socialImageHeight = ogImage || !coverImage ? 630 : coverImage.src.height;
-const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime = String(remarkPluginFrontmatter.readingTime ?? "");
 const isChinese = lang.startsWith("zh");
@@ -29,7 +29,9 @@ const isChinese = lang.startsWith("zh");
 
 <BaseLayout
 	meta={{
-		articleDate,
+		articlePublishedDate: publishDate.toISOString(),
+		articleModifiedDate: updatedDate?.toISOString(),
+		articleSourceUrl: sourceUrl,
 		description,
 		lang,
 		ogImage: socialImage,
@@ -62,6 +64,16 @@ const isChinese = lang.startsWith("zh");
 						</a>
 					))}
 				</nav>
+			)
+		}
+		{
+			sourceUrl && (
+				<p class="article-footer-source">
+					{isChinese ? "原文发表于 " : "Originally published on "}
+					<a href={sourceUrl} rel="noopener noreferrer" target="_blank">
+						{new URL(sourceUrl).hostname}
+					</a>
+				</p>
 			)
 		}
 		<p class="article-footer-nav">

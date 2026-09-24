@@ -18,7 +18,9 @@ export interface PaginationLink {
 }
 
 export interface SiteMeta {
-	articleDate?: string | undefined;
+	articlePublishedDate?: string | undefined;
+	articleModifiedDate?: string | undefined;
+	articleSourceUrl?: string | undefined;
 	description?: string | undefined;
 	lang?: string | undefined;
 	ogImage?: string | undefined;

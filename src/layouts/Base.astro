@@ -14,7 +14,9 @@ interface Props {
 
 const {
 	meta: {
-		articleDate,
+		articlePublishedDate,
+		articleModifiedDate,
+		articleSourceUrl,
 		description = siteConfig.description,
 		lang = siteConfig.lang,
 		ogImage,
@@ -29,7 +31,9 @@ const {
 	<head>
 		<ThemeProvider />
 		<BaseHead
-			articleDate={articleDate}
+			articlePublishedDate={articlePublishedDate}
+			articleModifiedDate={articleModifiedDate}
+			articleSourceUrl={articleSourceUrl}
 			description={description}
 			lang={lang}
 			ogImage={ogImage}

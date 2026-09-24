@@ -6,7 +6,9 @@ import "@/styles/global.css";
 type Props = SiteMeta;
 
 const {
-	articleDate,
+	articlePublishedDate,
+	articleModifiedDate,
+	articleSourceUrl,
 	description,
 	lang = siteConfig.lang,
 	ogImage,
@@ -20,6 +22,32 @@ const siteTitle =
 	title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+const articleData = articlePublishedDate
+	? {
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			mainEntityOfPage: canonicalURL.href,
+			headline: title,
+			description,
+			inLanguage: lang,
+			image: socialImageURL,
+			datePublished: articlePublishedDate,
+			...(articleModifiedDate ? { dateModified: articleModifiedDate } : {}),
+			author: {
+				"@type": "Person",
+				name: siteConfig.author,
+				url: new URL("/about/", Astro.site).href,
+				sameAs: "https://www.zhihu.com/people/xz1220",
+			},
+			publisher: {
+				"@type": "Person",
+				name: siteConfig.author,
+				url: new URL("/about/", Astro.site).href,
+			},
+			...(articleSourceUrl ? { isBasedOn: articleSourceUrl } : {}),
+		}
+	: undefined;
+const articleJson = articleData ? JSON.stringify(articleData).replace(/</g, "\\u003c") : undefined;
 ---
 
 <meta charset="utf-8" />
@@ -52,7 +80,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content={siteConfig.author} name="author" />
 
 {/* Open Graph / Facebook */}
-<meta content={articleDate ? "article" : "website"} property="og:type" />
+<meta content={articlePublishedDate ? "article" : "website"} property="og:type" />
 <meta content={title} property="og:title" />
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
@@ -63,13 +91,15 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content={String(ogImageWidth)} property="og:image:width" />
 <meta content={String(ogImageHeight)} property="og:image:height" />
 {
-	articleDate && (
+	articlePublishedDate && (
 		<>
 			<meta content={siteConfig.author} property="article:author" />
-			<meta content={articleDate} property="article:published_time" />
+			<meta content={articlePublishedDate} property="article:published_time" />
+			{articleModifiedDate && <meta content={articleModifiedDate} property="article:modified_time" />}
 		</>
 	)
 }
+{articleJson && <script is:inline type="application/ld+json" set:html={articleJson} />}
 
 {/* Twitter */}
 <meta content="summary_large_image" property="twitter:card" />

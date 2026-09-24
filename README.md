@@ -43,9 +43,24 @@ only runs on the production hostname, skips the dev server, and waits until a
 prerendered page is activated. Removing the variable and redeploying disables it.
 Stats begin after activation; historical visits cannot be recovered.
 
+For article discovery, filter the dashboard by **Path** to compare posts and by
+**Referer** to see traffic from search engines, Zhihu, or AI products that send
+a referrer. Direct visits and clients that omit a referrer cannot be attributed
+to a source. The production deployment already has the site token configured.
+
+## Article discovery
+
+Post pages expose a canonical URL, Open Graph metadata, and `BlogPosting`
+structured data with the author, original publication date, revision date,
+language, image, and optional Zhihu source. The source is also linked in the
+article footer. The sitemap, robots.txt, and RSS feed include published posts.
+When updating a post, keep its original `publishDate` and set `updatedDate` to
+the date of the substantive revision. Set `sourceUrl` when migrating an article
+from another site.
+
 ## Content
 
-- Posts: `src/content/post/*.md` (frontmatter: title, description, publishDate, tags)
+- Posts: `src/content/post/*.md` (frontmatter: title, description, publishDate, tags; optional updatedDate and sourceUrl)
 - Projects: `src/content/project/*.md` (adds repo/demo/featured/video fields)
 - Adding a project? Give it a plate: add a `Plate<Name>.astro` next to the
   others and register its id in `src/components/project/Plate.astro`.

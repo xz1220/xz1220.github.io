@@ -18,6 +18,7 @@ const post = defineCollection({
 		baseSchema.extend({
 			deck: z.string().optional(),
 			lang: z.string().optional(),
+			sourceUrl: z.url().optional(),
 			description: z.string(),
 			coverImage: z
 				.object({
