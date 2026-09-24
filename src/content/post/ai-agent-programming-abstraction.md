@@ -1,9 +1,11 @@
 ---
 title: "人类只是再次提升了编程的抽象层级"
-description: "AI Agent 没有让编程消失；它把从意图到实现的展开过程交给模型，也把更大的规划、验证与责任留给了人。"
-deck: "代码没有消失，只是沉到了更底层。"
+description: "从 ENIAC 的接线、Fortran 和 Unix，到 Web、云与 AI Agent：编程的抽象层级如何再次上升，以及人仍需判断什么。"
+deck: "从接线器到 Agent，人的意图正在更高层被表达。"
 lang: "zh-CN"
 publishDate: "2026-09-02"
+updatedDate: "2026-09-24"
+sourceUrl: "https://zhuanlan.zhihu.com/p/2081370754508133635"
 coverImage:
   alt: "托马斯·科尔《建筑师之梦》：沉睡的建筑师躺在巨型柱头上，眼前层叠展开从埃及金字塔、希腊罗马神殿到哥特教堂的建筑文明。"
   src: "../../assets/covers/the-architects-dream.jpg"
@@ -13,136 +15,170 @@ coverCredit:
 tags: ["ai-agents", "software-engineering"]
 ---
 
-2026 年 6 月，Claude Code 核心建设者 Boris Cherny 在一次访谈中被问到：如果工程师已经很少亲手写代码，什么还算是编程？
+2026 年 5 月，Linux 和 Git 的创造者 Linus Torvalds 在一场对谈中，提到有人宣称自己 99% 的代码由 AI 编写。他随即拿编译器打了个比方：
 
-他从自己的家庭讲起。祖父在苏联时代使用穿孔卡，父亲写汇编；到了他这一代，使用的是 Java、JavaScript 和 Python。每一代人都可能觉得下一层的东西太简单，已经不算真正的编程。但 Boris 对这段历史的概括很直接：
+> “100% of their code is written by compilers. But they never say that.”
 
-> “the level of abstraction always goes up.”
+程序早就经过工具生成，只是过去人们不这样谈论它。他随后说，AI 正在改变编程的方式，却没有改变编程的基本问题。[访谈，26:09](https://www.youtube.com/watch?v=fi29pfLcW4I&t=1569s)、[27:29](https://www.youtube.com/watch?v=fi29pfLcW4I&t=1649s)
 
-一年前，他还在 IDE 里写代码，偶尔使用自动补全。后来，他开始同时运行 5 到 10 个 Claude，让它们分别完成不同任务。再往后，他甚至不再亲自 Prompt Claude，而是编写自动运行的 loops，让 loops 去提示 Claude，并判断下一步做什么。他用一句话概括现在的工作：
+一个月后，Claude Code 核心建设者 Boris Cherny 在另一场访谈里，讲起自己的家庭：祖父使用穿孔卡，父亲写汇编，到了他这一代，使用 Java、JavaScript 和 Python。他说，编程的抽象层级总是在上升。[Boris 访谈](https://www.youtube.com/watch?v=RkQQ7WEor7w&t=613s)
+
+而他自己的工作，也从在编辑器里写代码，变成同时运行多个 Claude，再变成编写自动运行的循环，让这些循环提示 Claude、判断下一步。他用一句话描述现在的工作：
 
 > “My job is to write loops.”
 
-机器之心后来把这一段整理成了一个很准确的中文小标题：**人类只是再次提升了编程的抽象层级。** [原始视频](https://www.youtube.com/watch?v=RkQQ7WEor7w&t=613s)、[第三方自动文字稿](https://www.usetranscribe.io/yt/RkQQ7WEor7w/claude-code-engineering)、[中文整理稿](https://www.36kr.com/p/3842886530533633)
+其实程序员的工作不仅仅是编码。我们不会因为机器码是编译器生成的，就认为程序员没有在 coding；同样的，在现在这个阶段，我们也不能因为代码是 AI 生成的，就认为程序员没有在 coding。
 
-这并不只是少数人的工作方式。GitHub 的 Octoverse 2025 显示，平台上的 AI-related repositories 已经超过 430 万；超过 113 万个公开仓库引入了 LLM SDK，同比增加 178%。这些广义数据说明 AI 正在进入日常软件栈。更直接与 Agent 有关的信号是：GitHub Copilot coding agent 在 2025 年 5 月到 9 月之间创建了 100 万以上的 PR。这里的 AI 仓库分类很宽，PR 也只是“创建”而不是“合并”，这些数字不能直接证明生产率提高；它们只能说明 AI 的采用在扩展，coding-agent 的使用也已经出现明确增长。[GitHub Octoverse 2025](https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/)
+**改变的从来都不是机器码或者代码是由谁写出来的，而是人编程的抽象层级。**
 
-站在这个节点，我觉得真正值得讨论的已经不是 Agent 会不会写代码，而是：我们应该怎样理解这次抽象层级的变化？它拿走了什么，又把什么留给了人？
+AI Agent 带来的变化，正是人类再次提升了编程的抽象层级。我们开始把目标、约束和预期结果交给 Agent，让它把想法展开成代码，再根据运行结果继续调整。
 
-## 一、Agent 抽象掉的，是从意图到实现之间的展开过程
+这件事发生得很快。但如果站在历史的角度上看，软件的发展一直伴随着类似的迁移：一些原本由程序员亲手完成的工作，被新的语言或者工具接手。
 
-回到上世纪中期，程序员面对的不只是 01，还包括重新接线、设置开关、纸带、穿孔卡和机器特定的数字指令。穿孔卡本身只是一种输入与存储媒介，真正持续发生的变化，是越来越多机器细节被下沉到下一层。
+截至 2025 年 8 月 31 日，GitHub 上已有超过 113 万个公开仓库引入生成式 AI 模型 SDK，同比增长 178%。[1](https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/)
 
-汇编语言用助记符和符号地址替代数值操作码，assembler 再把它翻译成机器码。到了高级语言，编译器开始承担更多工作。IBM 的 Fortran 项目在 1954 年启动，1957 年推出编译器。IBM 在自己的历史页面中举过一个例子：一个原本需要手工输入多达 1,000 条机器指令的问题，可以被写成 47 条 Fortran 语句。这个页面没有交代具体程序和测量方法，所以 1,000 比 47 不能被当成普遍倍率。但真正关键的也不是少敲了多少字符，而是问题的表达方式变了：科学家和工程师可以直接书写自己理解的数学关系，由编译器负责展开成机器指令。[IBM：Fortran](https://www.ibm.com/history/fortran)
+![GitHub 上使用生成式 AI 模型 SDK 的公开仓库增长图](/posts/ai-agent-programming-abstraction/image-1.webp)
 
-后来的抽象也并不都沿着同一条路线发展。C 仍然贴近机器，却让 Unix 的大量系统代码获得了可移植性。Unix 内核在 1973 年夏天改写成 C，真正快速传播则发生在可移植性得到验证以后。[Dennis Ritchie：The Development of the C Language](https://www.bell-labs.com/usr/dmr/www/chist.pdf) Simula 和 Smalltalk 把程序组织成对象，Smalltalk 又与交互式开发环境和 GUI 一起演进。Java 主要吸收跨平台部署差异，Python 更重视程序员的编写与调试时间，JavaScript 则把浏览器变成了可以直接编程的宿主环境。
+*采用生成式 AI 模型 SDK 的公开仓库累计数。数据截至 2025 年 8 月 31 日，来源：GitHub Octoverse 2025。*
 
-这些历史说明，成功的抽象通常不是让复杂度凭空消失，而是把某一类实现细节交给下一层，从而降低表达、开发、适配或部署中的某些成本。
+要理解今天，不妨先回顾下历史。
 
-Fred Brooks 在《No Silver Bullet》中区分过软件的本质复杂度与偶然复杂度。高级语言可以替人拿走寄存器、地址和机器指令这些表达成本，却不会替人决定业务关系、系统结构以及什么才算正确。[No Silver Bullet](https://catalogimages.wiley.com/images/db/pdf/0818676094.excerpt.pdf)
+## 接线器
 
-沿着这条线，我更愿意把 AI Agent 看成人类自然语言的解释器。人先用自然语言表达自己要什么，Agent 再把相对模糊的意图展开成计划、工具调用、代码和一串时间序列动作，最终得到软件，或者对现实世界产生影响。
+把时钟拨回 1940 年代。那时，“写一个新程序”与“重新设置一台机器”之间，还没有今天这样清楚的分界。
 
-2022 年提出的 ReAct，把类似过程组织成推理、行动、观察和调整的循环。推理用于形成和更新计划，行动则从外部环境获得新信息，再影响下一步判断。今天的 Agent 未必逐字采用同一套内部实现，但基本形态相似：模型根据中间结果动态决定下一步，而不是由人事先写死每一条路径。[ReAct](https://arxiv.org/abs/2210.03629)
+早期 ENIAC 由许多功能单元组成。为了让一次加法的结果进入下一次乘法，程序员需要连接电缆、设置开关，把数学过程变成机器内部的信号路径。Computer History Museum 的记录显示，为一个新问题设计配置、接线和设定开关，可能需要许多天。[Computer History Museum：ENIAC](https://www.computerhistory.org/revolution/birth-of-the-computer/4/78)、[Programming the ENIAC](https://computerhistory.org/blog/programming-the-eniac-an-example-of-why-computer-history-is-hard/)
 
-任务粒度的变化也不只是体感。METR 用“完成同一任务的人类专家需要多长时间”衡量 Agent 能力。在它以软件、机器学习和安全任务为主的可评分测试中，前沿模型的 50% task-completion horizon 自 2019 年以来大约每 7 个月翻倍；80% 成功率对应的 horizon 也以相近速度增长，但绝对长度大约只有前者的五分之一。[Measuring AI Ability to Complete Long Tasks](https://arxiv.org/abs/2503.14499)
+![Betty Jean Jennings 与 Frances Bilas 在 ENIAC 面板前工作](/posts/ai-agent-programming-abstraction/image-2.webp)
 
-这个数字不能被理解成 Agent 已经可以稳定工作几天甚至几个月。所谓 50%，就是做两次可能成功一次；METR 的任务也比真实组织中的工作更干净、更独立、更容易评分。它能说明的是，Agent 可以展开的任务链条正在变长，不能说明它已经可以无人监管地维护一个运行两年的线上系统。
+*约 1946 年，Betty Jean Jennings（左）和 Frances Bilas（右）在 ENIAC 面板前工作。U.S. Army Photo / ARL Technical Library，经 [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Two_women_operating_ENIAC_(full_resolution).jpg)；美国联邦政府公务作品，在美国属公有领域。*
 
-这种边界和我自己的使用体验很接近。
+这张老照片里的人不是在给一份写好的软件做安装。她们设置的线路和开关，表达程序应该怎样运行。计算交给了机器，人类安排计算的过程，却依然是一项具体而繁复的手工劳动。
 
-我的博客是一个高度标准化的项目：Markdown 是内容来源，数据逻辑简单，不需要传统后端长期运行，最终效果也很容易通过页面和构建结果验收。大学时搭博客，需要学习语言、配置模板、手动写 HTML 和 CSS；现在这些细粒度实现大多可以交给 Agent。这样的项目，我愿意给它 80 分。
+后来，程序开始以编码指令的形式被保存下来。1948 年，经过改造的 ENIAC 执行起存放在功能表开关中的指令；同一年，Manchester Baby 演示了保存在可写存储器中的程序。改变任务，逐渐不再意味着重新布置整台机器。[2](https://www.computerhistory.org/timeline/computers/) 人开始在一台通用的机器上，描述不同的过程。
 
-但回到长期、大规模线上系统，比如构建一个 Agent 平台，表现会明显偏移。数据表设计经常可以跑通，却容易引入没有必要的复杂度；上游架构和高并发方案通常能用，但未必是最简化、最适合长期演进的选择。在这些场景里，我对数据模型可能只打 50 分，对上游架构大约打 60 分。
+但直接编写机器指令仍然很费力。程序员要面对操作码、地址和具体的硬件规则。汇编语言让这些数字获得了名字：用助记符表达操作，用符号标记位置，再由汇编器完成翻译。[3](https://www.ibm.com/docs/en/zos-basic-skills?topic=zos-assembler-language)
 
-一项 Cursor 工作论文提供了与这种差异相符的证据。研究分析了约 12 万名专业用户。在平均一周内，只使用 Agent、不使用自动补全的比例，产品经理约为 61%，设计师约为 56%，而软件工程师约为 36%，Data/ML 从业者约为 35%。作者把 UI、Demo、Dashboard 等容易直接检查的产出，视为非工程角色更愿意委托 Agent 的一种可能解释。这个研究并没有直接随机操纵“可验证性”，所以不能证明所有设计工作都比后端容易。但它至少与一个判断一致：结果越容易通过视觉、测试、接口契约或运行状态验收，委托越容易成立；正确性越依赖复杂系统关系和长期后果，人越难放手。[AI Agents and Higher-Order Work](https://suproteem.is/assets/files/agents.pdf)
+程序员仍然需要理解机器，却不必每次都亲手处理全部数字编码。机器和人的表达之间，多出了一层可以代劳的工具。
 
-另一项 METR 随机对照试验则提供了反方向的现实。16 名熟悉成熟开源项目的开发者完成了 246 个真实任务，他们平均已经在对应项目上工作约 5 年。任务被随机分成允许或不允许使用 AI；在允许组里，开发者可以自行选择是否使用工具，实际主要使用 Cursor Pro 和 Claude 3.5/3.7 Sonnet。开发者事前预计 AI 会让自己快 24%，事后仍觉得快了 20%，实际完成时间却增加了 19%。这不说明 AI 编程没有价值，而是说明在成熟代码库、高上下文和高质量标准下，理解、等待、检查与修正 AI 输出的成本，可能超过它节省的编码时间。[METR 开源开发者生产率试验](https://metr.org/Early_2025_AI_Experienced_OS_Devs_Study-paper.pdf)
+## Fortran
 
-所以 Agent 作为新抽象真正拿走的，是从意图到局部实现之间越来越长的展开过程。它并没有替人拿走对结果的责任。博客和长期平台之间的分数差异，不只来自代码量，而来自任务能否被清楚定义、能否及时验证，以及错误要到多久以后才会暴露。
+1950 年代，John Backus 带领 IBM 团队开发 Fortran。他们想让科学和工程问题可以用公式、循环和数组来表达，把大量机器指令的生成留给编译器。项目于 1954 年启动，编译器在 1957 年推出。[4](https://www.ibm.com/history/john-backus)
 
-## 二、任务粒度上升以后，人需要承担更大的责任
+Fortran 团队的原始论文里，写了一个很小的故事。
 
-我一直在强调任务粒度。Agent 变强，不只是意味着同一批小任务完成得更快，更重要的是，人定义任务的粒度会越来越大。
+一名程序员接受一天培训后，花四小时写出 47 条 Fortran 语句。IBM 704 随后用六分钟，把它们展开成约 1,000 条机器指令。第一次运行的结果不对，他根据输出改写了一条源语句，重新编译，得到了正确的答案。[5](https://softwarepreservation.computerhistory.org/FORTRAN/paper/BackusEtAl-FortranAutomaticCodingSystem-1957.pdf)
 
-Anthropic 对 2025 年 10 月到 2026 年 4 月约 40 万个 Claude Code 交互会话进行过一次分析。在典型会话中，人做了大约 70% 的规划决策，Claude 做了大约 80% 的执行决策。这里的规划包括做什么、采用什么方向、什么算完成；执行则包括改哪些文件、写什么代码、运行哪些命令。这些比例来自模型对会话文字稿的归类，只覆盖 CLI、Claude.ai 和 Desktop 中的交互式会话，排除了 headless、SDK 与第三方 IDE，也看不到代码后来是否真正上线，因此更适合被理解为产品内部分工的早期信号。[Agentic coding and persistent returns to expertise](https://www.anthropic.com/research/claude-code-expertise)
+他估计，如果手工编码，需要三天，调试时间另算。这不是所有 Fortran 项目的统一效率，但这一次任务已经足够具体：他不必逐条写出那约一千条机器指令，也能让机器完成自己安排的计算。
 
-这个结果和我自己的体感很接近。传统开发从想法到需求、方案、编码、测试和验收的核心流程并没有消失，只是其中实现和执行的部分开始更多地交给 Agent。
+而当时，对编译器的怀疑并不少。习惯手写代码的程序员担心，机器自动生成的指令不够高效。Fortran 的编译器必须在实际机器上证明自己，才能让这种更高层的表达方式被接受。[6](https://www.computerhistory.org/timeline/1957/)
 
-如果人只提一个模糊需求，把规划和执行全部交出去，编程很容易变成“不断找 Agent 犯的错”：等它完成以后再 review，发现不 work，再让它回去修改。更合理的流程仍然是先把业务模型和方案梳理清楚，完成对齐，再进入实施。
+人没有因此停止编程。那名程序员仍然要表达算法，也仍然要发现答案不对。变化在于，他修改的是 47 条语句中的一条，而不是重新安排下面约一千条指令的细节。
 
-人在这个过程中必须持续提供三件事：
+我们今天觉得理所当然的“写源码，然后编译”，曾经也是一项需要解释、需要建立信任的新工作方式。
 
-1. 我们到底要做什么；
-2. 这件事应该做成什么样；
-3. 具体采用什么方向和方案。
+## C & Unix
 
-人的责任因此没有变少，而是上移了。
+接下来的变化，发生在软件与硬件的关系里。
 
-经验也没有简单失去价值。在 Cursor 的研究中，一个标准差的工作经验大约等于 7 年。经验增加与首条消息中相对高约 11% 的 planning rate、相对均值高约 2% 的 Agent 输出接受率相关；与之相反，自动补全的接受率反而下降。这个结果来自符合条件的 Cursor 企业客户，是观察相关性，不足以证明经验直接导致更好的 Agent 使用能力。但它与一种工作方式相符：有经验的人拥有更多业务和生产上下文，未必更需要通用代码补全，却更擅长定义任务、审阅计划和验收结果。[AI Agents and Higher-Order Work](https://suproteem.is/assets/files/agents.pdf)
+1973 年夏天，Unix 内核用 C 重写。几年后，贝尔实验室尝试把它从 PDP-11 搬到架构差异很大的 Interdata 8/32。换机器，原本意味着大量与硬件绑定的工作也要跟着重做。[7](https://www.bell-labs.com/usr/dmr/www/chist.pdf)
 
-随着任务粒度增大，拆解和调度本身也可以逐渐交给 Agent。现在人可能还需要拆功能、拆模块，再让多个 Agent 分头实现；未来也许只需要定义一个更大的任务，由 Agent 继续分析依赖、决定串并行关系，并在冲突出现后动态调整。
+团队后来回忆，移植过程中有一段时间，为了把测试系统送到新机器上，他们要先在六楼制作磁带，再拿到一楼的另一台机器上转换记录密度，最后带到五楼的 Interdata 上使用。软件正在摆脱某一台机器的束缚，传递软件的人却还要在楼层之间搬运磁带。[8](https://www.nokia.com/bell-labs/about/dennis-m-ritchie/portpap.html)
 
-但“100 个任务已经定义”不等于“100 个任务都可以同时运行”。Anthropic 的多 Agent Research 系统，在适合 breadth-first 探索的内部评测上，比单 Agent Opus 4 高 90.2%，复杂查询时间最多下降 90%；代价是多 Agent 系统消耗的 Token 约为普通聊天的 15 倍。Anthropic 同时明确指出，需要共享大量上下文、存在很多相互依赖的任务并不适合当前的多 Agent 系统，大多数 Coding 任务也没有研究任务那么容易拆开。[Anthropic 多 Agent 复盘](https://www.anthropic.com/engineering/multi-agent-research-system)
+这次迁移却留下了一个重要结果：约六个月后，除设备驱动与汇编原语外，两平台的操作系统源码约 95% 相同；约两万行用户级软件也几乎完全相同。[8](https://www.nokia.com/bell-labs/about/dennis-m-ritchie/portpap.html)
 
-所以任务粒度上升，并不是简单地把更多 Agent 同时跑起来。真正重要的是先识别共同目标、依赖图、共享状态、冲突边界和验收条件，再把可以分解的部分交给 Agent。
+适配没有消失，但它集中到了更小的边界里。大部分软件不必再随着机器一起重写。程序员开始能够在更稳定的语言和接口上积累自己的工作。
 
-长期项目的问题会更加明显。一个项目可能运行半年、一年甚至两年，中间有大量短周期 Agent 任务不断进入代码库。即使每一个任务单独看都能运行，最终也未必能组成一个健康的系统。业务目标、架构边界、向前与向后兼容、编码规范和稳定性要求，不能由每个 Agent 在每次任务里重新决定。
+代码因此有机会比承载它的那台机器活得更久。
 
-过去多人维护项目时，很多信息存在于长期维护者的脑中。人会在工作中积累记忆、经验和对系统的直觉，单次 Agent 实例却不会在项目里自然成长。它可以被替换、被不断消耗和水平扩展，能力提升主要来自底层模型更新。因此，过去依靠老员工记住的东西，现在更需要变成显式、持续维护的文档、规范、测试和验收规则。
+差不多同一时期，软件自身也在长大。模块化和面向对象的发展，让人可以把系统组织成边界清楚的部分。1972 年，David Parnas 提出，模块应当隐藏那些可能变化的设计决策；Smalltalk 则把对象、图形界面和交互式开发环境放在一起，让编辑、运行与观察结果发生在同一个工作环境中。[9](https://dl.acm.org/doi/10.1145/361598.361623)、[10](https://computerhistory.org/blog/introducing-the-smalltalk-zoo-48-years-of-smalltalk-history-at-chm/)
 
-在字节待过一段时间以后，我越来越觉得文档非常重要。真正有价值的不是文档数量，而是它能否成为长期维护的事实来源：内容有没有过期，表达是否准确，架构、产品和代码之间是否仍然一致。
+人的注意力继续上移。从每条指令怎样执行，转向一个模块应该承担什么职责、两个部分怎样合作，以及未来修改其中一处，会不会牵动整个系统。
 
-OpenAI 在 2026 年公开过一次 Agent-first 内部实验。一个小团队从空仓库开始，五个月后形成了约 100 万行代码和约 1,500 个合并 PR；初期由 3 名工程师驱动，后来增加到 7 名。团队估计开发时间大约是手工编写的十分之一。这个 greenfield 案例没有随机对照，代码行和 PR 也不等于业务价值。但比产出数字更重要的是，他们最终遇到的瓶颈仍然是 human QA capacity。[OpenAI：Harness engineering](https://openai.com/index/harness-engineering/)
+## Web & Cloud
 
-团队最初尝试把所有说明塞进一个巨大的 `AGENTS.md`，很快发现上下文会被挤占、规则没有轻重、内容迅速过期，也很难机械检查。后来，他们只保留一个约 100 行的 `AGENTS.md` 作为索引，把架构、产品规格、执行计划、可靠性、安全和技术债放进结构化、版本化的 `docs/`，再用 linter、CI 和周期性 Agent 检查文档与代码是否发生漂移。
+1990 年底，Tim Berners-Lee 办公室里的一台 NeXT 电脑，运行起第一个 Web 服务器，也运行着第一个浏览器兼编辑器。为了防止被误关，机器上贴着一张提醒：这是一台服务器，不要关机。[11](https://home.cern/science/computing/the-birth-of-the-web/short-history-web/)
 
-Agent 同样不会自动解决熵增。OpenAI 的团队最初每周五拿出约 20% 的时间清理所谓的 “AI slop”。后来，他们把人的判断沉淀成可以机械检查的原则，再让后台 Agent 持续扫描偏差、更新质量评分并提出定向重构。
+![CERN 展出的第一台 Web 服务器 NeXT 工作站](/posts/ai-agent-programming-abstraction/image-3.webp)
 
-这正好对应我前面说的周期性重构：前提始终是人已经把方向、边界和验收标准设计清楚。然后，迁移、整理和偿还技术债这些实施工作，才可以持续交给 Agent。Agent 让执行重构变得更便宜，但为什么要改、应该改成什么样，仍然是人的责任。
+*曾作为第一台 Web 服务器的 NeXT 工作站，2005 年摄于 CERN 展览，并非 1990 年办公室现场照。摄影：Coolcaesar / [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg)，[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)，未裁剪。*
 
-Google DORA 2025 对近 5,000 名技术人员的调查和 100 多小时定性研究，也把 AI 描述成组织能力的“放大器”。它不是因果实验，但提供了一个相近的观察：既有工程基础越清楚，Agent 越可能成为杠杆；基础越混乱，它也越可能放大原有问题。[DORA 2025](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/)
+这台机器上的第一个网站，介绍的正是 Web 本身：它是什么，怎样使用，怎样搭建自己的服务器与网页。URI、HTTP 和 HTML 把不同机器上的资源接进了一套共同的寻址、传输与展示方式。人可以沿着链接，从一台机器走向另一台机器上的内容。[12](https://www.w3.org/People/Berners-Lee/History.html)
 
-因此，即使 Agent 可以水平扩展，真正稀缺的仍然是人的注意力和决策质量。人需要同时理解业务、产品和技术，快速看懂海量变化，判断哪些结果必须仔细 review，哪些可以快速放行。未来的程序员未必需要像过去一样亲手写熟每一种语法，但必须能够在更高层级理解系统，也能在关键时刻进入底层判断问题。
+软件不再只是一份交到别人手里的程序。它也可以是一个持续开放的入口，只要服务器还在运行，远处的人就能访问它。
 
-这也是我为什么觉得，一人公司很难成为普遍终局。一个人可以管理比过去多很多倍的执行资源，但他的注意力、判断和责任不能同步水平扩展。我更倾向于最后仍然需要一个规模不大、但业务和技术判断密度很高的 group，去管理一个远大于自身的 Agent 执行网络。
+等这样的服务越来越多，新的麻烦又出现了：谁来安排机器，谁来启动进程，某个实例坏掉以后谁来补上？云平台和集群调度系统，开始接手这些反复发生的工作。
 
-## 三、新的抽象层级，可能带来新一轮软件繁荣
+在 Kubernetes 里，开发者可以写下 `replicas: 3`，表达“让服务持续保持三个副本”。如果一个 Pod 消失，控制器会创建替代者。人不必每次都亲手安排那次启动，而是告诉平台，系统应当维持什么状态。[13](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
-聊到这里，我突然想到：软件可能会迎来新一轮繁荣。
+从 ENIAC 的电缆，到一份声明服务状态的配置，跨度已经很大。但贯穿其中的变化很相似：人表达的东西越来越接近自己的目的，更多重复的执行细节，被交给下面的工具和平台。
 
-这不是说任何抽象层级的提高都会自动带来繁荣。更准确地说，一种真正成功的抽象，会把一部分实现细节下沉，降低开发、适配或维护中的某些成本。当成本结构变化以后，原来不值得做的事情，才可能进入软件的可行范围。
+这些层并没有互相抹掉。今天的服务底下，依然有机器指令、编译器、操作系统和网络。只是多数应用开发者，不必每次都从最底层重新走一遍。
 
-Fortran 是一个历史例子。前面提到，IBM 曾用“最多 1,000 条机器指令被表达为 47 条 Fortran 语句”说明高层表达带来的变化。这个比例不是普遍规律，但它具体展示了抽象如何把一部分实现工作交给编译器。与此同时，软件抽象也不会单独创造一个时代。互联网很早就存在，移动互联网真正进入大规模发展，还需要智能手机、移动网络、应用商店、支付、用户规模和内容生态共同成熟。2013 年 12 月，中国发放 4G 牌照；到 2014 年 6 月，中国手机网民达到 5.27 亿，手机上网使用率 83.4%，第一次超过传统 PC 的 80.9%；到 2014 年底，4G 用户接近 1 亿。这更像一组条件同时 ready，而不是 4G 单独创造了移动互联网。[CNNIC 第 34 次报告](https://www3.cnnic.cn/n4/2022/0401/c88-765.html)、[工信部 2014 年统计](https://www.cac.gov.cn/2015-02/05/c_1114260423.htm)
+## AI - 新的抽象层级
 
-Agent 也一样。自然语言这个新入口，还需要模型、Harness、测试与 Eval、运行环境、分发方式和真实需求共同成熟，才可能形成下一轮软件繁荣。
+自然语言进入这条历史时，最初还显得像另一种输入方式。
 
-这种经济边界的变化已经出现了一个很具体的案例。Asana 曾计划移除一套停止积极维护、阻碍前端升级的 Enzyme 测试框架。旧方案估计至少需要 5 年和约 600 万美元人员成本。2026 年，他们从一个五句话 Prompt 开始，最多并行运行 4 个 Codex Agent；一名工程师每天检查两次进度，并审阅每一项变更。最终，迁移在两个日历周内完成，模型和基础设施成本约为 1.2 万美元。[OpenAI / Asana 案例](https://openai.com/index/asana/)
+2020 年的 GPT-3 展示了用自然语言指令和少量示例指定任务的能力。到 2021 年，GitHub Copilot 把代码模型放进编辑器：程序员写下一个函数名或一段注释，光标旁边就可能出现下一行，甚至整个函数。[14](https://papers.neurips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html)、[15](https://github.blog/news-insights/product-news/introducing-github-copilot-ai-pair-programmer/)
 
-这个倍率当然不能直接推广。5 年和 600 万美元是 Asana 对旧方案的估计，这也是 OpenAI 发布的客户案例。但至少在这次目标相对明确、可以并行推进、每项变更都由工程师审阅的迁移里，一个原本预计需要多年和高额人力投入的项目，重新进入了可承受的范围。
+当时，最有代表性的动作是按下 Tab。人选择接受那段建议，或者继续自己写。任务仍然由人串起来：找哪个文件，在哪里调用，怎样运行，报错以后去哪里检查。
 
-Agent 扩大的可能不只是“能做多少新功能”，还包括多少迁移、适配、维护和小众需求值得被实现。
+![GitHub Copilot 2021 年技术预览中的自动补全演示](/posts/ai-agent-programming-abstraction/image-4.webp)
 
-我之前做过一个推理项目。底层推理芯片的型号各不相同，同一个厂家内部也有很多版本。如果要实现一套推理逻辑和算法，就要适配各种平台。技术上并不是完全做不到，但逐一适配在经济上很难持续。
+*2021 年 Copilot 技术预览的官方演示：输入函数名后，后续实现被自动补全。截自 GitHub 于 2021 年 7 月发布的回顾视频第 3 秒。 [GitHub](https://github.blog/news-insights/product-news/whats-new-github-changelog-june-2021/)。*
 
-当时有一个想法：能不能维护一套统一语言和编译层，再把它映射到不同的底层芯片？真正困难的是每个平台都有不同 trade-off。为了把所有差异提前塞进一套静态抽象，上层语言往往会变得非常 trick，最后既不直观，也难以维护。
+2022 年以后，对话式模型让这件事更直接了。你可以描述一个需求，请它写一段代码；把代码复制回去运行，再把报错贴进对话。它开始围绕一件事持续修改，但对话框和开发环境之间，仍然需要人来回搬运信息。
 
-这个问题并不只存在于我的项目里。TVM 把它描述为机器学习模型的性能可移植性问题：通过高层表示、代码生成和真实硬件反馈，减少模型部署到不同硬件后端时的人工适配。[TVM：An Automated End-to-End Optimizing Compiler for Deep Learning](https://www.usenix.org/conference/osdi18/presentation/chen) MLIR 对自己的目标描述得更直接：处理软件碎片化和异构硬件，并降低领域编译器的构建成本。[MLIR](https://mlir.llvm.org/)
+![2022 年 ChatGPT 编程对话截图](/posts/ai-agent-programming-abstraction/image-5.webp)
 
-TVM 和 MLIR 都不是通用 Agent，它们也不能证明自然语言已经解决了多芯片适配。但它们至少说明两件事：异构硬件确实制造了巨大的多对多适配成本；高层表示加反馈驱动优化，也确实能够吸收一部分底层差异。
+*2022 年 11 月 30 日（美国太平洋时间），Riley Goodside 分享的 ChatGPT 编程对话。深灰色聊天界面、Python 代码块和“Copy code”按钮，保留了发布初期的使用样貌。此图为用户截图。 [Riley Goodside / X](https://x.com/goodside/status/1598129631609380864)。*
 
-有了 Agent 以后，这里的经济结构可能继续发生变化。上层接口不一定要提前把所有硬件差异编码成一套极其复杂的静态语言；中间系统可以读取当前芯片约束，生成适配，运行测试与性能评估，再根据结果继续调整。过去因为型号太多、维护太贵而不值得做的统一层，可能因此重新进入可行范围。
+接下来的两三年，这段搬运工作也开始被工具接过去。Devin、Cursor Agent、Claude Code 等产品陆续把文件、终端、浏览器和测试环境交到模型手里。它不只给出一段答案，还可以试着运行，读取错误，再继续修改。[16](https://cognition.com/blog/introducing-devin)、[17](https://cursor.com/changelog/0-43-x)、[18](https://www.anthropic.com/news/claude-3-7-sonnet)
 
-但实现成本下降以后，需求会自动出现吗？现在的证据还不能给出肯定答案。
+![Claude Code 研究预览版的终端欢迎屏](/posts/ai-agent-programming-abstraction/image-6.webp)
 
-2026 年一篇 NBER 工作论文分析了超过 10 万名 GitHub 开发者及其 AI 使用遥测。随着工具从自动补全发展到交互式 Coding Agent，再到自主 Coding Agent，commit 活动的累计效应估计分别约为 +40%、+140% 和 +180%。但到了“项目数量”，自主 Agent 这一代的累计效应只剩约 +50%；到了实际 release，只剩约 +30%。在四个大型 App 市场里，新应用数量有所增加，总使用量却没有增加。[Writing Code vs. Shipping Code](https://www.nber.org/papers/w35275)
+*2025 年 2 月，Claude Code 研究预览版发布时的终端欢迎屏。来源为当时的官方发布素材。 [Anthropic](https://www.anthropic.com/news/claude-3-7-sonnet)。*
 
-这是一篇工作论文，采用的也不是随机对照；commit 增长更不等于代码质量或商业价值。但它至少把三个不同的问题分开了：代码供给、真正发布的软件，以及用户实际需要的软件，并不是同一件事。
+到 2025 年，GitHub 的 coding agent 可以接收一个 Issue，在独立环境里搜索仓库、修改代码、运行测试，最后提交一份等待审阅的 Pull Request。[19](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)
 
-Agent 可以让实现变得更便宜，却不能自动决定什么值得做，也不能自动让用户需要它。
+![GitHub Copilot coding agent 在 PR 中完成修改的演示](/posts/ai-agent-programming-abstraction/image-7.webp)
 
-所以，我仍然觉得软件可能迎来新一轮繁荣，但这轮繁荣未必首先表现为又出现一个抖音、微信或大型电商平台。它也可能表现为：大量过去因为用户太少、适配太复杂、维护太昂贵而没有资格成为软件的需求，第一次被实现出来。
+*2025 年 5 月，Copilot coding agent 官方演示：开发者在 PR 中要求把 testID 改为必填，Agent 回报已完成修改并附上记录。 [GitHub](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)。*
 
-我觉得这样的需求会存在，但现在还不知道它具体会长成什么样。供给成本已经开始下降，真正困难的问题会变成：我们能不能找到那些过去真实存在、只是一直不值得开发的需求？
+从 2021 年到 2025 年，人接受的东西，从光标旁边的一段代码，变成了一轮工程工作的结果。
 
-站在当下，我认为最重要的事情仍然是探索如何基于 AI Agent 构建复杂系统，总结出一套完整的方法论，同时重新学习什么才是这个抽象层级下真正的 product sense。
+到了 2026 年，并行任务、独立工作目录、规划与验收，又被放进更完整的工作环境。开发者开始同时安排多个 Agent，并维护它们共同遵守的规则。
+
+> Harness工程，可以理解为包围模型的那套工具、环境、上下文与检查机制。[20](https://openai.com/index/introducing-the-codex-app/)、[21](https://www.anthropic.com/engineering/harness-design-long-running-apps)
+
+“抽象层级提升”，正发生在这里。过去由程序员亲自串联的理解、查找、实现、执行和修正，开始能够作为一段完整的过程被委托出去。人不再只是告诉计算机下一条指令是什么，也开始告诉它：我们要把这件事做成。
+
+## 站在更大的尺度面前
+
+然而，自然语言并不是一份已经写完的源程序。告诉 Agent“做一个内部工具”，并没有告诉它全部业务规则、数据结构和验收标准。它会补上许多没有被说出来的决定，也可能补错。
+
+所以，Agent 与编译器虽然有着相似的历史位置，却不因此拥有相同的可靠性。新的抽象接走了一部分工作，也带来了新的检查和验证方式。
+
+在一个长周期的项目里，人仍然需要看懂业务，作出取舍，也需要在结果不对的时候进入代码与运行环境。任务可以委托给Agent，但人的经验和判断并不会自然消失。
+
+Linus 在那场对谈里也提醒，面对需要长期维护的项目，人不能只理解提示词，还需要理解最终生成的结果。[访谈，29:48](https://www.youtube.com/watch?v=fi29pfLcW4I&t=1788s)
+
+项目持续得越久，共同的规则就越重要。产品目标、架构边界和验收条件，需要被写进可以持续维护的文档与测试，而不是每次交给一个新 Agent 重新猜测。
+
+> SDD（Spec-Driven Development，规格驱动开发）是围绕这份共同依据组织开发的一种尝试：先写清楚需求、约束和验收标准，再让 Agent 据此拆解任务、编写代码并验证结果。需求变化时，规格也要随之维护，让人和 Agent 都有一份可以检查、持续修订的工作依据。
+
+从早年的算法与机器指令，到后来的模块、系统和服务，再到今天的目标、约束与执行环境，人处理问题的尺度一直在放大。
+
+但在新的抽象尺度之下，我们还未形成一个稳定的编程的方法论来指导我们使用agent在一个长期项目内工作。一方面技术依旧在快速变化，agent技术本身还在迭代，另一方面，当下的agent的表现依旧有比较大的提升空间。现在这个阶段更像是Fortran刚出来的那段时间，处于快速变革期。
+
+Agent的发展，也会影响软件的经济边界。
+
+Asana 曾经想迁走一套老旧的 Enzyme 测试框架。按照他们对原方案的估计，这项工作至少要五年，人员成本约 600 万美元。2026 年，他们使用最多四个并行的 Codex Agent，由工程师持续检查并逐项审阅变更，报告在两个日历周内完成迁移，模型与基础设施成本约 1.2 万美元。[27](https://openai.com/index/asana/) 在这个案例里，一项原本被认为漫长、昂贵的迁移，被重新推进并完成了。
+
+就像高级语言让人不必逐条编排机器指令，Agent 也可能让更多迁移、适配和小众需求进入可承受的范围。
+
+更便宜的实现成本，虽然不会自动带来有价值的产品，但它可能给一些过去被成本挡住的需求，一次成为软件的机会。
+
+回头看，从站在 ENIAC 面板前安排电缆，到坐在屏幕前为 Agent 描述任务，程序员的工作方式已经变了很多次。人与机器之间的表达层越来越高，人能够处理的事情也越来越大。
+
+这就是今天：人类还在编程，只是再一次，把更多“如何实现”交给了工具，开始在更高的一层表达自己的意图。
