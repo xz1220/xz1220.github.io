@@ -5,6 +5,12 @@ deck: "离职、找需求、融资和重新学习慢下来。"
 lang: "zh-CN"
 publishDate: "2026-09-17"
 sourceUrl: "https://zhuanlan.zhihu.com/p/2084000253036999270"
+coverImage:
+  alt: "温斯洛·霍默《顺风而行》：四人乘着小帆船驶过起伏的海面。"
+  src: "../../assets/covers/breezing-up.webp"
+coverCredit:
+  text: "封面：Winslow Homer, Breezing Up (A Fair Wind), 1873–1876 · National Gallery of Art · Public domain"
+  url: "https://commons.wikimedia.org/wiki/File:Breezing_Up_(A_Fair_Wind)_by_Winslow_Homer,_1873-76.png"
 tags: ["startup", "ai-agents"]
 ---
 

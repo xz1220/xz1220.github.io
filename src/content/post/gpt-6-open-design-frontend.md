@@ -5,6 +5,12 @@ deck: "从原型到实际页面，聊聊这次前端设计体验。"
 lang: "zh-CN"
 publishDate: "2026-09-11"
 sourceUrl: "https://zhuanlan.zhihu.com/p/2081733421001335555"
+coverImage:
+  alt: "OpenDesign 中的 RepoTempo 前端原型，左侧是深色项目导航，右侧是趋势跟踪页面。"
+  src: "../../assets/covers/open-design.webp"
+coverCredit:
+  text: "配图：RepoTempo 设计原型，取自知乎原文"
+  url: "https://zhuanlan.zhihu.com/p/2081733421001335555"
 tags: ["ai-agents", "design"]
 ---
 

@@ -5,6 +5,12 @@ deck: "一段从多专家系统走向 ReAct 的真实经历。"
 lang: "zh-CN"
 publishDate: "2026-09-15"
 sourceUrl: "https://zhuanlan.zhihu.com/p/2081845161106186708"
+coverImage:
+  alt: "从剧本、分镜到成片的视频创作流程插画。"
+  src: "../../assets/covers/agent-work.webp"
+coverCredit:
+  text: "配图：KK大魔王，取自知乎原文"
+  url: "https://zhuanlan.zhihu.com/p/2081845161106186708"
 tags: ["ai-agents", "software-engineering"]
 ---
 

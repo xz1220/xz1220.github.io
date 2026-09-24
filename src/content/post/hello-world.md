@@ -1,6 +1,10 @@
 ---
 title: "What this blog is for"
 description: "Notes on building AI agents, multi-agent systems, AI products, and knowledge work."
+coverImage:
+  alt: "Daniel Xing 的 DX 字母标记和笔记编号 001。"
+  src: "../../assets/covers/field-notes.svg"
+ogImage: "/og-image/hello-world.png"
 publishDate: "2026-06-01"
 updatedDate: "2026-08-31"
 tags: ["meta", "ai-agents"]

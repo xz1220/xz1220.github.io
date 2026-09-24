@@ -5,6 +5,10 @@ deck: "在大厂工作，做事之外还要理解人和组织。"
 lang: "zh-CN"
 publishDate: "2026-09-16"
 sourceUrl: "https://zhuanlan.zhihu.com/p/2083676637548245374"
+coverImage:
+  alt: "组织层级示意图，其中一条沟通路径用亮蓝色标出。"
+  src: "../../assets/covers/workplace-politics.svg"
+ogImage: "/og-image/workplace-politics-lessons.png"
 tags: ["career"]
 ---
 
