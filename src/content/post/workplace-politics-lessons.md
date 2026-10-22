@@ -12,7 +12,7 @@ ogImage: "/og-image/workplace-politics-lessons.png"
 tags: ["career"]
 ---
 
-hi，我是 KK。
+hi，我是 Daniel。
 
 上一篇分享了一些在大厂工作的经历，主要是比较正面的内容。
 

@@ -14,7 +14,7 @@ coverCredit:
 tags: ["ai-agents", "software-engineering"]
 ---
 
-hi，我是KK, 在大厂做 AI Agent 架构开发做了一年半之后(2024.12-2026.6)，来跟大家真诚分享下实际工作上的经历。
+hi，我是 Daniel, 在大厂做 AI Agent 架构开发做了一年半之后(2024.12-2026.6)，来跟大家真诚分享下实际工作上的经历。
 
 > 技术上的细节本文不会深度讨论，如果大家感兴趣的话，后续可以讲讲 Pi、讲 Codex、讲 Agent 网络或者 Agent 协作类的一些项目, 拆解一些比较火的 Skills。
 

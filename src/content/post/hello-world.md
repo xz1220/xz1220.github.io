@@ -6,6 +6,7 @@ coverImage:
   src: "../../assets/covers/field-notes.svg"
 ogImage: "/og-image/hello-world.png"
 publishDate: "2026-06-01"
+draft: true
 updatedDate: "2026-08-31"
 tags: ["meta", "ai-agents"]
 ---
