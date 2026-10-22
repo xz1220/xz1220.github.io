@@ -1,58 +1,68 @@
 ---
-import SocialList from "@/components/SocialList.astro";
+import TitlePage from "@/components/book/TitlePage.astro";
 import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import { latinSpansHtml } from "@/utils/typeset";
 
 const meta = {
-	description: "About Daniel Xing—an AI agent builder based in Shenzhen, China.",
-	title: "About",
+	description: "关于 Daniel Xing（邢政）：做 AI Agent 的工程师，现在主要在做 Open Dynamic Workflows。",
+	title: "关于",
 };
 ---
 
-<PageLayout meta={meta}>
-	<h1 class="title mb-8">About</h1>
-	<div class="prose">
-		<p>
-			I'm Daniel Xing (邢政), a builder working on AI agents and the infrastructure around them.
-		</p>
-		<p>
-			Right now, I'm building <a href="/projects/open-dynamic-workflows/">Open Dynamic Workflows</a
-			>, a runtime that makes dynamic workflows portable across Codex, Claude Code, Gemini, Qwen,
-			Kimi, and other coding-agent CLIs.
-		</p>
-		<p>
-			I'm also exploring multi-agent systems, AI products, and knowledge work—especially how to make
-			agent systems reliable enough for solo builders to use in production.
-		</p>
-		<p>
-			I'm based in Shenzhen, China, and occasionally in Shanghai. This site is home to my projects
-			and writing.
-		</p>
-	</div>
+<PageLayout bodyClass="about" meta={meta}>
+	<main class="spread" id="main">
+		<TitlePage byline={latinSpansHtml(siteConfig.author)} title="关于" />
+		<div class="pages">
+			<section aria-labelledby="bio-title" class="about-block">
+				<h2 class="part-title" id="bio-title">作者简介</h2>
+				<p class="bio">
+					我是邢政（<span class="latin" lang="en">Daniel Xing</span><span class="pc">）</span>，做 AI Agent
+					的工程师。2024 年底到 2026 年中，我在一家大厂做 AI 创作平台的 Agent 架构，之后离职创业。现在主要在做 <a
+						href="/projects/open-dynamic-workflows/">Open Dynamic Workflows</a
+					>，一个让动态工作流跨 Coding Agent 运行的开源运行时。
+				</p>
+			</section>
 
-	<section class="section-block" aria-labelledby="elsewhere-heading">
-		<h2 class="section-title mb-5" id="elsewhere-heading">Elsewhere</h2>
-		<SocialList />
-		<p class="text-muted mt-4 text-sm">
-			WeChat: <span class="text-global-text">Xingzheng-daniel</span>
-		</p>
-	</section>
+			<section aria-labelledby="contact-title" class="about-block">
+				<h2 class="part-title" id="contact-title">联系</h2>
+				<dl class="facts">
+					<dt lang="en">GitHub</dt>
+					<dd><a href="https://github.com/xz1220" lang="en">github.com/xz1220</a></dd>
+					<dt lang="en">X</dt>
+					<dd><a href="https://x.com/DanielsCabin" lang="en">@DanielsCabin</a></dd>
+					<dt>知乎</dt>
+					<dd><a href="https://www.zhihu.com/people/xz1220">知乎主页</a></dd>
+					<dt>小红书</dt>
+					<dd><a href="https://www.xiaohongshu.com/user/profile/655488ff00000000080023a0">小红书主页</a></dd>
+					<dt lang="en">Email</dt>
+					<dd><a href="mailto:danielxing1@163.com" lang="en">danielxing1@163.com</a></dd>
+					<dt lang="en">RSS</dt>
+					<dd><a href="/rss.xml" lang="en">xz1220.github.io/rss.xml</a></dd>
+					<dt>微信</dt>
+					<dd lang="en">Xingzheng-daniel</dd>
+				</dl>
+			</section>
 
-	<section class="border-line mt-16 border-t pt-8" aria-labelledby="colophon-heading">
-		<h2 class="section-title mb-5" id="colophon-heading">Colophon</h2>
-		<dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-sm">
-			<dt class="text-muted">Type</dt>
-			<dd>System sans and system mono</dd>
-			<dt class="text-muted">Engine</dt>
-			<dd>Astro + Tailwind, static on GitHub Pages</dd>
-			<dt class="text-muted">Source</dt>
-			<dd>
-				<a
-					class="cactus-link"
-					href="https://github.com/xz1220/xz1220.github.io"
-					rel="noreferrer"
-					target="_blank">xz1220/xz1220.github.io<span aria-hidden="true"> ↗</span></a
-				>
-			</dd>
-		</dl>
-	</section>
+			<section aria-labelledby="site-title" class="about-block">
+				<h2 class="part-title" id="site-title">关于本站</h2>
+				<dl class="facts small">
+					<dt>排印</dt>
+					<dd>Noto Serif SC 与 Source Serif 4。长文的引用与出处放在页边注里，窄屏时出现在段落之后。</dd>
+					<dt>夜读</dt>
+					<dd>默认跟随系统，也可以用页眉的「日 / 夜」切换。</dd>
+					<dt>文章</dt>
+					<dd>多数首发于知乎，迁移到这里时保留原文链接。</dd>
+					<dt>构建</dt>
+					<dd>Astro，托管于 GitHub Pages。</dd>
+					<dt>源码</dt>
+					<dd>
+						<a href="https://github.com/xz1220/xz1220.github.io" lang="en"
+							>github.com/xz1220/xz1220.github.io</a
+						>
+					</dd>
+				</dl>
+			</section>
+		</div>
+	</main>
 </PageLayout>

@@ -1,0 +1,28 @@
+---
+import { getListedWorks } from "@/data/works";
+
+/* 附录 · 作品 on the home page: one line per listed work. */
+const works = await getListedWorks();
+---
+
+<section aria-labelledby="works-title" class="works-mini" id="works">
+	<h2 class="section-title" id="works-title">附录 · 作品 <span class="en" lang="en">Works</span></h2>
+	{
+		works.length > 0 && (
+			<ul class="mini-list">
+				{works.map((work) => (
+					<li>
+						<a href={`/projects/#${work.repo.toLowerCase()}`}>
+							<span class="mn" lang="en">
+								{work.name}
+							</span>
+							<span class="md">{work.mini}</span>
+							<span class="ms">★ {work.stars}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		)
+	}
+	<p class="more"><a href="/projects/">全部作品 →</a></p>
+</section>

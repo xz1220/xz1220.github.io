@@ -1,73 +1,28 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import ProjectCard from "@/components/project/ProjectCard.astro";
-import SocialList from "@/components/SocialList.astro";
-import { getAllPosts } from "@/data/post";
-import { getAllProjects } from "@/data/project";
+import Contents from "@/components/book/Contents.astro";
+import TitlePage from "@/components/book/TitlePage.astro";
+import WorksMini from "@/components/book/WorksMini.astro";
+import { getContents } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site.config";
-import { collectionDateSort } from "@/utils/date";
+import { latinSpansHtml } from "@/utils/typeset";
 
-const MAX_POSTS = 5;
-const posts = (await getAllPosts()).sort(collectionDateSort) as CollectionEntry<"post">[];
-const latestPosts = posts.slice(0, MAX_POSTS);
-
-const projects = (await getAllProjects()).sort(collectionDateSort) as CollectionEntry<"project">[];
-const homeProjects = projects.filter((project) => project.data.featured).slice(0, 2);
+const { parts } = await getContents();
 ---
 
-<PageLayout meta={{ title: siteConfig.title }}>
-	<section class="home-info">
-		<h1 class="home-title">Hi, I’m Daniel.</h1>
-		<p class="home-copy">
-			I’m a builder working on AI agents and the infrastructure around them.
-		</p>
-		<p class="home-copy">I’m based in Shenzhen, China, and occasionally in Shanghai.</p>
-		<p class="home-copy">
-			I’m exploring multi-agent systems, AI products, and knowledge work—especially how to make
-			agent systems reliable enough for solo builders to use in production.
-		</p>
-		<div class="mt-6">
-			<SocialList />
+<PageLayout bodyClass="home" meta={{ title: siteConfig.title }}>
+	<main class="spread" id="main">
+		<TitlePage
+			byline={latinSpansHtml(siteConfig.author)}
+			id="book-title"
+			title={latinSpansHtml(siteConfig.title)}
+		/>
+		<div class="pages">
+			<section aria-labelledby="contents-title" class="contents" id="contents">
+				<h2 class="section-title" id="contents-title">目录 <span class="en" lang="en">Contents</span></h2>
+				<Contents parts={parts} />
+			</section>
+			<WorksMini />
 		</div>
-	</section>
-
-	<section class="section-block" aria-labelledby="latest-posts-heading">
-		<div class="section-head">
-			<h2 class="section-title" id="latest-posts-heading">Posts</h2>
-			<a class="section-link" href="/posts/">All posts →</a>
-		</div>
-		{
-			latestPosts.length > 0 ? (
-				<ul class="entry-list" role="list">
-					{latestPosts.map((post) => (
-						<li>
-							<PostPreview headingLevel="h3" post={post} />
-						</li>
-					))}
-				</ul>
-			) : (
-				<p class="text-muted">No posts yet.</p>
-			)
-		}
-	</section>
-
-	<section class="section-block" aria-labelledby="selected-work-heading">
-		<div class="section-head">
-			<h2 class="section-title" id="selected-work-heading">Selected work</h2>
-			<a class="section-link" href="/projects/">All projects →</a>
-		</div>
-		{
-			homeProjects.length > 0 ? (
-				<div class="entry-list">
-					{homeProjects.map((project) => (
-						<ProjectCard headingLevel="h3" project={project} />
-					))}
-				</div>
-			) : (
-				<p class="text-muted">No featured projects yet.</p>
-			)
-		}
-	</section>
+	</main>
 </PageLayout>

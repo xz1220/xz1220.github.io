@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
-import Masthead from "@/components/blog/Masthead.astro";
-import TOC from "@/components/blog/TOC.astro";
+import { type ContentsEntry, formatReadTime, getContents, isEnglish } from "@/data/post";
+import { isoDate } from "@/utils/date";
+import { escapeHtml, latinSpansHtml, typesetHtml } from "@/utils/typeset";
 import BaseLayout from "./Base.astro";
 
 interface Props {
@@ -10,110 +12,175 @@ interface Props {
 
 const { post } = Astro.props;
 const {
+	coverCredit,
 	coverImage,
+	deck,
 	description,
-	lang = "en-GB",
+	frontispiece,
+	lang,
 	ogImage,
 	publishDate,
 	sourceUrl,
 	title,
 	updatedDate,
 } = post.data;
+const english = isEnglish(post);
+const pageLang = lang ?? (english ? "en" : "zh-CN");
 const socialImage = ogImage ?? coverImage?.src.src ?? `/og-image/${post.id}.png`;
 const socialImageWidth = ogImage || !coverImage ? 1200 : coverImage.src.width;
 const socialImageHeight = ogImage || !coverImage ? 630 : coverImage.src.height;
+
 const { headings, remarkPluginFrontmatter } = await render(post);
-const readingTime = String(remarkPluginFrontmatter.readingTime ?? "");
-const isChinese = lang.startsWith("zh");
+const minutes = Number(remarkPluginFrontmatter.readingMinutes ?? 1);
+
+// Place in the 目录: 卷, number, and the neighbours for 上一篇 / 下一篇.
+const { parts, order } = await getContents();
+const index = order.findIndex((entry) => entry.post.id === post.id);
+const entry = order[index];
+const part = parts.find((p) => p.entries.some((e) => e.post.id === post.id));
+const prev = index > 0 ? order[index - 1] : undefined;
+const next = index >= 0 ? order[index + 1] : undefined;
+
+const typeset = (text: string, isEnglishText = english) =>
+	isEnglishText ? escapeHtml(text) : typesetHtml(text);
+
+const CN_NUM = "一二三四五六七八九十";
+const toc = headings
+	// The GFM footnotes heading is not shown: footnotes become sidenotes.
+	.filter((h) => h.depth === 2 && h.slug !== "footnote-label")
+	.map((h, i) => ({
+		slug: h.slug,
+		no: CN_NUM[i] ?? String(i + 1),
+		text: h.text.replace(/^[一二三四五六七八九十]+、\s*/, ""),
+	}));
+
+// 卷首图 credit: "封面：A · B · Public domain" → "A · B · <a>Public domain</a>"
+const credit = coverCredit?.text.replace(/^(封面|配图)：/, "").split(" · ");
+const creditLink = credit?.pop();
+
+// 邢政 · 2026-09-02 · 22 分钟 · 更新于 … · 首发于知乎
+const metaHtml = [
+	"邢政",
+	`<time datetime="${isoDate(publishDate)}">${isoDate(publishDate)}</time>`,
+	formatReadTime(minutes, english),
+	updatedDate && `更新于 <time datetime="${isoDate(updatedDate)}">${isoDate(updatedDate)}</time>`,
+	sourceUrl &&
+		`<a href="${escapeHtml(sourceUrl)}" rel="noopener noreferrer" target="_blank">首发于知乎</a>`,
+]
+	.filter(Boolean)
+	.map((item) => `<span class="mi">${item}</span>`)
+	.join('<span class="sep">·</span>');
+
+function pagerTitle(e: ContentsEntry) {
+	return typeset(e.post.data.title, e.english);
+}
 ---
 
 <BaseLayout
+	bodyClass="article"
 	meta={{
 		articlePublishedDate: publishDate.toISOString(),
 		articleModifiedDate: updatedDate?.toISOString(),
 		articleSourceUrl: sourceUrl,
 		description,
-		lang,
+		lang: pageLang,
 		ogImage: socialImage,
 		ogImageHeight: socialImageHeight,
 		ogImageWidth: socialImageWidth,
 		title,
 	}}
 >
-	<article
-		class:list={["article-page grow break-words", { "article-page--feature": coverImage }]}
-		data-pagefind-body
-		lang={lang}
-	>
-		<header class="article-header" id="blog-hero">
-			<Masthead content={post} readingTime={readingTime} />
+	<main class="chapter" id="main">
+		<header class="chapter-head">
+			<div>
+				{
+					part && entry && (
+						<p class="kicker">
+							{part.no} · <Fragment set:html={latinSpansHtml(part.name)} />
+							<span class:list={["no", { letter: entry.english }]}>{entry.no}</span>
+						</p>
+					)
+				}
+				<h1 class="chapter-title" lang={english ? "en" : undefined} set:html={typeset(title)} />
+				<p class="chapter-deck" lang={english ? "en" : undefined} set:html={typeset(deck ?? description)} />
+				<p class="meta" set:html={metaHtml} />
+			</div>
+			{
+				toc.length >= 2 && (
+					<nav aria-labelledby="toc-title" class="chapter-toc">
+						<h2 id="toc-title">本篇</h2>
+						<ol>
+							{toc.map((h) => (
+								<li>
+									<span>{h.no}</span>
+									<a href={`#${h.slug}`}>{h.text}</a>
+								</li>
+							))}
+						</ol>
+					</nav>
+				)
+			}
 		</header>
 
-		{!!headings.length && <TOC headings={headings} label={isChinese ? "目录" : "Contents"} />}
-
-		<div class="prose">
-			<slot />
-		</div>
-
 		{
-			!!post.data.tags.length && (
-				<nav aria-label={isChinese ? "文章标签" : "Article tags"} class="article-footer-tags">
-					{post.data.tags.map((tag) => (
-						<a data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}>
-							#{tag}
-						</a>
-					))}
-				</nav>
+			frontispiece && coverImage && (
+				<figure class="frontispiece">
+					<Image
+						alt={coverImage.alt}
+						priority
+						sizes="(max-width: 999px) 100vw, 928px"
+						src={coverImage.src}
+						widths={[928, 1856]}
+					/>
+					{credit && (
+						<figcaption>
+							卷首图
+							<span class="latin" lang="en">
+								{credit.join(" · ")}
+								{credit.length > 0 && " · "}
+								{coverCredit?.url ? <a href={coverCredit.url}>{creditLink}</a> : creditLink}
+							</span>
+						</figcaption>
+					)}
+				</figure>
 			)
 		}
+
+		<article class="prose" lang={english ? "en" : undefined}>
+			<slot />
+		</article>
+	</main>
+
+	<nav aria-label="文末" class="chapter-end">
 		{
 			sourceUrl && (
-				<p class="article-footer-source">
-					{isChinese ? "原文发表于 " : "Originally published on "}
+				<p class="source">
 					<a href={sourceUrl} rel="noopener noreferrer" target="_blank">
-						{new URL(sourceUrl).hostname}
+						首发于知乎 →
 					</a>
 				</p>
 			)
 		}
-		<p class="article-footer-nav">
-			<a class="back-link" href="/posts/">{isChinese ? "← 全部文章" : "← All posts"}</a>
-		</p>
-	</article>
-
-	<button class="to-top-button" data-show="false" id="to-top-btn" tabindex="-1" type="button">
-		<span class="sr-only">{isChinese ? "返回顶部" : "Back to top"}</span>
-		<svg
-			aria-hidden="true"
-			class="h-5 w-5"
-			fill="none"
-			focusable="false"
-			stroke="currentColor"
-			stroke-width="2"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path d="M4.5 15.75 12 8.25l7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-		</svg>
-	</button>
-</BaseLayout>
-
-<script>
-	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
-	const targetHeader = document.getElementById("blog-hero") as HTMLElement;
-
-	const observer = new IntersectionObserver((entries) => {
-		for (const entry of entries) {
-			const show = !entry.isIntersecting;
-			scrollBtn.dataset.show = show.toString();
-			scrollBtn.tabIndex = show ? 0 : -1;
+		{
+			(prev || next) && (
+				<div class="pager">
+					{prev && (
+						<a class="prev" href={`/posts/${prev.post.id}/`}>
+							<span class="label">上一篇</span>
+							<span class:list={["no", { letter: prev.english }]}>{prev.no}</span>
+							<span class="tt" lang={prev.english ? "en" : undefined} set:html={pagerTitle(prev)} />
+						</a>
+					)}
+					{next && (
+						<a class="next" href={`/posts/${next.post.id}/`}>
+							<span class="label">下一篇</span>
+							<span class:list={["no", { letter: next.english }]}>{next.no}</span>
+							<span class="tt" lang={next.english ? "en" : undefined} set:html={pagerTitle(next)} />
+						</a>
+					)}
+				</div>
+			)
 		}
-	});
-
-	scrollBtn.addEventListener("click", () => {
-		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		document.documentElement.scrollTo({ behavior: reduced ? "auto" : "smooth", top: 0 });
-	});
-
-	observer.observe(targetHeader);
-</script>
+		<p class="back"><a href="/#contents">回到目录</a></p>
+	</nav>
+</BaseLayout>

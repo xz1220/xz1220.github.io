@@ -1,35 +1,83 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import ProjectCard from "@/components/project/ProjectCard.astro";
+import TitlePage from "@/components/book/TitlePage.astro";
+import { getAllPosts } from "@/data/post";
 import { getAllProjects } from "@/data/project";
+import { getListedWorks, groupWorks, type ListedWork, MIN_STARS, workForRepo } from "@/data/works";
 import PageLayout from "@/layouts/Base.astro";
-import { collectionDateSort } from "@/utils/date";
+import { escapeHtml } from "@/utils/typeset";
 
-const allProjects = await getAllProjects();
-const projectsByDate = allProjects.sort(collectionDateSort) as CollectionEntry<"project">[];
+const works = await getListedWorks();
+const groups = groupWorks(works);
+const published = new Map((await getAllPosts()).map((post) => [post.id, post]));
+// A work with a page in src/content/project links to it (matched by repository URL).
+const projects = await getAllProjects();
+const projectPage = (work: ListedWork) => {
+	const project = projects.find((p) => workForRepo([work], p.data.repo));
+	return project ? `/projects/${project.id}/` : undefined;
+};
 
 const meta = {
-	description: "Things I've designed, built, and shipped — newest first.",
-	title: "Projects",
+	description: `Daniel Xing 的开源作品（只列 ${MIN_STARS} 星以上的公开仓库）。`,
+	title: "作品",
 };
 ---
 
-<PageLayout meta={meta}>
-	<div class="section-head mb-10">
-		<h1 class="title">Projects</h1>
-		<p class="meta-text">
-			{projectsByDate.length} shipped
-		</p>
-	</div>
-	{
-		projectsByDate.length > 0 ? (
-			<div class="entry-list">
-				{projectsByDate.map((project) => (
-					<ProjectCard project={project} />
-				))}
-			</div>
-		) : (
-			<p class="text-muted">No projects yet.</p>
-		)
-	}
+<PageLayout bodyClass="works" meta={meta}>
+	<main class="spread" id="main">
+		<TitlePage
+			byline='<a href="https://github.com/xz1220"><span lang="en" class="latin">GitHub · xz1220</span></a>'
+			title="作品"
+		/>
+		<div class="pages">
+			{
+				groups.map((group, gi) => (
+					<section aria-labelledby={`g${gi + 1}`} class="group">
+						<h2 class="part-title" id={`g${gi + 1}`}>
+							<span>{group.group}</span>
+						</h2>
+						{group.works.map((work) => {
+							const related = work.related ? published.get(work.related) : undefined;
+							return (
+								<article class="work-entry" id={work.repo.toLowerCase()}>
+									<div class="we-head">
+										<h3 class="we-title">
+											<a class="we-name" href={`https://github.com/xz1220/${work.repo}`} lang="en">
+												{work.name}
+												<span aria-hidden="true" class="arrow">
+													↗
+												</span>
+											</a>
+											{work.status && (
+												<span class:list={["we-status", { archived: work.status.archived }]}>
+													{work.status.label}
+												</span>
+											)}
+										</h3>
+										<span
+											class="we-meta"
+											set:html={[work.language && escapeHtml(work.language), `★ ${work.stars}`]
+												.filter(Boolean)
+												.join('<span class="sep">·</span>')}
+										/>
+									</div>
+									<p class="we-desc">{work.desc}</p>
+									{related && (
+										<p class="we-related">
+											相关文章：<a href={`/posts/${related.id}/`}>{related.data.title}</a>
+										</p>
+									)}
+									{projectPage(work) && (
+										<p class="we-related">
+											<a href={projectPage(work)}>项目说明 →</a>
+										</p>
+									)}
+								</article>
+							);
+						})}
+					</section>
+				))
+			}
+			<p class="more"><a href="https://github.com/xz1220">其余项目见 GitHub →</a></p>
+		</div>
+	</main>
 </PageLayout>

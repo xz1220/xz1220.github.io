@@ -1,0 +1,69 @@
+---
+import { render } from "astro:content";
+import { type ContentsPart, formatReadTime } from "@/data/post";
+import { isoDate } from "@/utils/date";
+import { escapeHtml, typesetHtml } from "@/utils/typeset";
+
+/* The 目录: numbered entries grouped into 卷, with dot leaders to the reading time. */
+interface Props {
+	parts: ContentsPart[];
+}
+
+const { parts } = Astro.props;
+
+const rendered = await Promise.all(
+	parts.map(async (part) => ({
+		...part,
+		entries: await Promise.all(
+			part.entries.map(async (entry) => {
+				const { remarkPluginFrontmatter } = await render(entry.post);
+				const minutes = Number(remarkPluginFrontmatter.readingMinutes ?? 1);
+				const { title, deck, description, publishDate } = entry.post.data;
+				return {
+					...entry,
+					date: isoDate(publishDate),
+					read: formatReadTime(minutes, entry.english),
+					titleHtml: entry.english ? escapeHtml(title) : typesetHtml(title),
+					deckHtml: entry.english ? escapeHtml(deck ?? description) : typesetHtml(deck ?? description),
+				};
+			}),
+		),
+	})),
+);
+---
+
+{
+	rendered.map((part) => (
+		<div class="part">
+			<h3 class="part-title">
+				<span class="part-no">{part.no}</span>
+				{part.english ? <span class="latin">{part.name}</span> : part.name}
+			</h3>
+			<ol class="entries">
+				{part.entries.map((entry) => (
+					<li class="entry" lang={entry.english ? "en" : undefined}>
+						<a href={`/posts/${entry.post.id}/`}>
+							<span class:list={["no", { letter: entry.english }]}>{entry.no}</span>
+							<span class="body">
+								<span class="line">
+									<span class="t">
+										<Fragment set:html={entry.titleHtml} />
+										{entry.english && <span class="tag-en">EN</span>}
+									</span>
+									<span aria-hidden="true" class="leader" />
+									<span class="time">{entry.read}</span>
+								</span>
+								<span class="sub">
+									<span class="deck" set:html={entry.deckHtml} />
+									<time data-time={entry.read} datetime={entry.date}>
+										{entry.date}
+									</time>
+								</span>
+							</span>
+						</a>
+					</li>
+				))}
+			</ol>
+		</div>
+	))
+}

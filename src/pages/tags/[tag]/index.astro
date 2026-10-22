@@ -1,0 +1,43 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import Contents from "@/components/book/Contents.astro";
+import TitlePage from "@/components/book/TitlePage.astro";
+import { getAllPosts, getContents, getTagMeta, getUniqueTags } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import { escapeHtml, latinSpansHtml } from "@/utils/typeset";
+
+export const getStaticPaths = (async () => {
+	const tags = getUniqueTags(await getAllPosts());
+	return tags.map((tag) => ({ params: { tag } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { tag } = Astro.params;
+const tagMeta = await getTagMeta(tag);
+// The same 目录 entries (numbers included), filtered to this tag.
+const { parts } = await getContents();
+const tagged = parts
+	.map((part) => ({ ...part, entries: part.entries.filter((e) => e.post.data.tags.includes(tag)) }))
+	.filter((part) => part.entries.length > 0);
+
+const meta = {
+	description: tagMeta?.data.description ?? `标签 #${tag} 下的文章。`,
+	title: `#${tag}`,
+};
+---
+
+<PageLayout bodyClass="home" meta={meta}>
+	<main class="spread" id="main">
+		<TitlePage byline={latinSpansHtml(siteConfig.author)} title={`<span class="latin">#${escapeHtml(tag)}</span>`} />
+		<div class="pages">
+			<section aria-labelledby="contents-title" class="contents" id="contents">
+				<h2 class="section-title" id="contents-title">标签 <span class="en" lang="en">#{tag}</span></h2>
+				{tagMeta?.data.description && <p class="tag-desc">{tagMeta.data.description}</p>}
+				<Contents parts={tagged} />
+				<p class="more"><a href="/tags/">全部标签 →</a></p>
+			</section>
+		</div>
+	</main>
+</PageLayout>

@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Daily rebuild so the 作品 star counts (and the ≥10★ list) stay current.
+  schedule:
+    - cron: "23 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -31,9 +34,13 @@ jobs:
       # the runner (which has no SSH key) can clone the public repo.
       - run: git config --global url."https://github.com/".insteadOf "git@github.com:"
       - run: pnpm install --frozen-lockfile
+      # postbuild self-hosts the webfonts (scripts/localize-fonts.mjs) and fails the build
+      # rather than ship pages that load Google Fonts.
       - run: pnpm run build
         env:
           PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ vars.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN }}
+          # Read-only: lists public repos for the 作品 page (src/data/works.ts).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

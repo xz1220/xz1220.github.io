@@ -1,0 +1,33 @@
+---
+import { menuLinks, siteConfig } from "@/site.config";
+import { latinSpansHtml } from "@/utils/typeset";
+
+const { pathname } = Astro.url;
+
+/** "page" on the section's own page; "true" inside it (an article under 目录, a work under 作品). */
+function current(path: string): "page" | "true" | undefined {
+	if (pathname === path) return "page";
+	if (path === "/") return /^\/(posts|tags)\//.test(pathname) ? "true" : undefined;
+	return pathname.startsWith(path) ? "true" : undefined;
+}
+---
+
+<header class="runhead">
+	<div class="runhead-inner">
+		<a class="mark" href="/" set:html={latinSpansHtml(siteConfig.title)} />
+		<nav aria-label="主导航">
+			{
+				menuLinks.map((link) => (
+					<a aria-current={current(link.path)} href={link.path}>
+						{link.title}
+					</a>
+				))
+			}
+			<span class="toggles">
+				<button aria-label="夜读模式" aria-pressed="false" class="theme" type="button"
+					><span class="day">日</span><span class="slash">/</span><span class="night">夜</span></button
+				>
+			</span>
+		</nav>
+	</div>
+</header>

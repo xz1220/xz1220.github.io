@@ -22,3 +22,8 @@ export function collectionDateSort(
 ) {
 	return b.data.publishDate.getTime() - a.data.publishDate.getTime();
 }
+
+/** YYYY-MM-DD, the date format used across the site. */
+export function isoDate(date: Date): string {
+	return date.toISOString().slice(0, 10);
+}

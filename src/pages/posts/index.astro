@@ -1,0 +1,26 @@
+---
+import Contents from "@/components/book/Contents.astro";
+import TitlePage from "@/components/book/TitlePage.astro";
+import { getContents } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import { latinSpansHtml } from "@/utils/typeset";
+
+const { parts } = await getContents();
+const meta = {
+	description: `${siteConfig.title}的全部文章。`,
+	title: "目录",
+};
+---
+
+<PageLayout bodyClass="home" meta={meta}>
+	<main class="spread" id="main">
+		<TitlePage byline={latinSpansHtml(siteConfig.author)} title="目录" />
+		<div class="pages">
+			<section aria-labelledby="contents-title" class="contents" id="contents">
+				<h2 class="section-title" id="contents-title">全部文章 <span class="en" lang="en">All writing</span></h2>
+				<Contents parts={parts} />
+			</section>
+		</div>
+	</main>
+</PageLayout>

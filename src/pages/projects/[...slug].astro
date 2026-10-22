@@ -1,71 +1,53 @@
 ---
 import { render } from "astro:content";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import FormattedDate from "@/components/FormattedDate.astro";
-import VideoEmbed from "@/components/project/VideoEmbed.astro";
 import { getAllProjects } from "@/data/project";
+import { getListedWorks, workForRepo } from "@/data/works";
 import PageLayout from "@/layouts/Base.astro";
+import { escapeHtml, latinSpansHtml } from "@/utils/typeset";
 
 export const getStaticPaths = (async () => {
-	const projects = await getAllProjects();
-	return projects.map((project) => ({
-		params: { slug: project.id },
-		props: { project },
-	}));
+	const works = await getListedWorks();
+	// Only works that clear the star threshold get a page (see src/data/works.ts).
+	return (await getAllProjects()).flatMap((project) => {
+		const work = workForRepo(works, project.data.repo);
+		return work ? [{ params: { slug: project.id }, props: { project, work } }] : [];
+	});
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { project } = Astro.props;
-const { title, description, publishDate, updatedDate, video, repo, demo, tags } = project.data;
+const { project, work } = Astro.props;
+const { title, description, repo, demo } = project.data;
 const { Content } = await render(project);
 
-const meta = {
-	articleDate: (updatedDate ?? publishDate).toISOString(),
-	description,
-	title,
-};
+const metaHtml = [
+	work?.language && escapeHtml(work.language),
+	work && `★ ${work.stars}`,
+	work?.status?.label,
+	repo && `<a href="${escapeHtml(repo)}" rel="noopener noreferrer" target="_blank">GitHub ↗</a>`,
+	demo && `<a href="${escapeHtml(demo)}" rel="noopener noreferrer" target="_blank">Demo ↗</a>`,
+]
+	.filter(Boolean)
+	.map((item) => `<span class="mi">${item}</span>`)
+	.join('<span class="sep">·</span>');
 ---
 
-<PageLayout meta={meta}>
-	<article class="grow break-words" data-pagefind-body>
-		<header class="article-header">
-			<h1 class="article-title">{title}</h1>
-			<div class="entry-meta">
-				<span><FormattedDate date={publishDate} /></span>
-				{
-					repo && (
-						<>
-							<span aria-hidden="true">·</span>
-							<a href={repo} rel="noreferrer" target="_blank">
-								Code ↗
-							</a>
-						</>
-					)
-				}
-				{
-					demo && (
-						<>
-							<span aria-hidden="true">·</span>
-							<a href={demo} rel="noreferrer" target="_blank">
-								Demo ↗
-							</a>
-						</>
-					)
-				}
-				{tags?.map((tag) => <span>#{tag}</span>)}
+<PageLayout bodyClass="article" meta={{ title, description }}>
+	<main class="chapter" id="main">
+		<header class="chapter-head">
+			<div>
+				<p class="kicker">作品 · <Fragment set:html={latinSpansHtml(work?.group ?? "")} /></p>
+				<h1 class="chapter-title" lang="en">{title}</h1>
+				<p class="chapter-deck" lang="en">{description}</p>
+				<p class="meta" set:html={metaHtml} />
 			</div>
-			<p class="article-description">{description}</p>
 		</header>
-
-		{video && <VideoEmbed title={title} url={video} />}
-
-		<div class="prose">
+		<article class="prose" lang="en">
 			<Content />
-		</div>
-
-		<p class="mt-16">
-			<a class="back-link" href="/projects/">← All projects</a>
-		</p>
-	</article>
+		</article>
+	</main>
+	<nav aria-label="文末" class="chapter-end">
+		<p class="back"><a href="/projects/">回到作品</a></p>
+	</nav>
 </PageLayout>

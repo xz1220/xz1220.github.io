@@ -3,18 +3,16 @@ import fs from "node:fs";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 // Remark plugins
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
+import { rehypeBook } from "./src/plugins/rehype-book";
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
-import { remarkGithubCard } from "./src/plugins/remark-github-card";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 
@@ -29,7 +27,7 @@ export default defineConfig({
 		webmanifest({
 			// See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
 			name: siteConfig.title,
-			short_name: "Daniel Xing", // optional
+			short_name: "danielxing",
 			description: siteConfig.description,
 			lang: siteConfig.lang,
 			icon: "public/icon.svg", // the source for generating favicon & icons
@@ -51,9 +49,9 @@ export default defineConfig({
 				},
 			],
 			start_url: "/",
-			// Cool paper surface from the editorial design system.
-			background_color: "#f8fafb",
-			theme_color: "#f8fafb",
+			// Warm paper from the book design (src/styles/global.css --paper).
+			background_color: "#f7f4ec",
+			theme_color: "#f7f4ec",
 			display: "standalone",
 			config: {
 				insertFaviconLinks: false,
@@ -65,7 +63,9 @@ export default defineConfig({
 	markdown: {
 		rehypePlugins: [
 			rehypeHeadingIds,
-			[rehypeAutolinkHeadings, { behavior: "wrap", properties: { className: ["not-prose"] } }],
+			rehypeUnwrapImages,
+			// Figures, sidenotes, chapter heads and 标点挤压; needs heading ids and unwrapped images.
+			rehypeBook,
 			[
 				rehypeExternalLinks,
 				{
@@ -73,9 +73,8 @@ export default defineConfig({
 					target: "_blank",
 				},
 			],
-			rehypeUnwrapImages,
 		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkGithubCard, remarkAdmonitions],
+		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],
@@ -86,7 +85,7 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
 		},
-		plugins: [tailwind(), rawFonts([".ttf", ".woff"])],
+		plugins: [rawFonts([".ttf", ".woff"])],
 	},
 });
 

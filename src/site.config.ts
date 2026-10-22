@@ -2,59 +2,49 @@ import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
 import type { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
-	// ! Please remember to replace the following site property with your own domain, used in astro.config.ts
+	// Used in astro.config.ts as `site`, so canonical URLs, the sitemap and RSS are absolute.
 	url: "https://xz1220.github.io/",
-	/*
-		- Used to construct the meta title property found in src/components/BaseHead.astro L:11
-		- The webmanifest name found in astro.config.ts L:42
-		- The link value found in src/components/layout/Header.astro L:35
-		- In the footer found in src/components/layout/Footer.astro L:12
-	*/
-	title: "Daniel Xing",
-	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
+	// Site name: page titles, the wordmark, RSS and the webmanifest.
+	title: "danielxing 的笔记",
+	// Person behind the site: meta author, JSON-LD and the title-page byline.
 	author: "Daniel Xing",
-	// Used as the default description meta property and webmanifest description
-	description:
-		"Daniel Xing builds AI agents and the infrastructure around them, and writes about multi-agent systems, AI products, and knowledge work.",
-	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
-	lang: "en-GB",
-	// Meta property, found in src/components/BaseHead.astro L:42
-	ogLocale: "en_GB",
-	// Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
+	// Default meta description and webmanifest description.
+	description: "Daniel Xing 的笔记：做 AI Agent 的一手经验，以及在大厂和创业路上的记录。",
+	// Default <html lang>; English posts set `lang` in their frontmatter.
+	lang: "zh-CN",
+	ogLocale: "zh_CN",
+	// Dates are shown as ISO YYYY-MM-DD (see src/utils/date.ts); this formatter is only
+	// used for the generated social cards.
 	date: {
-		locale: "en-GB",
+		locale: "zh-CN",
 		options: {
 			day: "numeric",
-			month: "short",
+			month: "long",
 			year: "numeric",
 		},
 	},
 };
 
-// Used to generate links in both the Header & Footer.
+// Running-head navigation.
 export const menuLinks: { path: string; title: string }[] = [
 	{
 		path: "/",
-		title: "Home",
+		title: "目录",
 	},
 	{
 		path: "/projects/",
-		title: "Projects",
-	},
-	{
-		path: "/posts/",
-		title: "Posts",
+		title: "作品",
 	},
 	{
 		path: "/about/",
-		title: "About",
+		title: "关于",
 	},
 ];
 
 // https://expressive-code.com/reference/configuration/
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 	styleOverrides: {
-		borderRadius: "8px",
+		borderRadius: "3px",
 		codeFontFamily:
 			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
 		codeFontSize: "0.875rem",

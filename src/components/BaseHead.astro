@@ -55,8 +55,6 @@ const articleJson = articleData ? JSON.stringify(articleData).replace(/</g, "\\u
 <meta content="light dark" name="color-scheme" />
 <title>{siteTitle}</title>
 
-{/* Typography uses the native system stacks declared in the shared design tokens. */}
-
 {/* Icons */}
 <link href="/icon.svg?v=2" rel="icon" type="image/svg+xml" />
 {
@@ -114,7 +112,7 @@ const articleJson = articleData ? JSON.stringify(articleData).replace(/</g, "\\u
 {/* RSS auto-discovery */}
 <link
 	href="/rss.xml"
-	title={`${siteConfig.title} posts`}
+	title={`${siteConfig.title} · RSS`}
 	rel="alternate"
 	type="application/rss+xml"
 />
