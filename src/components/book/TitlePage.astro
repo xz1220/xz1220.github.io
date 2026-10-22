@@ -2,7 +2,7 @@
 /* The narrow, pinned 扉页 on the left of a spread. Title and byline are trusted HTML. */
 interface Props {
 	title: string;
-	byline: string;
+	byline?: string;
 	id?: string;
 }
 
@@ -12,6 +12,6 @@ const { title, byline, id = "page-title" } = Astro.props;
 <section aria-labelledby={id} class="titlepage">
 	<h1 class="book-title" id={id} set:html={title} />
 	<hr class="title-rule" />
-	<p class="byline" set:html={byline} />
+	{byline && <p class="byline" set:html={byline} />}
 </section>
 <div aria-hidden="true" class="gutter"></div>

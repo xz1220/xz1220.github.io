@@ -1,6 +1,5 @@
 ---
 import { menuLinks, siteConfig } from "@/site.config";
-import { latinSpansHtml } from "@/utils/typeset";
 
 const { pathname } = Astro.url;
 
@@ -14,7 +13,7 @@ function current(path: string): "page" | "true" | undefined {
 
 <header class="runhead">
 	<div class="runhead-inner">
-		<a class="mark" href="/" set:html={latinSpansHtml(siteConfig.title)} />
+		<a class="mark" href="/" set:html={siteConfig.title} />
 		<nav aria-label="主导航">
 			{
 				menuLinks.map((link) => (

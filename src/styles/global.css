@@ -1,5 +1,5 @@
 /*
-	danielxing 的笔记 — 「长文书房 The Book」 (design direction committed 2026-10-22).
+	邢政的笔记 — 「长文书房 The Book」 (design direction committed 2026-10-22).
 	Plain CSS; see design.md. Webfonts come from /fonts/fonts.css, which the postbuild
 	step (scripts/localize-fonts.mjs) generates, including the "CJK Quotes" face that
 	gives Chinese text full-width curly quotes.
@@ -27,6 +27,8 @@
 	--serif: "CJK Quotes", "Source Serif 4", "Noto Serif SC", serif;
 	--serif-latin: "Source Serif 4", "Noto Serif SC", serif;
 	--sans: "Noto Sans SC", system-ui, sans-serif;
+	/* 行书 for titles only (site name, 扉页 titles, section titles); reading text stays serif. */
+	--xingshu: "Zhi Mang Xing", "Noto Serif SC", serif;
 	--mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
 	--pad: 40px;
@@ -169,13 +171,11 @@ img {
 	border-bottom: 1px solid var(--rule);
 }
 .runhead .mark {
-	font: 600 15px/1 var(--serif);
-	letter-spacing: 0.14em;
+	font: 400 21px/1 var(--xingshu);
+	font-synthesis: none;
+	letter-spacing: 0.04em;
 	color: var(--ink);
 	white-space: nowrap;
-}
-.runhead .mark .latin {
-	letter-spacing: 0.02em;
 }
 .runhead nav {
 	display: flex;
@@ -288,13 +288,16 @@ img {
 }
 .book-title {
 	margin: 0;
-	font: 900 56px/1.14 var(--serif);
-	letter-spacing: 0.04em;
+	font: 400 64px/1.12 var(--xingshu);
+	font-synthesis: none;
+	letter-spacing: 0.02em;
 	word-break: keep-all;
 	overflow-wrap: anywhere;
 	text-wrap: balance;
 }
+/* Latin titles (#tag pages) keep the serif. */
 .book-title .latin {
+	font: 900 0.875em/1.14 var(--serif-latin);
 	letter-spacing: 0;
 	overflow-wrap: normal;
 }
@@ -324,8 +327,9 @@ img {
 	align-items: baseline;
 	gap: 16px;
 	margin: 0 0 8px;
-	font: 900 34px/1.2 var(--serif);
-	letter-spacing: 0.12em;
+	font: 400 40px/1.2 var(--xingshu);
+	font-synthesis: none;
+	letter-spacing: 0.04em;
 }
 .section-title .en {
 	font: italic 400 19px/1 var(--serif-latin);
@@ -1072,8 +1076,7 @@ img {
 		padding: 14px 0 12px;
 	}
 	.runhead .mark {
-		font-size: 14px;
-		letter-spacing: 0.06em;
+		font-size: 19px;
 	}
 	.runhead nav {
 		gap: 12px;
@@ -1093,8 +1096,7 @@ img {
 		padding-top: 44px;
 	}
 	.book-title {
-		font-size: 42px;
-		letter-spacing: 0.03em;
+		font-size: 48px;
 	}
 	.title-rule {
 		margin: 22px 0 14px;
@@ -1103,7 +1105,7 @@ img {
 		padding-top: 48px;
 	}
 	.section-title {
-		font-size: 28px;
+		font-size: 32px;
 	}
 	.entry > a {
 		grid-template-columns: 38px minmax(0, 1fr);

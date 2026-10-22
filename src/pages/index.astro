@@ -5,18 +5,14 @@ import WorksMini from "@/components/book/WorksMini.astro";
 import { getContents } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site.config";
-import { latinSpansHtml } from "@/utils/typeset";
+import { typesetHtml } from "@/utils/typeset";
 
 const { parts } = await getContents();
 ---
 
 <PageLayout bodyClass="home" meta={{ title: siteConfig.title }}>
 	<main class="spread" id="main">
-		<TitlePage
-			byline={latinSpansHtml(siteConfig.author)}
-			id="book-title"
-			title={latinSpansHtml(siteConfig.title)}
-		/>
+		<TitlePage id="book-title" title={typesetHtml(siteConfig.title)} />
 		<div class="pages">
 			<section aria-labelledby="contents-title" class="contents" id="contents">
 				<h2 class="section-title" id="contents-title">目录 <span class="en" lang="en">Contents</span></h2>

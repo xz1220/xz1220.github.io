@@ -5,7 +5,7 @@ import TitlePage from "@/components/book/TitlePage.astro";
 import { getAllPosts, getContents, getTagMeta, getUniqueTags } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site.config";
-import { escapeHtml, latinSpansHtml } from "@/utils/typeset";
+import { escapeHtml } from "@/utils/typeset";
 
 export const getStaticPaths = (async () => {
 	const tags = getUniqueTags(await getAllPosts());
@@ -30,7 +30,7 @@ const meta = {
 
 <PageLayout bodyClass="home" meta={meta}>
 	<main class="spread" id="main">
-		<TitlePage byline={latinSpansHtml(siteConfig.author)} title={`<span class="latin">#${escapeHtml(tag)}</span>`} />
+		<TitlePage byline={siteConfig.byline} title={`<span class="latin">#${escapeHtml(tag)}</span>`} />
 		<div class="pages">
 			<section aria-labelledby="contents-title" class="contents" id="contents">
 				<h2 class="section-title" id="contents-title">标签 <span class="en" lang="en">#{tag}</span></h2>

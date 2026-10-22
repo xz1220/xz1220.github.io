@@ -1,4 +1,4 @@
-# PRODUCT.md — danielxing 的笔记
+# PRODUCT.md — 邢政的笔记
 
 ## What this is
 
@@ -14,8 +14,10 @@ not a marketing page or an activity dashboard.
   work: Open Dynamic Workflows.
 - Readers: mostly Chinese-speaking engineers and builders, many arriving from Zhihu,
   plus collaborators. Write and design Chinese-first; English pages are the exception.
-- Name and byline: the site is 「danielxing 的笔记」; the byline is "Daniel Xing". Do not
-  use the old "KK" persona or put a career timeline on the home page.
+- Name and byline: Chinese pages use the Chinese name only — the site is 「邢政的笔记」
+  and bylines read 邢政; the English name does not appear in their titles. An English
+  edition, if one is added, is "Daniel's Notes" with the byline Daniel Xing. Do not use
+  the old "KK" persona or put a career timeline on the home page.
 
 ## Voice
 

@@ -5,11 +5,12 @@ export const siteConfig: SiteConfig = {
 	// Used in astro.config.ts as `site`, so canonical URLs, the sitemap and RSS are absolute.
 	url: "https://xz1220.github.io/",
 	// Site name: page titles, the wordmark, RSS and the webmanifest.
-	title: "danielxing 的笔记",
+	title: "邢政的笔记",
 	// Person behind the site: meta author, JSON-LD and the title-page byline.
 	author: "Daniel Xing",
+	byline: "邢政",
 	// Default meta description and webmanifest description.
-	description: "Daniel Xing 的笔记：做 AI Agent 的一手经验，以及在大厂和创业路上的记录。",
+	description: "邢政的笔记：做 AI Agent 的一手经验，以及在大厂和创业路上的记录。",
 	// Default <html lang>; English posts set `lang` in their frontmatter.
 	lang: "zh-CN",
 	ogLocale: "zh_CN",

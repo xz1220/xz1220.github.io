@@ -1,6 +1,6 @@
 # xz1220.github.io
 
-「danielxing 的笔记」 — Daniel Xing's site, at <https://xz1220.github.io>.
+「邢政的笔记」 — Daniel Xing's site, at <https://xz1220.github.io>.
 
 Astro 6 with plain CSS, statically built, deployed to GitHub Pages by the workflow in
 `.github/workflows/deploy.yml` on every push to `main` and once a day (to refresh the
@@ -10,7 +10,8 @@ Astro 6 with plain CSS, statically built, deployed to GitHub Pages by the workfl
 
 「长文书房 The Book」 (committed 2026-10-22): the home page is a 目录 (contents page),
 articles are chapters with sources as sidenotes in the margin, and the type is
-Chinese-first — Noto Serif SC with Source Serif 4, no italic CJK, phrase-aware line
+Chinese-first — Noto Serif SC with Source Serif 4 for reading, 志莽行书 for the titles,
+no italic CJK, phrase-aware line
 breaks, 标点挤压, warm paper with a 夜读 dark mode. See `design.md` for the rules and
 `PRODUCT.md` for the brief.
 

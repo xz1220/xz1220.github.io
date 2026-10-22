@@ -2,7 +2,6 @@
 import TitlePage from "@/components/book/TitlePage.astro";
 import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site.config";
-import { latinSpansHtml } from "@/utils/typeset";
 
 const meta = {
 	description: "关于 Daniel Xing（邢政）：做 AI Agent 的工程师，现在主要在做 Open Dynamic Workflows。",
@@ -12,7 +11,7 @@ const meta = {
 
 <PageLayout bodyClass="about" meta={meta}>
 	<main class="spread" id="main">
-		<TitlePage byline={latinSpansHtml(siteConfig.author)} title="关于" />
+		<TitlePage byline={siteConfig.byline} title="关于" />
 		<div class="pages">
 			<section aria-labelledby="bio-title" class="about-block">
 				<h2 class="part-title" id="bio-title">作者简介</h2>

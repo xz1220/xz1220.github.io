@@ -1,4 +1,4 @@
-# Design — danielxing 的笔记
+# Design — 邢政的笔记
 
 The locked design system for the site: 「长文书房 The Book」, committed 2026-10-22.
 It replaces the Lil'Log-inspired system of 2026-08-31. The site reads like a
@@ -16,7 +16,8 @@ Latin typography.
 ## Macrostructure
 
 - **Spread** (home, 目录, 作品, 关于, tags, 404): a narrow pinned 扉页 (title page) on
-  the left — 290px, title + one-line byline only, nothing else — a 1px gutter rule, and
+  the left — 290px, title + one-line byline only (the home title already carries the
+  name, so it has no byline), nothing else — a 1px gutter rule, and
   the page itself on the right. Below 1100px the spread stacks.
 - **Home = 目录**: posts grouped into 卷 (parts) with large vermilion numerals, dot
   leaders to the reading time, the deck and the date. Then 附录 · 作品, one line per work.
@@ -24,7 +25,7 @@ Latin typography.
   sidenotes and figure captions (Tufte-style). Kicker (卷 · name · number), title,
   deck, meta line, 本篇 TOC in the margin, optional frontispiece, prose, then 首发于知乎 →,
   上一篇 / 下一篇 and 回到目录. Below 1000px sidenotes become inline note blocks.
-- **Running head**: wordmark `danielxing 的笔记`, 目录 / 作品 / 关于, and the 日 / 夜
+- **Running head**: wordmark `邢政的笔记` (行书), 目录 / 作品 / 关于, and the 日 / 夜
   toggle. At 420px and below the nav moves to its own row. No search, no language
   toggle until there is an English edition.
 
@@ -49,8 +50,14 @@ Images are never inverted.
 
 ## Typography
 
-- Serif throughout: `"CJK Quotes", "Source Serif 4", "Noto Serif SC", serif`. Latin runs
+- Serif for reading: `"CJK Quotes", "Source Serif 4", "Noto Serif SC", serif`. Latin runs
   get Source Serif 4, CJK gets Noto Serif SC. Small UI labels use Noto Sans SC.
+- **行书 for titles only**: the wordmark, the 扉页 titles and the section titles (目录,
+  附录 · 作品) use 志莽行书 (Zhi Mang Xing, OFL) via `--xingshu`, with
+  `font-synthesis: none` because it has one weight. Article titles, headings and body
+  text stay serif — that is the reading face the owner wants. Zhi Mang Xing covers the
+  6,763 GB2312 characters; anything rarer falls back to Noto Serif SC. An English
+  edition would set "Daniel's Notes" in a calligraphic Latin face (not chosen yet).
 - "CJK Quotes" makes “ ” ‘ ’ in Chinese text full-width. English runs (`lang="en"`,
   `.latin`) use `--serif-latin`, without it, so they keep proportional quotes.
 - Chinese body 18px / 1.9 (17px on phones); English prose 19px / 1.7.

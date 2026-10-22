@@ -1,110 +1,81 @@
-// One-off: renders the default OG fallback card (public/social-card.png) in the same
-// blueprint style as src/pages/og-image/_ogMarkup.ts. Run: node scripts/generate-social-card.mjs
-import { readFileSync, writeFileSync } from "node:fs";
+// One-off: renders the default share card (public/social-card.png) for pages without a
+// cover, in the 「长文书房」 style: warm paper, the site name in 行书, a vermilion rule.
+// Fonts come from the Google Fonts CSS API: asked with a legacy User-Agent it answers
+// with one static TTF per family, which Satori can parse (it cannot read woff2 or
+// variable fonts). Run: node scripts/generate-social-card.mjs
+import { writeFileSync } from "node:fs";
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 
-const BG = "#12233a";
-const GRID = "#1d3a5c";
-const LINE = "#3d6491";
-const INK = "#e8eef4";
-const MUTED = "#9db4c9";
-const AMBER = "#d9a13b";
-const CELL = 42;
+const PAPER = "#f7f4ec";
+const INK = "#1f1d1a";
+const MUTED = "#6b665c";
+const RULE = "#e3ddd0";
+const ACCENT = "#b5402a";
+
+async function font(family) {
+	const cssUrl = `https://fonts.googleapis.com/css2?family=${family}`;
+	const css = await (await fetch(cssUrl, { headers: { "User-Agent": "Mozilla/4.0" } })).text();
+	const ttf = css.match(/url\((https:[^)]+\.ttf)\)/)?.[1];
+	if (!ttf) throw new Error(`no TTF in ${cssUrl}`);
+	const res = await fetch(ttf);
+	if (!res.ok) throw new Error(`font download failed (${res.status}): ${ttf}`);
+	return res.arrayBuffer();
+}
 
 const div = (style, children) => ({
 	type: "div",
 	props: { style: { display: "flex", ...style }, ...(children !== undefined ? { children } : {}) },
 });
-const text = (content, style, type = "p") => ({
-	type,
+const text = (content, style) => ({
+	type: "p",
 	props: { style: { margin: 0, ...style }, children: content },
 });
-const crosshair = (x, y) =>
-	div({ position: "absolute", left: x - 9, top: y - 9, width: 19, height: 19 }, [
-		div({ position: "absolute", left: 9, top: 0, width: 1, height: 19, background: MUTED }),
-		div({ position: "absolute", left: 0, top: 9, width: 19, height: 1, background: MUTED }),
-	]);
 
-const gridLines = [];
-for (let x = CELL; x < 1200; x += CELL)
-	gridLines.push(
-		div({ position: "absolute", left: x, top: 0, width: 1, height: 630, background: GRID }),
-	);
-for (let y = CELL; y < 630; y += CELL)
-	gridLines.push(
-		div({ position: "absolute", left: 0, top: y, width: 1200, height: 1, background: GRID }),
-	);
-
-const markup = div(
+const card = div(
 	{
 		width: 1200,
 		height: 630,
-		position: "relative",
-		background: BG,
-		fontFamily: "Roboto Mono",
 		flexDirection: "column",
+		justifyContent: "space-between",
+		padding: "96px 104px 76px",
+		background: PAPER,
+		color: INK,
 	},
 	[
-		...gridLines,
-		crosshair(CELL * 2, CELL * 2),
-		crosshair(1200 - CELL * 2, CELL * 2),
-		crosshair(CELL * 2, 630 - CELL * 2),
-		crosshair(1200 - CELL * 2, 630 - CELL * 2),
+		div({ flexDirection: "column" }, [
+			text("邢政的笔记", {
+				fontFamily: "Zhi Mang Xing",
+				fontSize: 150,
+				lineHeight: 1.1,
+				letterSpacing: 4,
+			}),
+			div({ width: 72, height: 4, marginTop: 44, background: ACCENT }),
+		]),
 		div(
 			{
-				position: "absolute",
-				left: 84,
-				top: 72,
-				width: 1032,
-				height: 486,
-				flexDirection: "column",
 				justifyContent: "space-between",
+				alignItems: "flex-end",
+				paddingTop: 26,
+				borderTop: `1px solid ${RULE}`,
 			},
-			[
-				div({ display: "flex", justifyContent: "space-between", width: "100%" }, [
-					text("xz1220.github.io", { fontSize: 24, color: MUTED }),
-					text("est. 2026", { fontSize: 24, color: MUTED }),
-				]),
-				div({ display: "flex", flexDirection: "column" }, [
-					div({ width: 72, height: 4, background: AMBER, marginBottom: 28 }),
-					text(
-						"Daniel Xing",
-						{ fontSize: 64, lineHeight: 1.25, color: INK, fontWeight: 700 },
-						"h1",
-					),
-				]),
-				div(
-					{
-						display: "flex",
-						justifyContent: "space-between",
-						alignItems: "center",
-						width: "100%",
-						borderTop: `1px solid ${LINE}`,
-						paddingTop: 24,
-					},
-					[
-						text("projects & writing", { fontSize: 24, fontWeight: 700, color: INK }),
-						text("tools for AI agents", { fontSize: 20, color: MUTED }),
-					],
-				),
-			],
+			[text("xz1220.github.io", { fontFamily: "Source Serif 4", fontSize: 30, color: MUTED })],
 		),
 	],
 );
 
-const roboto = readFileSync(new URL("../src/assets/roboto-mono-regular.ttf", import.meta.url));
-const robotoBold = readFileSync(new URL("../src/assets/roboto-mono-700.ttf", import.meta.url));
-
-const svg = await satori(markup, {
+const [xingshu, serif] = await Promise.all([
+	font("Zhi+Mang+Xing"),
+	font("Source+Serif+4:wght@400"),
+]);
+const svg = await satori(card, {
 	width: 1200,
 	height: 630,
 	fonts: [
-		{ data: roboto, name: "Roboto Mono", style: "normal", weight: 400 },
-		{ data: robotoBold, name: "Roboto Mono", style: "normal", weight: 700 },
+		{ name: "Zhi Mang Xing", data: xingshu, weight: 400, style: "normal" },
+		{ name: "Source Serif 4", data: serif, weight: 400, style: "normal" },
 	],
 });
-
-const png = new Resvg(svg).render().asPng();
+const png = new Resvg(svg, { fitTo: { mode: "width", value: 1200 } }).render().asPng();
 writeFileSync(new URL("../public/social-card.png", import.meta.url), png);
-console.log("wrote public/social-card.png", png.length, "bytes");
+console.log(`wrote public/social-card.png (${png.length} bytes)`);
