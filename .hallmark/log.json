@@ -1,5 +1,14 @@
 [
 	{
+		"date": "2026-10-22",
+		"scope": "app",
+		"macrostructure": "Spread (pinned title page + 目录) / Chapter with sidenote margin",
+		"theme": "custom",
+		"theme_axes": "warm paper / Noto Serif SC + Source Serif 4 / vermilion accent / 夜读 dark",
+		"enrichment": "sidenotes, numbered figures, CJK phrase breaks and 标点挤压",
+		"brief": "danielxing 的笔记 — 「长文书房 The Book」, Chinese-first book typography (design.md)"
+	},
+	{
 		"date": "2026-08-31",
 		"scope": "app",
 		"macrostructure": "Index-First / Long Document",

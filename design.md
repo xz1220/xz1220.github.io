@@ -1,171 +1,106 @@
-# Design — Daniel Xing
+# Design — danielxing 的笔记
 
-A locked design system for the site. It adapts the reading DNA of Lilian Weng's
-Lil'Log to Daniel's own content without copying its brand or page pixels.
+The locked design system for the site: 「长文书房 The Book」, committed 2026-10-22.
+It replaces the Lil'Log-inspired system of 2026-08-31. The site reads like a
+well-typeset modern Chinese non-fiction book: a contents page for a home, essays as
+chapters, sources in the margin. Do not drift back to a generic blog template, and do
+not turn it into 中国风 / ink-wash decoration either. The book feel comes from type
+and layout, not ornaments.
 
 ## Genre
 
-Editorial / austere. The site should feel like a quiet research notebook: direct,
-stable, and easy to read for long stretches.
+Editorial / bookish. Chinese-first: most writing is long-form Chinese. English pages
+(the Open Dynamic Workflows project page, any English post) use the same system with
+Latin typography.
 
-## Macrostructure family
+## Macrostructure
 
-- Home and indexes: **Index-First** — compact introduction followed by browsable
-  writing and project entries.
-- Articles and project details: **Long Document** — one reading column, inline
-  headings, figures and references in the prose flow.
-- Intro: compact **H5 Letter** without a CTA.
-- Navigation: **N1 Wordmark + text links**, responsive disclosure on narrow screens.
-- Footer: **Ft2 Inline rule single line**.
+- **Spread** (home, 目录, 作品, 关于, tags, 404): a narrow pinned 扉页 (title page) on
+  the left — 290px, title + one-line byline only, nothing else — a 1px gutter rule, and
+  the page itself on the right. Below 1100px the spread stacks.
+- **Home = 目录**: posts grouped into 卷 (parts) with large vermilion numerals, dot
+  leaders to the reading time, the deck and the date. Then 附录 · 作品, one line per work.
+- **Chapter** (posts, project pages): a 632px text column plus a 240px margin for
+  sidenotes and figure captions (Tufte-style). Kicker (卷 · name · number), title,
+  deck, meta line, 本篇 TOC in the margin, optional frontispiece, prose, then 首发于知乎 →,
+  上一篇 / 下一篇 and 回到目录. Below 1000px sidenotes become inline note blocks.
+- **Running head**: wordmark `danielxing 的笔记`, 目录 / 作品 / 关于, and the 日 / 夜
+  toggle. At 420px and below the nav moves to its own row. No search, no language
+  toggle until there is an English edition.
 
 ## Theme
 
-- `--color-paper`: `oklch(98.5% 0.004 250)`
-- `--color-paper-2`: `oklch(96% 0.006 250)`
-- `--color-ink`: `oklch(23% 0.012 255)`
-- `--color-ink-2`: `oklch(39% 0.012 255)`
-- `--color-muted`: `oklch(48% 0.012 255)`
-- `--color-rule`: `oklch(89% 0.006 250)`
-- `--color-accent`: `oklch(45% 0.09 245)`
-- `--color-focus`: `oklch(42% 0.12 245)`
+Warm paper and ink, one vermilion accent for numerals, sidenote markers and hover.
 
-Dark mode keeps the same cool-neutral hue. Elevated surfaces become slightly
-lighter than the page; links gain lightness and lose chroma.
+| token | 日 (light) | 夜读 (dark) |
+| --- | --- | --- |
+| `--paper` | `#f7f4ec` | `#1a1814` |
+| `--paper-2` | `#efeadf` | `#24211b` |
+| `--ink` | `#1f1d1a` | `#e8e1d3` |
+| `--ink-2` | `#3d3a34` | `#cfc7b7` |
+| `--muted` | `#6b665c` | `#a29a8a` |
+| `--rule` | `#e3ddd0` | `#36322b` |
+| `--dots` | `#b4ac9c` | `#645d50` |
+| `--accent` | `#b5402a` | `#e07a5f` |
+
+Dark mode follows the system; the 日 / 夜 toggle stores an explicit choice in
+`localStorage.theme` and is applied before first paint (`src/layouts/Base.astro`).
+Images are never inverted.
 
 ## Typography
 
-- Display and body: native system sans stack with CJK system fallbacks.
-- Code: native system mono stack.
-- Body: `16px / 1.6`, maximum measure `65ch`.
-- Article title: `clamp(2rem, 5vw, 2.25rem)` at `1.2` line-height.
-- Article headings: `28 / 24 / 18px`, roman, no decorative italics.
-- List title: `24px`; excerpt: `14px / 1.6`; metadata: `13px`.
-- Numeric metadata uses tabular figures.
+- Serif throughout: `"CJK Quotes", "Source Serif 4", "Noto Serif SC", serif`. Latin runs
+  get Source Serif 4, CJK gets Noto Serif SC. Small UI labels use Noto Sans SC.
+- "CJK Quotes" makes “ ” ‘ ’ in Chinese text full-width. English runs (`lang="en"`,
+  `.latin`) use `--serif-latin`, without it, so they keep proportional quotes.
+- Chinese body 18px / 1.9 (17px on phones); English prose 19px / 1.7.
+- **CJK is never italic.** Captions, decks and emphasis stay roman; English quotes may
+  be italic.
+- Titles and headings use `word-break: keep-all` + `text-wrap: balance` with explicit
+  break points from `src/utils/typeset.ts`: after pause/closing punctuation and the
+  particles 的 / 了, and at the Chinese edge of multi-word Latin phrases. Never split a
+  word ("抽 / 象层级"). Word segmenters (BudouX, Intl.Segmenter) were tried and rejected:
+  they split words like 厚黑学 and Latin words.
+- 标点挤压: the first of two adjacent full-width marks is half-width (`.pc`, `halt`).
+- `text-autospace: normal` spaces Chinese and Latin; don't add manual spaces for it.
+- Dates are ISO `YYYY-MM-DD`, tabular figures.
 
-## Spacing
+## Webfonts
 
-4-point named scale in `src/styles/tokens.css`. The reading column is `720px`
-with `24px` desktop gutters and `14–20px` narrow-screen gutters. Paragraph rhythm
-uses `20px`; larger page transitions use `40–64px`.
+Never link Google Fonts from production pages; Google is unreachable from mainland
+China. `scripts/localize-fonts.mjs` runs after `astro build`: it keeps only the
+`unicode-range` slices the built pages use, self-hosts them under `/fonts/`, adds the
+CJK Quotes face and rewrites the links. It fails the build rather than ship Google
+links. Dev mode links Google directly.
 
-## Motion
+## Content conventions
 
-- Content is static; no reveals, hover lifts, parallax, or looping animation.
-- Theme changes may crossfade colour tokens over `220ms`.
-- Search/modal behaviour remains functional and respects reduced motion.
-- Focus rings appear instantly.
-
-## Microinteractions stance
-
-- Links change underline thickness or colour only.
-- Article/index rows change border or paper tint only; no scaling.
-- Theme and search controls expose default, hover, focus, active and disabled states.
-- All touch targets are at least `44px`.
-
-## Content and CTA voice
-
-- State what Daniel is building and exploring; no marketing claims or invented metrics.
-- Primary actions are typographic links: `Read article →`, `View project →`.
-- No subscription CTA until there is a real publishing cadence.
-
-## Per-page allowances
-
-- Home: text-first intro, current work, selected projects, latest writing.
-- Writing/archive/tags: simple article index with title, two-line summary and metadata.
-- Projects: text entries; no decorative project plates.
-- Articles: typography-led. A long-form post may use one credited editorial
-  cover that serves its central argument; figures otherwise must explain the
-  content.
-- About: extended biography and contact details; QR cards may live here later.
+- Post frontmatter: `part: agent | career` picks the 卷 (卷一 Agent 工程 / 卷二 创业与职场).
+  Chinese posts are numbered 01, 02 … by publish date across the whole 目录; English
+  posts (`lang: en-…`) go to 附 English, lettered A, B ….
+- `frontispiece: true` shows `coverImage` as the 卷首图 with `coverCredit`. Only use it
+  for real artwork. `coverInBody` hides a body image that repeats the cover.
+- Citations are GFM footnotes (`[^n]` + `[^n]: label`); they render as sidenotes.
+  Ordinary links stay inline links.
+- A figure is an image followed by an italic-only line; it becomes `图 n` with a
+  roman caption in the margin.
+- 作品 lists only public, non-fork repositories with at least 10 stars
+  (`src/data/works.ts`), with live star counts from the GitHub API at build time.
+  Private repositories must never appear anywhere on the site.
 
 ## What pages must share
 
-- `Daniel Xing` wordmark and the same navigation.
-- Paper, ink, rule and restrained blue accent tokens.
-- System sans typography and 720px reading column.
-- Hairline dividers, 8px maximum radius, no shadows.
-- Static content presentation and the same focus treatment.
+- The running head, footer, tokens and focus treatment.
+- Serif type, vermilion numerals, hairline rules, no shadows, no rounded cards.
+- Static presentation: no reveals, parallax or looping animation. Hover only changes
+  colour or underline.
 
-## What pages may differ on
+## Implementation map
 
-- Home/index pages may use bordered entries; articles use negative space.
-- Project entries may expose repository/demo links.
-- Long research posts may use a collapsed table of contents, figures, code and math.
-
-## Provenance
-
-Studied from `https://lilianweng.github.io/` as a public reference for Daniel's
-own brand on 2026-08-31. Page structure, generated HTML and compiled CSS were
-inspected. The source site uses Hugo + PaperMod; this project deliberately keeps
-Astro and translates only the structural and reading principles.
-
-## Exports
-
-The canonical implementation is `src/styles/tokens.css`.
-
-### tokens.css
-
-```css
-:root {
-	--color-paper: oklch(98.5% 0.004 250);
-	--color-paper-2: oklch(96% 0.006 250);
-	--color-ink: oklch(23% 0.012 255);
-	--color-ink-2: oklch(39% 0.012 255);
-	--color-muted: oklch(48% 0.012 255);
-	--color-rule: oklch(89% 0.006 250);
-	--color-accent: oklch(45% 0.09 245);
-	--color-focus: oklch(42% 0.12 245);
-	--font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
-	--space-md: 1rem;
-	--space-lg: 1.5rem;
-	--space-xl: 2.5rem;
-	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-	--dur-short: 220ms;
-	--radius-card: 0.5rem;
-}
-```
-
-### Tailwind v4
-
-```css
-@theme {
-	--color-paper: oklch(98.5% 0.004 250);
-	--color-ink: oklch(23% 0.012 255);
-	--color-accent: oklch(45% 0.09 245);
-	--font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--spacing-md: 1rem;
-	--text-base: 1rem;
-	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-}
-```
-
-### DTCG tokens.json
-
-```json
-{
-	"color": {
-		"paper": { "$value": "oklch(98.5% 0.004 250)", "$type": "color" },
-		"ink": { "$value": "oklch(23% 0.012 255)", "$type": "color" },
-		"accent": { "$value": "oklch(45% 0.09 245)", "$type": "color" }
-	},
-	"space": { "md": { "$value": "1rem", "$type": "dimension" } }
-}
-```
-
-### shadcn/ui variables
-
-```css
-:root {
-	--background: 98.5% 0.004 250;
-	--foreground: 23% 0.012 255;
-	--primary: 45% 0.09 245;
-	--muted: 96% 0.006 250;
-	--muted-foreground: 48% 0.012 255;
-	--border: 89% 0.006 250;
-	--ring: 42% 0.12 245;
-	--radius: 0.5rem;
-}
-```
+- `src/styles/global.css` — the whole stylesheet (tokens, spread, 目录, chapter, sidenotes).
+- `src/layouts/Base.astro` — head, theme script, running head, footer.
+- `src/layouts/BlogPost.astro` — the chapter page.
+- `src/components/book/*` — running head, footer, title page, 目录, works list.
+- `src/plugins/rehype-book.ts` — figures, sidenotes, chapter heads, quotes, 标点挤压.
+- `src/utils/typeset.ts` — break points and 标点挤压 for titles and headings.
+- `src/data/post.ts` (`getContents`) and `src/data/works.ts` — 目录 and 作品 data.

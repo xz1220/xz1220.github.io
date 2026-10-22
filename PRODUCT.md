@@ -1,64 +1,43 @@
-# PRODUCT.md — Daniel Xing
+# PRODUCT.md — danielxing 的笔记
 
 ## What this is
 
-Daniel Xing's personal site and blog: a quiet home for his projects and writing
-about AI agents. It is a portfolio and a long-form reading surface, not a
-marketing page or an activity dashboard.
+Daniel Xing's personal site: long-form notes on building AI agents, and on work in a
+big tech company and at a startup. It is a reading surface and a small record of work,
+not a marketing page or an activity dashboard.
 
 ## Owner & audience
 
-- Owner: Daniel Xing (邢政), a builder working on AI agents and the infrastructure
-  around them. He is based in Shenzhen, China, and occasionally in Shanghai.
-- Current work: Open Dynamic Workflows, a practical runtime for portable
-  AI-agent workflows.
-- Current interests: multi-agent systems, AI products, knowledge work, and
-  production-ready agent systems for solo builders.
-- Audience: engineers, researchers, builders, and potential collaborators. The
-  site should read like a well-kept research notebook.
-- Primary language: English, with possible Chinese writing. Native CJK fallbacks
-  are required.
+- Owner: Daniel Xing (邢政), an engineer building AI agents and the infrastructure
+  around them. He spent late 2024 to mid 2026 on agent architecture for an AI creation
+  platform at a big tech company, then left to start a company. Current open-source
+  work: Open Dynamic Workflows.
+- Readers: mostly Chinese-speaking engineers and builders, many arriving from Zhihu,
+  plus collaborators. Write and design Chinese-first; English pages are the exception.
+- Name and byline: the site is 「danielxing 的笔记」; the byline is "Daniel Xing". Do not
+  use the old "KK" persona or put a career timeline on the home page.
 
 ## Voice
 
-Restrained, direct, precise, and stable. State what Daniel is building and
-exploring. Avoid marketing hooks, invented metrics, emoji flourishes,
-self-promotion badges, and subscription calls to action. Every word earns its
-place.
+Plain, first-hand and specific. Say what happened and what was learned. No marketing
+hooks, invented metrics, emoji, badges or subscription prompts. Keep the career story
+short: three sentences on the about page are enough.
 
-## Design direction (committed 2026-08-31)
+## Design direction (committed 2026-10-22)
 
-**Editorial / austere** — a quiet research notebook built for sustained reading.
-
-The reading and structural reference is Lilian Weng's Lil'Log. This project keeps
-its own name, content, framework, and visual identity; it adapts the reference's
-clarity rather than copying its page pixels or brand.
-
-- Cool near-white paper, near-black ink, quiet grey rules, and one restrained
-  blue accent. Dark mode stays cool-neutral.
-- Native system sans for display and body; native system mono for code.
-- A 720px reading column, 16px body copy, 1.6 line-height, and generous vertical
-  rhythm.
-- Hairline dividers, cards with at most an 8px radius, and no shadows.
-- No decorative project plates, background grids, generic stock imagery, or animation.
-  Long-form posts may use one credited editorial cover when the artwork carries
-  the article's central metaphor; figures otherwise exist only when they explain
-  the content.
-- Links are the primary interaction. Hover and focus states change colour or
-  underline treatment without movement.
+「长文书房 The Book」 — see `design.md`. The home page is a 目录 (contents page), articles
+are chapters with sidenotes, and Chinese typography is done properly: no italic CJK,
+phrase-aware line breaks, 标点挤压, self-hosted subset webfonts.
 
 ## Structure
 
-Astro 6 + Tailwind 4, statically built and hosted on GitHub Pages. Content lives
-in post, project, and tag collections. Search uses Pagefind; social cards use
-Satori.
+Astro 6, plain CSS, statically built and hosted on GitHub Pages.
 
-- Home: compact introduction, latest posts, then selected work.
-- Posts, projects, and tags: simple browsable indexes.
-- Articles and project details: one long-form reading column with an optional
-  collapsed table of contents.
-- About: extended biography, contact links, and a small colophon. QR cards may
-  be added here later, but never dominate the main reading flow.
-
-The canonical visual rules and tokens live in `design.md` and
-`src/styles/tokens.css`.
+- `/` — 目录 + 附录 · 作品. `/posts/` repeats the full 目录.
+- `/posts/<slug>/` — chapters. Citations are footnotes rendered as sidenotes.
+- `/projects/` — 作品: public repositories with ≥10 stars only, live star counts.
+  `/projects/<slug>/` exists for listed works that have a page in `src/content/project`.
+- `/about/` — short bio, contact, colophon.
+- `/tags/…` — kept for old links, not in the navigation.
+- RSS, sitemap, robots.txt, canonical URLs, Open Graph and BlogPosting JSON-LD (with
+  `isBasedOn` for posts first published on Zhihu) stay intact.
