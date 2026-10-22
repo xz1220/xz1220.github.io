@@ -15,9 +15,10 @@ no italic CJK, phrase-aware line
 breaks, 标点挤压, warm paper with a 夜读 dark mode. See `design.md` for the rules and
 `PRODUCT.md` for the brief.
 
-Webfonts are self-hosted: after `astro build`, `scripts/localize-fonts.mjs` downloads
-only the font slices the pages use into `dist/fonts/` and rewrites the links, so no
-page depends on Google Fonts. The build fails if that step fails.
+Webfonts are self-hosted and sized per page: after `astro build`,
+`scripts/localize-fonts.mjs` subsets the reading serif to each page's own characters
+and the 行书 to the title characters, saves them under `dist/fonts/` and preloads them,
+so no page depends on Google Fonts. The build fails if that step fails.
 
 ## Develop
 

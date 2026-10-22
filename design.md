@@ -51,7 +51,8 @@ Images are never inverted.
 ## Typography
 
 - Serif for reading: `"CJK Quotes", "Source Serif 4", "Noto Serif SC", serif`. Latin runs
-  get Source Serif 4, CJK gets Noto Serif SC. Small UI labels use Noto Sans SC.
+  get Source Serif 4, CJK gets Noto Serif SC. Small UI labels (nav, dates, meta) use the
+  system sans (`--sans`), with no webfont.
 - **行书 for titles only**: the wordmark, the 扉页 titles and the section titles (目录,
   附录 · 作品) use 志莽行书 (Zhi Mang Xing, OFL) via `--xingshu`, with
   `font-synthesis: none` because it has one weight. Article titles, headings and body
@@ -75,10 +76,17 @@ Images are never inverted.
 ## Webfonts
 
 Never link Google Fonts from production pages; Google is unreachable from mainland
-China. `scripts/localize-fonts.mjs` runs after `astro build`: it keeps only the
-`unicode-range` slices the built pages use, self-hosts them under `/fonts/`, adds the
-CJK Quotes face and rewrites the links. It fails the build rather than ship Google
-links. Dev mode links Google directly.
+China. `scripts/localize-fonts.mjs` runs after `astro build` and sizes fonts per page,
+because generic CJK slices cost ~2 MB a page and made text visibly swap in late:
+
+- Noto Serif SC: each page gets a subset of exactly its own characters (Google Fonts
+  `text=`), declared inline and preloaded; it also backs the CJK Quotes face.
+- 志莽行书: one site-wide subset of the title characters (~10 KB), preloaded, with
+  `font-display: block` so titles never flash in the serif first.
+- Source Serif 4: `unicode-range` slices (wght and ital axes only; opsz dropped).
+
+A typical page loads 4 font files, 160–360 KB. The step fails the build rather than
+ship Google links. Dev mode links Google directly.
 
 ## Content conventions
 

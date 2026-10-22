@@ -26,7 +26,8 @@
 
 	--serif: "CJK Quotes", "Source Serif 4", "Noto Serif SC", serif;
 	--serif-latin: "Source Serif 4", "Noto Serif SC", serif;
-	--sans: "Noto Sans SC", system-ui, sans-serif;
+	/* UI labels (nav, dates, meta) use the system sans: a webfont here cost ~500 KB a page. */
+	--sans: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 	/* 行书 for titles only (site name, 扉页 titles, section titles); reading text stays serif. */
 	--xingshu: "Zhi Mang Xing", "Noto Serif SC", serif;
 	--mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
