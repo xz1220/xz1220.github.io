@@ -12,6 +12,7 @@ coverCredit:
   text: "配图：RepoTempo 设计原型，取自知乎原文"
   url: "https://zhuanlan.zhihu.com/p/2081733421001335555"
 tags: ["ai-agents", "design"]
+part: "agent"
 ---
 
 最近在写一个 GitHub 趋势跟踪的项目。

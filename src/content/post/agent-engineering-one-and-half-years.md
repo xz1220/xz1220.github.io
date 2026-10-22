@@ -12,6 +12,7 @@ coverCredit:
   text: "配图：KK大魔王，取自知乎原文"
   url: "https://zhuanlan.zhihu.com/p/2081845161106186708"
 tags: ["ai-agents", "software-engineering"]
+part: "agent"
 ---
 
 hi，我是 Daniel, 在大厂做 AI Agent 架构开发做了一年半之后(2024.12-2026.6)，来跟大家真诚分享下实际工作上的经历。

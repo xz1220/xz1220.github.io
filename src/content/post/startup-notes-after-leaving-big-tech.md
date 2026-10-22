@@ -12,6 +12,10 @@ coverCredit:
   text: "封面：Winslow Homer, Breezing Up (A Fair Wind), 1873–1876 · National Gallery of Art · Public domain"
   url: "https://commons.wikimedia.org/wiki/File:Breezing_Up_(A_Fair_Wind)_by_Winslow_Homer,_1873-76.png"
 tags: ["startup", "ai-agents"]
+part: "career"
+frontispiece: true
+# The body's first figure is the same painting as the cover.
+coverInBody: "/posts/startup-notes-after-leaving-big-tech/image-1.webp"
 ---
 
 大家好，我是 Daniel。上一篇跟大家聊了在大厂干了一年半后的一些过程和体悟。这一篇给大家讲讲这三个月从大厂离职之后的经历。

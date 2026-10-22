@@ -9,6 +9,7 @@ publishDate: "2026-06-01"
 draft: true
 updatedDate: "2026-08-31"
 tags: ["meta", "ai-agents"]
+lang: "en-GB"
 ---
 
 This site is where I keep notes on the AI agents and products I build: what they

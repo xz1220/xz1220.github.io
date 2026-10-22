@@ -33,6 +33,12 @@ const post = defineCollection({
 				})
 				.optional(),
 			draft: z.boolean().default(false),
+			// Which 卷 of the 目录 a Chinese post belongs to; English posts go to 附 English.
+			part: z.enum(["agent", "career"]).default("agent"),
+			// Show coverImage above the article as a frontispiece (卷首图). Only for real artwork.
+			frontispiece: z.boolean().default(false),
+			// A body image that repeats the cover; hidden when the frontispiece is shown.
+			coverInBody: z.string().optional(),
 			ogImage: z.string().optional(),
 			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
 			publishDate: z

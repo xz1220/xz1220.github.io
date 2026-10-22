@@ -10,6 +10,7 @@ coverImage:
   src: "../../assets/covers/workplace-politics.svg"
 ogImage: "/og-image/workplace-politics-lessons.png"
 tags: ["career"]
+part: "career"
 ---
 
 hi，我是 Daniel。
