@@ -29,8 +29,9 @@ export function hasCJK(text: string): boolean {
 
 /**
 	A Latin phrase of several words next to Chinese ("GPT-6 + Open Design前端设计") stays on
-	one line: its spaces become no-break spaces and the line may break at its Chinese edge
-	instead. A single Latin word ("一年半Agent后") never gets a break around it.
+	one line: its spaces become no-break spaces, and a real space at its Chinese edge is
+	where the line may break. A single Latin word ("一年半Agent后") never gets a break
+	around it; text-autospace supplies its gap.
 */
 function latinPhrases(chars: string[]): { glue: Set<number>; edges: Set<number> } {
 	const glue = new Set<number>();
@@ -72,7 +73,10 @@ export function tokenize(text: string, opts: { breaks: boolean; compress: boolea
 		const prev = chars[i - 1] ?? "";
 		const next = chars[i + 1] ?? "";
 		if (phrases.glue.has(i)) return { text: " ", breakAfter: false, compress: false };
-		let breakAfter = phrases.edges.has(i);
+		// A <wbr> here would block text-autospace (it stops at element boundaries), leaving
+		// "Design前端" tight; a real space gives the same break point plus the gap.
+		const edge = phrases.edges.has(i);
+		let breakAfter = false;
 		if (opts.breaks && next && !/\s/.test(next) && !CLOSE.includes(next)) {
 			if (CLOSE.includes(c)) {
 				breakAfter = true;
@@ -90,7 +94,7 @@ export function tokenize(text: string, opts: { breaks: boolean; compress: boolea
 			opts.compress &&
 			((CLOSE.includes(c) && (CLOSE.includes(next) || OPEN.includes(next))) ||
 				(OPEN.includes(c) && OPEN.includes(prev)));
-		return { text: c, breakAfter, compress };
+		return { text: edge ? `${c} ` : c, breakAfter, compress };
 	});
 }
 
